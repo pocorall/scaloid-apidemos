@@ -38,7 +38,6 @@ import android.preference.PreferenceScreen
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
-import java.util.List
 
 /**
  * This activity provides a comprehensive UI for exploring and operating the DevicePolicyManager
@@ -132,10 +131,10 @@ object DeviceAdminSample {
       }
     }
 
-    override def onResume {
-      super.onResume
+    override def onResume() {
+      super.onResume()
       mAdminActive = mActivity.isActiveAdmin
-      reloadSummaries
+      reloadSummaries()
       if (mResetPassword != null) {
         mResetPassword.setEnabled(mAdminActive)
       }
@@ -145,7 +144,7 @@ object DeviceAdminSample {
      * Called automatically at every onResume.  Should also call explicitly any time a
      * policy changes that may affect other policy values.
      */
-    protected def reloadSummaries {
+    protected def reloadSummaries() {
       if (mSetPassword != null) {
         if (mAdminActive) {
           val sufficient: Boolean = mDPM.isActivePasswordSufficient
@@ -218,13 +217,13 @@ object DeviceAdminSample {
       mDisableCameraCheckbox.setOnPreferenceChangeListener(this)
     }
 
-    override def onResume {
-      super.onResume
+    override def onResume() {
+      super.onResume()
       mEnableCheckbox.setChecked(mAdminActive)
       enableDeviceCapabilitiesArea(mAdminActive)
       if (mAdminActive) {
         mDPM.setCameraDisabled(mDeviceAdminSample, mDisableCameraCheckbox.isChecked)
-        reloadSummaries
+        reloadSummaries()
       }
     }
 
@@ -251,13 +250,13 @@ object DeviceAdminSample {
       }
       else if (preference eq mDisableCameraCheckbox) {
         mDPM.setCameraDisabled(mDeviceAdminSample, value)
-        reloadSummaries
+        reloadSummaries()
       }
       true
     }
 
-    protected override def reloadSummaries {
-      super.reloadSummaries
+    protected override def reloadSummaries() {
+      super.reloadSummaries()
       val cameraSummary: String = getString(if (mDPM.getCameraDisabled(mDeviceAdminSample)) R.string.camera_disabled else R.string.camera_enabled)
       mDisableCameraCheckbox.setSummary(cameraSummary)
     }
@@ -301,16 +300,16 @@ object DeviceAdminSample {
       mPasswordQuality.setEntryValues(mPasswordQualityValueStrings)
     }
 
-    override def onResume {
-      super.onResume
+    override def onResume() {
+      super.onResume()
       mQualityCategory.setEnabled(mAdminActive)
     }
 
     /**
      * Update the summaries of each item to show the local setting and the global setting.
      */
-    protected override def reloadSummaries {
-      super.reloadSummaries
+    protected override def reloadSummaries() {
+      super.reloadSummaries()
       var local: java.lang.Integer = 0
       var global: java.lang.Integer = 0
       local = mDPM.getPasswordQuality(mDeviceAdminSample)
@@ -357,31 +356,19 @@ object DeviceAdminSample {
           Toast.makeText(mActivity, warning, Toast.LENGTH_SHORT).show()
         }
       }
-      if (preference eq mPasswordQuality) {
-        mDPM.setPasswordQuality(mDeviceAdminSample, value)
+
+      preference match {
+        case p if (p == mPasswordQuality) => mDPM.setPasswordQuality(mDeviceAdminSample, value)
+        case p if (p == mMinLength) => mDPM.setPasswordMinimumLength(mDeviceAdminSample, value)
+        case p if (p == mMinLetters) => mDPM.setPasswordMinimumLetters(mDeviceAdminSample, value)
+        case p if (p == mMinNumeric) => mDPM.setPasswordMinimumNumeric(mDeviceAdminSample, value)
+        case p if (p == mMinLowerCase) => mDPM.setPasswordMinimumLowerCase(mDeviceAdminSample, value)
+        case p if (p == mMinUpperCase) => mDPM.setPasswordMinimumUpperCase(mDeviceAdminSample, value)
+        case p if (p == mMinSymbols) => mDPM.setPasswordMinimumSymbols(mDeviceAdminSample, value)
+        case p if (p == mMinNonLetter) => mDPM.setPasswordMinimumNonLetter(mDeviceAdminSample, value)
       }
-      else if (preference eq mMinLength) {
-        mDPM.setPasswordMinimumLength(mDeviceAdminSample, value)
-      }
-      else if (preference eq mMinLetters) {
-        mDPM.setPasswordMinimumLetters(mDeviceAdminSample, value)
-      }
-      else if (preference eq mMinNumeric) {
-        mDPM.setPasswordMinimumNumeric(mDeviceAdminSample, value)
-      }
-      else if (preference eq mMinLowerCase) {
-        mDPM.setPasswordMinimumLowerCase(mDeviceAdminSample, value)
-      }
-      else if (preference eq mMinUpperCase) {
-        mDPM.setPasswordMinimumUpperCase(mDeviceAdminSample, value)
-      }
-      else if (preference eq mMinSymbols) {
-        mDPM.setPasswordMinimumSymbols(mDeviceAdminSample, value)
-      }
-      else if (preference eq mMinNonLetter) {
-        mDPM.setPasswordMinimumNonLetter(mDeviceAdminSample, value)
-      }
-      reloadSummaries
+
+      reloadSummaries()
       true
     }
 
@@ -389,19 +376,14 @@ object DeviceAdminSample {
       {
         var i: Int = 0
         while (i < mPasswordQualityValues.length) {
-          {
-            if (mPasswordQualityValues(i) == quality) {
-              val qualities: Array[String] = mActivity.getResources.getStringArray(R.array.password_qualities)
-              return qualities(i)
-            }
+          if (mPasswordQualityValues(i) == quality) {
+            val qualities: Array[String] = mActivity.getResources.getStringArray(R.array.password_qualities)
+            return qualities(i)
           }
-          ({
-            i += 1;
-            i - 1
-          })
+          i += 1
         }
       }
-      return "(0x" + Integer.toString(quality, 16) + ")"
+      "(0x" + Integer.toString(quality, 16) + ")"
     }
 
     private var mQualityCategory: PreferenceCategory = null
@@ -431,16 +413,16 @@ object DeviceAdminSample {
       mExpirationStatus.setOnPreferenceClickListener(this)
     }
 
-    override def onResume {
-      super.onResume
+    override def onResume() {
+      super.onResume()
       mExpirationCategory.setEnabled(mAdminActive)
     }
 
     /**
      * Update the summaries of each item to show the local setting and the global setting.
      */
-    protected override def reloadSummaries {
-      super.reloadSummaries
+    protected override def reloadSummaries() {
+      super.reloadSummaries()
       val local: java.lang.Integer = mDPM.getPasswordHistoryLength(mDeviceAdminSample)
       val global: java.lang.Integer = mDPM.getPasswordHistoryLength(null)
       mHistory.setSummary(localGlobalSummary(local, global))
@@ -466,7 +448,7 @@ object DeviceAdminSample {
       catch {
         case nfe: NumberFormatException => {
           val warning: String = mActivity.getString(R.string.number_format_warning, valueString)
-          Toast.makeText(mActivity, warning, Toast.LENGTH_SHORT).show
+          Toast.makeText(mActivity, warning, Toast.LENGTH_SHORT).show()
         }
       }
       if (preference == mHistory) {
@@ -475,8 +457,8 @@ object DeviceAdminSample {
       else if (preference == mExpirationTimeout) {
         mDPM.setPasswordExpirationTimeout(mDeviceAdminSample, value * MS_PER_MINUTE)
       }
-      reloadSummaries
-      return true
+      reloadSummaries()
+      true
     }
 
     override def onPreferenceClick(preference: Preference): Boolean = {
@@ -484,11 +466,10 @@ object DeviceAdminSample {
         return true
       }
       if (preference == mExpirationStatus) {
-        val expirationStatus: String = getExpirationStatus
-        mExpirationStatus.setSummary(expirationStatus)
+        mExpirationStatus.setSummary(getExpirationStatus)
         return true
       }
-      return false
+      false
     }
 
     /**
@@ -544,21 +525,21 @@ object DeviceAdminSample {
       mWipeAppData.setOnPreferenceClickListener(this)
     }
 
-    override def onResume {
-      super.onResume
+    override def onResume() {
+      super.onResume()
       mLockWipeCategory.setEnabled(mAdminActive)
     }
 
     /**
      * Update the summaries of each item to show the local setting and the global setting.
      */
-    protected override def reloadSummaries {
-      super.reloadSummaries
+    protected override def reloadSummaries() {
+      super.reloadSummaries()
       val localLong = mDPM.getMaximumTimeToLock(mDeviceAdminSample)
       val globalLong = mDPM.getMaximumTimeToLock(null)
       mMaxTimeScreenLock.setSummary(localGlobalSummary((localLong / MS_PER_MINUTE): java.lang.Long, (globalLong / MS_PER_MINUTE): java.lang.Long))
-      var local: java.lang.Integer = mDPM.getMaximumFailedPasswordsForWipe(mDeviceAdminSample)
-      var global: java.lang.Integer = mDPM.getMaximumFailedPasswordsForWipe(null)
+      val local: java.lang.Integer = mDPM.getMaximumFailedPasswordsForWipe(mDeviceAdminSample)
+      val global: java.lang.Integer = mDPM.getMaximumFailedPasswordsForWipe(null)
       mMaxFailures.setSummary(localGlobalSummary(local, global))
     }
 
@@ -566,7 +547,7 @@ object DeviceAdminSample {
       if (super.onPreferenceChange(preference, newValue)) {
         return true
       }
-      val valueString: String = newValue.asInstanceOf[String]
+      val valueString = newValue.asInstanceOf[String]
       if (TextUtils.isEmpty(valueString)) {
         return false
       }
@@ -589,7 +570,7 @@ object DeviceAdminSample {
         }
         mDPM.setMaximumFailedPasswordsForWipe(mDeviceAdminSample, value)
       }
-      reloadSummaries
+      reloadSummaries()
       true
     }
 
@@ -662,8 +643,8 @@ object DeviceAdminSample {
       mActivateEncryption.setOnPreferenceClickListener(this)
     }
 
-    override def onResume {
-      super.onResume
+    override def onResume() {
+      super.onResume()
       mEncryptionCategory.setEnabled(mAdminActive)
       mRequireEncryption.setChecked(mDPM.getStorageEncryption(mDeviceAdminSample))
     }
@@ -671,8 +652,8 @@ object DeviceAdminSample {
     /**
      * Update the summaries of each item to show the local setting and the global setting.
      */
-    protected override def reloadSummaries {
-      super.reloadSummaries
+    protected override def reloadSummaries() {
+      super.reloadSummaries()
       val local: java.lang.Boolean = mDPM.getStorageEncryption(mDeviceAdminSample)
       val global: java.lang.Boolean = mDPM.getStorageEncryption(null)
       mRequireEncryption.setSummary(localGlobalSummary(local, global))
@@ -689,7 +670,7 @@ object DeviceAdminSample {
       if (preference eq mRequireEncryption) {
         val newActive: Boolean = newValue.asInstanceOf[Boolean]
         mDPM.setStorageEncryption(mDeviceAdminSample, newActive)
-        reloadSummaries
+        reloadSummaries()
         return true
       }
       true
