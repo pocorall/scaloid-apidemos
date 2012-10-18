@@ -49,7 +49,7 @@ class ActionBarUsage extends Activity with OnQueryTextListener {
 
   override def onPrepareOptionsMenu(menu: Menu): Boolean = {
     if (mSortMode != -1) {
-      val icon: Drawable = menu.findItem(mSortMode).getIcon
+      val icon = menu.findItem(mSortMode).getIcon
       menu.findItem(R.id.action_sort).setIcon(icon)
     }
     super.onPrepareOptionsMenu(menu)
