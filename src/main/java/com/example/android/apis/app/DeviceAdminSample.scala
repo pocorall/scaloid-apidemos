@@ -66,7 +66,7 @@ object DeviceAdminSample {
    */
   private def alertIfMonkey(context: Context, stringId: Int): Boolean = {
     if (ActivityManager.isUserAMonkey) {
-      val builder: AlertDialog.Builder = new AlertDialog.Builder(context)
+      val builder = new AlertDialog.Builder(context)
       builder.setMessage(stringId)
       builder.setPositiveButton(R.string.monkey_ok, null)
       builder.show
@@ -147,7 +147,7 @@ object DeviceAdminSample {
     protected def reloadSummaries() {
       if (mSetPassword != null) {
         if (mAdminActive) {
-          val sufficient: Boolean = mDPM.isActivePasswordSufficient
+          val sufficient = mDPM.isActivePasswordSufficient
           mSetPassword.setSummary(if (sufficient) R.string.password_sufficient else R.string.password_insufficient)
         }
         else {
@@ -158,8 +158,7 @@ object DeviceAdminSample {
 
     def onPreferenceClick(preference: Preference): Boolean = {
       if (mSetPassword != null && preference == mSetPassword) {
-        val intent: Intent = new Intent(DevicePolicyManager.ACTION_SET_NEW_PASSWORD)
-        startActivity(intent)
+        startActivity(new Intent(DevicePolicyManager.ACTION_SET_NEW_PASSWORD))
         return true
       }
       false
@@ -182,8 +181,8 @@ object DeviceAdminSample {
         return
       }
       mDPM.resetPassword(newPassword, DevicePolicyManager.RESET_PASSWORD_REQUIRE_ENTRY)
-      val builder: AlertDialog.Builder = new AlertDialog.Builder(mActivity)
-      val message: String = mActivity.getString(R.string.reset_password_warning, newPassword)
+      val builder = new AlertDialog.Builder(mActivity)
+      val message = mActivity.getString(R.string.reset_password_warning, newPassword)
       builder.setMessage(message)
       builder.setPositiveButton(R.string.reset_password_ok, null)
       builder.show
@@ -257,7 +256,7 @@ object DeviceAdminSample {
 
     protected override def reloadSummaries() {
       super.reloadSummaries()
-      val cameraSummary: String = getString(if (mDPM.getCameraDisabled(mDeviceAdminSample)) R.string.camera_disabled else R.string.camera_enabled)
+      val cameraSummary = getString(if (mDPM.getCameraDisabled(mDeviceAdminSample)) R.string.camera_disabled else R.string.camera_enabled)
       mDisableCameraCheckbox.setSummary(cameraSummary)
     }
 
