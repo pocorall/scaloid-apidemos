@@ -34,18 +34,15 @@ class ActionBarDisplayOptions extends Activity with ContextUtil {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.action_bar_display_options)
     val bar = getActionBar
-    def c(flags: Int) {
-      bar.setDisplayOptions(bar.getDisplayOptions ^ flags, flags)
-    }
-    findViewById(R.id.toggle_home_as_up).onClick(c(DISPLAY_HOME_AS_UP))
-    findViewById(R.id.toggle_show_home).onClick(c(DISPLAY_SHOW_HOME))
-    findViewById(R.id.toggle_use_logo).onClick(c(DISPLAY_USE_LOGO))
-    findViewById(R.id.toggle_show_title).onClick(c(DISPLAY_SHOW_TITLE))
-    findViewById(R.id.toggle_show_custom).onClick(c(DISPLAY_SHOW_CUSTOM))
+    def displayFlag(flags: Int) = bar.setDisplayOptions(bar.getDisplayOptions ^ flags, flags)
+
+    findViewById(R.id.toggle_home_as_up).onClick(displayFlag(DISPLAY_HOME_AS_UP))
+    findViewById(R.id.toggle_show_home).onClick(displayFlag(DISPLAY_SHOW_HOME))
+    findViewById(R.id.toggle_use_logo).onClick(displayFlag(DISPLAY_USE_LOGO))
+    findViewById(R.id.toggle_show_title).onClick(displayFlag(DISPLAY_SHOW_TITLE))
+    findViewById(R.id.toggle_show_custom).onClick(displayFlag(DISPLAY_SHOW_CUSTOM))
     findViewById(R.id.toggle_navigation).onClick(bar.setNavigationMode(
-      if (bar.getNavigationMode == NAVIGATION_MODE_STANDARD)
-        NAVIGATION_MODE_TABS
-      else NAVIGATION_MODE_STANDARD))
+      if (bar.getNavigationMode == NAVIGATION_MODE_STANDARD) NAVIGATION_MODE_TABS else NAVIGATION_MODE_STANDARD))
     findViewById(R.id.cycle_custom_gravity).onClick {
       val lp = mCustomView.getLayoutParams.asInstanceOf[ActionBar.LayoutParams]
       val newGravity: Int = (lp.gravity & HORIZONTAL_GRAVITY_MASK) match {
