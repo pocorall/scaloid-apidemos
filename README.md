@@ -1,5 +1,4 @@
-android-apidemos-scala
-======================
+# Android ApiDemos rewritten elegantly
 
 A Scala port of well-known ApiDemos for Android. This project demonstrates effectiveness of [android-scala-common](https://github.com/pocorall/android-scala-common/) library.
 
