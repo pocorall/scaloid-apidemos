@@ -50,13 +50,17 @@ import android.telephony.TelephonyManager
 import android.net.wifi.WifiManager
 import android.content
 import content._
-import android.widget.{Button, TextView, Toast}
+import android.widget._
 import android.preference.PreferenceManager
 import android.view.WindowManager.LayoutParams._
-import android.view.View.{OnLongClickListener, OnClickListener, OnFocusChangeListener}
+import android.view.View._
 import android.graphics.drawable.Drawable
 import java.lang.CharSequence
 import scala.Int
+import android.view.ContextMenu.ContextMenuInfo
+import android.text.method.MovementMethod
+import annotation.target.{beanGetter, getter}
+import android.view.ViewGroup.LayoutParams
 
 
 case class LoggerTag(_tag: String) {
@@ -67,7 +71,6 @@ case class LoggerTag(_tag: String) {
 package object common {
 
   implicit def resourceIdToTextResource(id: Int)(implicit context: Context): CharSequence = context.getText(id)
-
 
   /**
    * Launches a new activity for a give uri. For example, opens a web browser for http protocols.
@@ -97,8 +100,12 @@ package object common {
       }
     }
 
-  class RichView(view: View) {
-    def onClick(f: => Unit) {
+  class RichView[V <: View](val view: V) extends TraitView[V]
+
+  trait TraitView[V <: View] {
+    def view: V
+
+    @inline def onClick(f: => Unit) {
       view.setOnClickListener(new OnClickListener {
         def onClick(view: View) {
           f
@@ -106,7 +113,7 @@ package object common {
       })
     }
 
-    def onClick(f: View => Unit) {
+    @inline def onClick(f: View => Unit) {
       view.setOnClickListener(new OnClickListener {
         def onClick(view: View) {
           f(view)
@@ -114,20 +121,113 @@ package object common {
       })
     }
 
-    def onLongClick(f: => Boolean) {
+    @inline def onLongClick(f: => Boolean) {
       view.setOnLongClickListener(new OnLongClickListener {
         def onLongClick(view: View): Boolean = {
           f
         }
       })
     }
+
+    @inline def onLongClick(f: View => Boolean) {
+      view.setOnLongClickListener(new OnLongClickListener {
+        def onLongClick(view: View): Boolean = {
+          f(view)
+        }
+      })
+    }
+
+    @inline def onCreateContextMenu(f: => Unit) {
+      view.setOnCreateContextMenuListener(new OnCreateContextMenuListener {
+        def onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenuInfo) {
+          f
+        }
+      })
+    }
+
+    @inline def onCreateContextMenu(f: (ContextMenu, V, ContextMenuInfo) => Unit) {
+      view.setOnCreateContextMenuListener(new OnCreateContextMenuListener {
+        def onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenuInfo) {
+          f(menu, v.asInstanceOf[V], menuInfo)
+        }
+      })
+    }
+
+    @inline def onFocusChanged(f: => Unit) {
+      view.setOnFocusChangeListener(new OnFocusChangeListener {
+        def onFocusChange(v: View, hasFocus: Boolean) {
+          f
+        }
+      })
+    }
+
+    @inline def onFocusChanged(f: (View, Boolean) => Unit) {
+      view.setOnFocusChangeListener(new OnFocusChangeListener {
+        def onFocusChange(v: View, hasFocus: Boolean) {
+          f(v, hasFocus)
+        }
+      })
+    }
+
+    @inline def onKey(f: => Boolean) {
+      view.setOnKeyListener(new View.OnKeyListener {
+        def onKey(v: View, keyCode: Int, event: KeyEvent) = f
+      })
+    }
+
+    @inline def onKey(f: (View, Int, KeyEvent) => Boolean) {
+      view.setOnKeyListener(new View.OnKeyListener {
+        def onKey(v: View, keyCode: Int, event: KeyEvent) = f(v, keyCode, event)
+      })
+    }
+
+    @inline def onTouch(f: => Boolean) {
+      view.setOnTouchListener(new OnTouchListener {
+        def onTouch(v: View, event: MotionEvent) = f
+      })
+    }
+
+    @inline def onTouch(f: (View, MotionEvent) => Boolean) {
+      view.setOnTouchListener(new OnTouchListener {
+        def onTouch(v: View, event: MotionEvent) = f(v, event)
+      })
+    }
+
+    @inline def layoutParams_=(lp: LayoutParams) = view.setLayoutParams(lp)
+
+    @inline def layoutParams = view.getLayoutParams
+
+    @inline def backgroundColor_=(color: Int) = view.setBackgroundColor(color)
+
+    @noEquivalentGetterExists
+    @inline def backgroundColor: Int = 0
   }
 
-  implicit def view2RichView(view: View) = new RichView(view)
+  @inline implicit def view2RichView[V <: View](view: V) = new RichView[V](view)
 
-  class RichTextView(view: TextView) {
+  class $EditText(implicit context: Context) extends android.widget.EditText(context) with TraitTextView {
+    def view: TextView = this
+  }
 
-    def beforeTextChanged(f: (CharSequence, Int, Int, Int) => Unit) {
+  class RichActivity(val activity: Activity) extends TraitActivity
+
+  trait TraitActivity {
+    def activity: Activity
+
+    @inline def contentView_=(view: View) = activity.setContentView(view)
+
+    @noEquivalentGetterExists
+    @inline def contentView: View = null
+  }
+
+  @inline implicit def activity2RichActivity(activity: Activity) = new RichActivity(activity)
+
+  class RichTextView(val view: TextView) extends TraitTextView
+
+  trait TraitTextView extends TraitView[TextView] {
+    def view: TextView
+
+    @inline def beforeTextChanged(f: (CharSequence, Int, Int, Int) => Unit) {
       view.addTextChangedListener(new TextWatcher {
         def beforeTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
           f(s, start, before, count)
@@ -139,7 +239,7 @@ package object common {
       })
     }
 
-    def beforeTextChanged(f: => Unit) {
+    @inline def beforeTextChanged(f: => Unit) {
       view.addTextChangedListener(new TextWatcher {
         def beforeTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
           f
@@ -151,7 +251,7 @@ package object common {
       })
     }
 
-    def onTextChanged(f: => Unit) {
+    @inline def onTextChanged(f: => Unit) {
       view.addTextChangedListener(new TextWatcher {
         def beforeTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
@@ -163,7 +263,32 @@ package object common {
       })
     }
 
-    def afterTextChanged(f: => Unit) {
+
+    @inline def onTextChanged(f: (CharSequence, Int, Int, Int) => Unit) {
+      view.addTextChangedListener(new TextWatcher {
+        def beforeTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+
+        def onTextChanged(p1: CharSequence, p2: Int, p3: Int, p4: Int) {
+          f(p1, p2, p3, p4)
+        }
+
+        def afterTextChanged(p1: Editable) {}
+      })
+    }
+
+    @inline def afterTextChanged(f: Editable => Unit) {
+      view.addTextChangedListener(new TextWatcher {
+        def beforeTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+
+        def onTextChanged(p1: CharSequence, p2: Int, p3: Int, p4: Int) {}
+
+        def afterTextChanged(p1: Editable) {
+          f(p1)
+        }
+      })
+    }
+
+    @inline def afterTextChanged(f: => Unit) {
       view.addTextChangedListener(new TextWatcher {
         def beforeTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
@@ -175,7 +300,15 @@ package object common {
       })
     }
 
-    def onEditorAction(f: (TextView, Int, KeyEvent) => Boolean) {
+    @inline def onEditorAction(f: => Boolean) {
+      view.setOnEditorActionListener(new TextView.OnEditorActionListener {
+        def onEditorAction(view: TextView, actionId: Int, event: KeyEvent): Boolean = {
+          f
+        }
+      })
+    }
+
+    @inline def onEditorAction(f: (TextView, Int, KeyEvent) => Boolean) {
       view.setOnEditorActionListener(new TextView.OnEditorActionListener {
         def onEditorAction(view: TextView, actionId: Int, event: KeyEvent): Boolean = {
           f(view, actionId, event)
@@ -183,21 +316,98 @@ package object common {
       })
     }
 
-    def textSize_=(size: Float) {
+    @inline def textSize_=(size: Float) {
       view.setTextSize(size)
     }
 
-    def textSize: Float = view.getTextSize
+    @inline def textSize: Float = view.getTextSize
 
-    def text_=(txt: CharSequence) {
+    @inline def gravity_=(g: Int) = view.setGravity(g)
+
+    @inline def gravity = view.getGravity
+
+    @inline def movementMethod_=(movement: MovementMethod) {
+      view.setMovementMethod(movement)
+    }
+
+    @inline def movementMethod: MovementMethod = view.getMovementMethod
+
+    @inline def text_=(txt: CharSequence) {
       view.setText(txt)
     }
 
-    def text: CharSequence = view.getText
+    @inline def text: CharSequence = view.getText
   }
 
-  implicit def view2RichTextView(view: TextView) = new RichTextView(view)
+  @inline implicit def view2RichTextView(view: TextView) = new RichTextView(view)
 
+
+  class RichMenu(menu: Menu) {
+    @inline def +=(txt: CharSequence) = menu.add(txt)
+  }
+
+  @inline implicit def menu2RichMenu(menu: Menu) = new RichMenu(menu)
+
+
+  class RichContextMenu(menu: ContextMenu) {
+    @inline def headerTitle_=(txt: CharSequence) = menu.setHeaderTitle(txt)
+
+    @noEquivalentGetterExists
+    @inline def headerTitle: CharSequence = ""
+  }
+
+  @inline implicit def contextMenu2RichContextMenu(menu: ContextMenu) = new RichContextMenu(menu)
+
+  @getter
+  @beanGetter
+  class noEquivalentGetterExists extends annotation.StaticAnnotation
+
+  class $ListView(implicit context: Context) extends ListView(context) with TraitListView {
+    def view = this
+  }
+
+  class RichListView(val view: ListView) extends TraitListView
+
+  trait TraitListView extends TraitView[ListView] {
+    def view: ListView
+
+    @inline def adapter_=(ad: ListAdapter) = view.setAdapter(ad)
+
+    @inline def adapter = view.getAdapter
+
+    @inline def selection_=(position: Int) = view.setSelection(position)
+
+    @noEquivalentGetterExists
+    @inline def selection: Int = 0
+  }
+
+  @inline implicit def listView2RichListView(lv: android.widget.ListView) = new RichListView(lv)
+
+  class RichViewGroup(val view: ViewGroup) extends TraitViewGroup
+
+  trait TraitViewGroup extends TraitView[ViewGroup] {
+    def view: ViewGroup
+
+    @inline def +=(v: View) = view.addView(v)
+  }
+
+  @inline implicit def viewGroup2RichViewGroup(viewGroup: ViewGroup) = new RichViewGroup(viewGroup)
+
+  class RichLinearLayout(val view: LinearLayout) extends TraitLinearLayout
+
+  trait TraitLinearLayout extends TraitViewGroup {
+    def view: LinearLayout
+
+    @inline def orientation_=(orient: Int) = view.setOrientation(orient)
+
+    @inline def orientation = view.getOrientation
+  }
+
+  @inline implicit def linearLaout2RichLinearLayout(linearLayout: LinearLayout) = new RichLinearLayout(linearLayout)
+
+  @inline class $LinearLayout(implicit context: Context) extends LinearLayout(context) with TraitLinearLayout {
+    def view = this
+  }
 
   implicit def func2ViewOnLongClickListener(f: View => Boolean): View.OnLongClickListener =
     new View.OnLongClickListener() {
@@ -303,32 +513,32 @@ package object common {
     if (_message != null) setMessage(_message)
 
 
-    def positiveButton(name: CharSequence = android.R.string.yes, onClick: => Unit = {}): AlertDialogBuilder =
+    @inline def positiveButton(name: CharSequence = android.R.string.yes, onClick: => Unit = {}): AlertDialogBuilder =
       positiveButton(name, (_, _) => {
         onClick
       })
 
-    def positiveButton(name: CharSequence, onClick: (DialogInterface, Int) => Unit): AlertDialogBuilder = {
+    @inline def positiveButton(name: CharSequence, onClick: (DialogInterface, Int) => Unit): AlertDialogBuilder = {
       setPositiveButton(name, func2DialogOnClickListener(onClick))
       this
     }
 
-    def neutralButton(name: CharSequence = android.R.string.ok, onClick: => Unit = {}): AlertDialogBuilder =
+    @inline def neutralButton(name: CharSequence = android.R.string.ok, onClick: => Unit = {}): AlertDialogBuilder =
       neutralButton(name, (_, _) => {
         onClick
       })
 
-    def neutralButton(name: CharSequence, onClick: (DialogInterface, Int) => Unit): AlertDialogBuilder = {
+    @inline def neutralButton(name: CharSequence, onClick: (DialogInterface, Int) => Unit): AlertDialogBuilder = {
       setNeutralButton(name, func2DialogOnClickListener(onClick))
       this
     }
 
-    def negativeButton(name: CharSequence, onClick: => Unit): AlertDialogBuilder =
+    @inline def negativeButton(name: CharSequence, onClick: => Unit): AlertDialogBuilder =
       negativeButton(name, (_, _) => {
         onClick
       })
 
-    def negativeButton(name: CharSequence = android.R.string.no, onClick: (DialogInterface, Int) => Unit = (d, _) => {
+    @inline def negativeButton(name: CharSequence = android.R.string.no, onClick: (DialogInterface, Int) => Unit = (d, _) => {
       d.cancel()
     }): AlertDialogBuilder = {
       setNegativeButton(name, func2DialogOnClickListener(onClick))
@@ -337,21 +547,21 @@ package object common {
 
     var tit: CharSequence = null
 
-    def title_=(str: CharSequence) = {
+    @inline def title_=(str: CharSequence) = {
       tit = str
       setTitle(str)
     }
 
-    def title = tit
+    @inline def title = tit
 
     var msg: CharSequence = null
 
-    def message_=(str: CharSequence) = {
+    @inline def message_=(str: CharSequence) = {
       tit = str
       setMessage(str)
     }
 
-    def message = tit
+    @inline def message = tit
   }
 
   @inline def alert(title: CharSequence, text: CharSequence, clickCallback: => Unit = {})(implicit context: Context) {
@@ -362,15 +572,23 @@ package object common {
 
   @inline implicit def stringToUri(str: String): Uri = Uri.parse(str)
 
-  @inline def newIntent[T](implicit context: Context, mt: ClassManifest[T]) = new content.Intent(context, mt.erasure)
+  @inline def $Intent[T](implicit context: Context, mt: ClassManifest[T]) = new content.Intent(context, mt.erasure)
 
-  @inline def newTextView(implicit context: Context): TextView = new TextView(context)
+  class $TextView(implicit context: Context) extends TextView(context) with TraitTextView {
+    def view = this
+  }
 
-  @inline def newButton(text: CharSequence, onClickListener: OnClickListener)(implicit context: Context): Button = {
-    val btn = new Button(context)
-    btn.setText(text)
-    btn.setOnClickListener(onClickListener)
-    btn
+  object $Button {
+    def apply(text: CharSequence, onClickListener: OnClickListener)(implicit context: Context): Button = {
+      val button = new Button(context)
+      button.text = text
+      button.setOnClickListener(onClickListener)
+      button
+    }
+  }
+
+  class $Button(implicit context: Context) extends Button(context) with TraitTextView {
+    def view = this
   }
 
   @inline def toast(message: String)(implicit context: Context) {
@@ -391,7 +609,7 @@ package object common {
     PendingIntent.getActivity(context, 0, intent, 0)
 
   @inline def pendingActivity[T](implicit context: Context, mt: ClassManifest[T]) =
-    PendingIntent.getActivity(context, 0, newIntent[T], 0)
+    PendingIntent.getActivity(context, 0, $Intent[T], 0)
 
   @inline def notificationSound: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
@@ -423,6 +641,14 @@ package object common {
 
   @inline def clipboardManager(implicit context: Context): ClipboardManager =
     context.getSystemService(Context.CLIPBOARD_SERVICE).asInstanceOf[ClipboardManager]
+
+  class RichClipboardManager(cm: ClipboardManager) {
+    def text_=(txt: CharSequence) = cm.setText(txt)
+
+    def text = cm.getText
+  }
+
+  @inline implicit def richClipboardManager(cm: ClipboardManager): RichClipboardManager = new RichClipboardManager(cm)
 
   @inline def connectivityManager(implicit context: Context): ConnectivityManager =
     context.getSystemService(Context.CONNECTIVITY_SERVICE).asInstanceOf[ConnectivityManager]
@@ -488,22 +714,24 @@ package object common {
     implicit val context = this
 
     def startActivity[T: ClassManifest] {
-      startActivity(newIntent[T])
+      startActivity($Intent[T])
     }
 
     def startService[T: ClassManifest] {
-      startService(newIntent[T])
+      startService($Intent[T])
     }
 
     def stopService[T: ClassManifest] {
-      stopService(newIntent[T])
+      stopService($Intent[T])
     }
   }
 
   /**
    * Provides utility methods for Activity
    */
-  trait ActivityUtil extends Activity {
+  trait ActivityUtil extends Activity with TraitActivity {
+    def activity = this
+
     def find[V <: View](id: Int): V = findViewById(id).asInstanceOf[V]
   }
 
