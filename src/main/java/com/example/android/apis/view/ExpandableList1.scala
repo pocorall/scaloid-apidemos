@@ -34,14 +34,12 @@ import net.pocorall.android.common._
 class ExpandableList1 extends ExpandableListActivity with ContextUtil {
   override def onCreate(savedInstanceState: Bundle) {
     super.onCreate(savedInstanceState)
-    mAdapter = new MyExpandableListAdapter
-    setListAdapter(mAdapter)
-    registerForContextMenu(getExpandableListView)
-  }
-
-  override def onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo) {
-    menu.headerTitle = "Sample menu"
-    menu.add(0, 0, 0, R.string.expandable_list_sample_action)
+    setListAdapter(new MyExpandableListAdapter)
+    getExpandableListView.onCreateContextMenu {
+      (menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo) =>
+        menu.headerTitle = "Sampl e menu"
+        menu.add(0, 0, 0, R.string.expandable_list_sample_action)
+    }
   }
 
   override def onContextItemSelected(item: MenuItem): Boolean = {
@@ -51,15 +49,12 @@ class ExpandableList1 extends ExpandableListActivity with ContextUtil {
     getPackedPositionType(info.packedPosition) match {
       case PACKED_POSITION_TYPE_CHILD =>
         toast(title + ": Child " + getPackedPositionChild(info.packedPosition) + " clicked in group " + getPackedPositionGroup(info.packedPosition))
-        true
       case PACKED_POSITION_TYPE_GROUP =>
         toast(title + ": Group " + getPackedPositionGroup(info.packedPosition) + " clicked")
-        true
-      case _ => false
+      case _ => return false
     }
+    true
   }
-
-  private[view] var mAdapter: ExpandableListAdapter = null
 
   /**
    * A simple adapter which maintains an ArrayList of photo resource Ids.
