@@ -37,7 +37,7 @@ class ExpandableList1 extends ExpandableListActivity with ContextUtil {
     setListAdapter(new MyExpandableListAdapter)
     getExpandableListView.onCreateContextMenu {
       (menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo) =>
-        menu.headerTitle = "Sampl e menu"
+        menu.headerTitle = "Sample menu"
         menu.add(0, 0, 0, R.string.expandable_list_sample_action)
     }
   }
