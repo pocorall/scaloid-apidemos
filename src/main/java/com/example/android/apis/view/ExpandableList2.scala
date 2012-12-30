@@ -24,7 +24,7 @@ import android.widget.SimpleCursorTreeAdapter
 import net.pocorall.android.Workarounds._
 import android.provider.ContactsContract.Contacts
 import scala.concurrent.ops._
-import net.pocorall.android.common._
+import org.scaloid.common._
 
 /**
  * Demonstrates expandable lists backed by Cursors

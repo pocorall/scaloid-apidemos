@@ -24,12 +24,12 @@ import android.view.View
 import android.view.ViewGroup.LayoutParams
 import android.app.ActionBar._
 import Gravity._
-import net.pocorall.android.common._
+import org.scaloid.common._
 
 /**
  * This demo shows how various action bar display option flags can be combined and their effects.
  */
-class ActionBarDisplayOptions extends Activity with ContextUtil {
+class ActionBarDisplayOptions extends SActivity {
   protected override def onCreate(savedInstanceState: Bundle) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.action_bar_display_options)

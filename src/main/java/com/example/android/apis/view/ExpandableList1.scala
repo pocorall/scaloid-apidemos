@@ -25,13 +25,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget._
 import com.example.android.apis.R
-import net.pocorall.android.common._
+import org.scaloid.common._
 
 /**
  * Demonstrates expandable lists using a custom {@link ExpandableListAdapter}
  * from {@link BaseExpandableListAdapter}.
  */
-class ExpandableList1 extends ExpandableListActivity with ContextUtil {
+class ExpandableList1 extends ExpandableListActivity with SActivity {
   override def onCreate(savedInstanceState: Bundle) {
     super.onCreate(savedInstanceState)
     setListAdapter(new MyExpandableListAdapter)
@@ -69,7 +69,7 @@ class ExpandableList1 extends ExpandableListActivity with ContextUtil {
 
     def getChildrenCount(groupPosition: Int): Int = children(groupPosition).length
 
-    def getGenericView: TextView = new $TextView {
+    def getGenericView: TextView = new STextView {
       layoutParams = (new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 64))
       gravity = Gravity.CENTER_VERTICAL | Gravity.LEFT
       setPadding(36, 0, 0, 0)

@@ -27,7 +27,7 @@ import android.widget.DatePicker
 import android.widget.TimePicker
 import android.view.View
 import java.util.Calendar
-import net.pocorall.android.common._
+import org.scaloid.common._
 
 /**
  * Basic example of using date and time widgets, including
@@ -46,7 +46,7 @@ object DateWidgets1 {
 
 import DateWidgets1._
 
-class DateWidgets1 extends Activity with ActivityUtil {
+class DateWidgets1 extends SActivity {
   protected override def onCreate(savedInstanceState: Bundle) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.date_widgets_example_1)
