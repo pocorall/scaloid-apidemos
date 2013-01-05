@@ -16,7 +16,6 @@
 package com.example.android.apis.view
 
 import com.example.android.apis.R
-import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.app.Dialog
@@ -25,7 +24,6 @@ import android.widget.TextView
 import android.widget.Button
 import android.widget.DatePicker
 import android.widget.TimePicker
-import android.view.View
 import java.util.Calendar
 import org.scaloid.common._
 
