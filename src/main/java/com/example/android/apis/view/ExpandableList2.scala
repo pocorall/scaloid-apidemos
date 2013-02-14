@@ -37,9 +37,11 @@ object ExpandableList2 {
 
 import ExpandableList2._
 
-class ExpandableList2 extends ExpandableListActivity with RunOnUiThread {
+class ExpandableList2 extends ExpandableListActivity   {
   override def onCreate(savedInstanceState: Bundle) {
     super.onCreate(savedInstanceState)
+
+
     mAdapter = new SimpleCursorTreeAdapter(this, null, android.R.layout.simple_expandable_list_item_1,
       Array(ContactsColumns.DISPLAY_NAME), Array(android.R.id.text1), android.R.layout.simple_expandable_list_item_1,
       Array(Phone.NUMBER), Array(android.R.id.text1)) {
