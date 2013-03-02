@@ -21,7 +21,7 @@ import android.database.Cursor
 import android.os.Bundle
 import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.widget.SimpleCursorTreeAdapter
-import net.pocorall.android.Workarounds._
+import org.scaloid.Workarounds._
 import android.provider.ContactsContract.Contacts
 import scala.concurrent.ops._
 import org.scaloid.common._
@@ -37,7 +37,7 @@ object ExpandableList2 {
 
 import ExpandableList2._
 
-class ExpandableList2 extends ExpandableListActivity   {
+class ExpandableList2 extends ExpandableListActivity {
   override def onCreate(savedInstanceState: Bundle) {
     super.onCreate(savedInstanceState)
 
