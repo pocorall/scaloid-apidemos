@@ -8,6 +8,12 @@ Using [Scaloid](https://github.com/pocorall/scaloid/), Android apps can be writt
 
 This is a maven project. Issue `mvn package` to build, and `mvn android:deploy` to deploy on your virtual device.
 
+### Requirements
+
+Scaloid-ApiDemos requires Android API Level 16 and above.
+Please note that this is just a requirement of Scaloid-ApiDemos project.
+**Scaloid supports Android API Level 8 and above.**
+
 ### Roadmap
 
 * **Completely move the code from Java to Scala** <br/>
