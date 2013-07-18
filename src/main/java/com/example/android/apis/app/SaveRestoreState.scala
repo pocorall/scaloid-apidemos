@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.example.android.apis.app;
+package com.example.android.apis.app
 
 // Need the following import to get access to the app resources, since this
 // class is in a sub-package.
-import com.example.android.apis.R;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.widget.EditText;
-import android.widget.TextView;
+import com.example.android.apis.R
+import android.app.Activity
+import android.os.Bundle
+import android.widget.EditText
+import android.widget.TextView
+import org.scaloid.common._
 
 /**
  * <p>Demonstrates required behavior of saving and restoring dynamic activity
@@ -59,40 +59,35 @@ import android.widget.TextView;
         </tr>
 </table>
  */
-public class SaveRestoreState extends Activity
-{
-    /**
-     * Initialization of the Activity after it is first created.  Here we use
-     * {@link android.app.Activity#setContentView setContentView()} to set up
-     * the Activity's content, and retrieve the EditText widget whose state we
-     * will save/restore.
-     */
-    @Override
-	protected void onCreate(Bundle savedInstanceState) {
-        // Be sure to call the super class.
-        super.onCreate(savedInstanceState);
+class SaveRestoreState extends SActivity {
+  /**
+   * Initialization of the Activity after it is first created.  Here we use
+   * {@link android.app.Activity#setContentView setContentView()} to set up
+   * the Activity's content, and retrieve the EditText widget whose state we
+   * will save/restore.
+   */
+  protected override def onCreate(savedInstanceState: Bundle) {
+    // Be sure to call the super class.
+    super.onCreate(savedInstanceState)
+    // See assets/res/any/layout/save_restore_state.xml for this
+    // view layout definition, which is being set here as
+    // the content of our screen.
+    setContentView(R.layout.save_restore_state)
+    // Set message to be appropriate for this screen.
+    (find[TextView](R.id.msg)).setText(R.string.save_restore_msg)
+  }
 
-        // See assets/res/any/layout/save_restore_state.xml for this
-        // view layout definition, which is being set here as
-        // the content of our screen.
-        setContentView(R.layout.save_restore_state);
+  /**
+   * Retrieve the text that is currently in the "saved" editor.
+   */
+  private[app] def getSavedText: CharSequence = {
+    return (find[EditText](R.id.saved)).getText
+  }
 
-        // Set message to be appropriate for this screen.
-        ((TextView)findViewById(R.id.msg)).setText(R.string.save_restore_msg);
-    }
-
-    /**
-     * Retrieve the text that is currently in the "saved" editor.
-     */
-    CharSequence getSavedText() {
-        return ((EditText)findViewById(R.id.saved)).getText();
-    }
-
-    /**
-     * Change the text that is currently in the "saved" editor.
-     */
-    void setSavedText(CharSequence text) {
-        ((EditText)findViewById(R.id.saved)).setText(text);
-    }
+  /**
+   * Change the text that is currently in the "saved" editor.
+   */
+  private[app] def setSavedText(text: CharSequence) {
+    (find[EditText](R.id.saved)).setText(text)
+  }
 }
-
