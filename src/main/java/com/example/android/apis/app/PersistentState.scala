@@ -62,7 +62,7 @@ import org.scaloid.common._
  * </table>
  *
  */
-class PersistentState extends Activity {
+class PersistentState extends SActivity {
   /**
    * Initialization of the Activity after it is first created.  Here we use
    * {@link android.app.Activity#setContentView setContentView()} to set up
@@ -77,41 +77,29 @@ class PersistentState extends Activity {
     // the content of our screen.
     setContentView(R.layout.save_restore_state)
     // Set message to be appropriate for this screen.
-    (findViewById(R.id.msg).asInstanceOf[TextView]).setText(R.string.persistent_msg)
+    (find[TextView](R.id.msg)).setText(R.string.persistent_msg)
     // Retrieve the EditText widget whose state we will save.
-    mSaved = findViewById(R.id.saved).asInstanceOf[EditText]
-  }
+    mSaved = find[EditText](R.id.saved)
 
-  /**
-   * Upon being resumed we can retrieve the current state.  This allows us
-   * to update the state if it was changed at any time while paused.
-   */
-  protected override def onResume {
-    super.onResume
-    val prefs: SharedPreferences = getPreferences(0)
-    val restoredText: String = prefs.getString("text", null)
-    if (restoredText != null) {
-      mSaved.setText(restoredText, TextView.BufferType.EDITABLE)
-      val selectionStart: Int = prefs.getInt("selection-start", -1)
-      val selectionEnd: Int = prefs.getInt("selection-end", -1)
-      if (selectionStart != -1 && selectionEnd != -1) {
-        mSaved.setSelection(selectionStart, selectionEnd)
+    onResume {
+      val prefs = getPreferences(0)
+      val restoredText = prefs.getString("text", null)
+      if (restoredText != null) {
+        mSaved.setText(restoredText, TextView.BufferType.EDITABLE)
+        val selectionStart = prefs.getInt("selection-start", -1)
+        val selectionEnd = prefs.getInt("selection-end", -1)
+        if (selectionStart != -1 && selectionEnd != -1) {
+          mSaved.setSelection(selectionStart, selectionEnd)
+        }
       }
     }
+    onPause {
+      val editor = getPreferences(0).edit
+      editor.putString("text", mSaved.getText.toString)
+      editor.putInt("selection-start", mSaved.getSelectionStart)
+      editor.putInt("selection-end", mSaved.getSelectionEnd)
+      editor.commit
+    }
   }
-
-  /**
-   * Any time we are paused we need to save away the current state, so it
-   * will be restored correctly when we are resumed.
-   */
-  protected override def onPause {
-    super.onPause
-    val editor: SharedPreferences.Editor = getPreferences(0).edit
-    editor.putString("text", mSaved.getText.toString)
-    editor.putInt("selection-start", mSaved.getSelectionStart)
-    editor.putInt("selection-end", mSaved.getSelectionEnd)
-    editor.commit
-  }
-
   private var mSaved: EditText = null
 }
