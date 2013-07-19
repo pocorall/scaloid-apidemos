@@ -16,7 +16,7 @@
 package com.example.android.apis.app
 
 import com.example.android.apis.R
-import android.app.{ActionBar, Activity, FragmentTransaction}
+import android.app.ActionBar
 import android.os.Bundle
 import android.view.Gravity
 import android.view.Menu

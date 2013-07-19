@@ -19,14 +19,12 @@ package com.example.android.apis.app
 // class is in a sub-package.
 
 import com.example.android.apis.R
-import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
 import android.view.View
-import android.view.View.OnClickListener
 import android.widget.Button
 import org.scaloid.common._
 

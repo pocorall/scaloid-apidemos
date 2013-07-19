@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 The Android Open Source Project
+ * Copyright (C) 2007 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,19 +19,16 @@ package com.example.android.apis.app
 // class is in a sub-package.
 
 import com.example.android.apis.R
+import android.content.Intent
 import android.os.Bundle
-import android.view.Window
+import android.view.View
 import android.widget.Button
-import android.widget.LinearLayout
 import org.scaloid.common._
 
 /**
- * <h3>Dialog Activity</h3>
- *
- * <p>This demonstrates the how to write an activity that looks like
- * a pop-up dialog.</p>
+ * Example of receiving a result from another activity.
  */
-class DialogActivity extends SActivity {
+class SendResult extends SActivity {
   /**
    * Initialization of the Activity after it is first created.  Must at least
    * call {@link android.app.Activity#setContentView setContentView()} to
@@ -40,27 +37,25 @@ class DialogActivity extends SActivity {
   protected override def onCreate(savedInstanceState: Bundle) {
     // Be sure to call the super class.
     super.onCreate(savedInstanceState)
-    requestWindowFeature(Window.FEATURE_LEFT_ICON)
-    // See assets/res/any/layout/dialog_activity.xml for this
+    // See assets/res/any/layout/hello_world.xml for this
     // view layout definition, which is being set here as
     // the content of our screen.
-    setContentView(R.layout.dialog_activity)
-    getWindow.setTitle("This is just a test")
-    getWindow.setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, android.R.drawable.ic_dialog_alert)
-    find[Button](R.id.add).onClick {
-        val layout = find[LinearLayout](R.id.inner_content)
-        //      val iv = new ImageView(DialogActivity.this)
-        val iv = new SImageView()
-        iv.setImageDrawable(getResources.getDrawable(R.drawable.icon48x48_1))
-        iv.setPadding(4, 4, 4, 4)
-        layout.addView(iv)
+    setContentView(R.layout.send_result)
+    // Watch for button clicks.
+    val button = find[Button](R.id.corky)
+    button.onClick {
+      // To send a result, simply call setResult() before your
+      // activity is finished.
+      setResult(RESULT_OK, (new Intent).setAction("Corky!"))
+      finish
     }
-    find[Button](R.id.remove).onClick {
-        val layout = find[LinearLayout](R.id.inner_content)
-        val num = layout.getChildCount
-        if (num > 0) {
-          layout.removeViewAt(num - 1)
-        }
+    val button2 = find[Button](R.id.violet)
+    button2.onClick {
+      // To send a result, simply call setResult() before your
+      // activity is finished.
+      setResult(RESULT_OK, (new Intent).setAction("Violet!"))
+      finish
     }
   }
+  val RESULT_OK = -1;
 }

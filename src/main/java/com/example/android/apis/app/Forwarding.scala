@@ -13,21 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.example.android.apis.app;
+package com.example.android.apis.app
 
 // Need the following import to get access to the app resources, since this
 // class is in a sub-package.
-import com.example.android.apis.R;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-
-
+import com.example.android.apis.R
+import android.content.Intent
+import android.os.Bundle
+import android.view.View
+import android.widget.Button
+import org.scaloid.common._
 /**
  * <p>Example of removing yourself from the history stack after forwarding to
  * another activity. This can be useful, for example, to implement
@@ -41,7 +37,7 @@ useful depending on how it makes sense to structure the application.</p>
 
 <h4>Demo</h4>
 App/Activity/Receive Result
- 
+
 <h4>Source files</h4>
 <table class="LinkTable">
         <tr>
@@ -54,32 +50,19 @@ App/Activity/Receive Result
         </tr>
 </table>
  */
-public class Forwarding extends Activity
-{
-    @Override
-	protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.forwarding);
-
-        // Watch for button clicks.
-        Button goButton = (Button)findViewById(R.id.go);
-        goButton.setOnClickListener(mGoListener);
+class Forwarding extends SActivity {
+  protected override def onCreate(savedInstanceState: Bundle) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.forwarding)
+    // Watch for button clicks.
+    find[Button](R.id.go).onClick {
+      // Here we start the next activity, and then call finish()
+      // so that our own will stop running and be removed from the
+      // history stack.
+      val intent = new Intent
+      intent.setClass(Forwarding.this, classOf[ForwardTarget])
+      startActivity(intent)
+      finish
     }
-
-    private OnClickListener mGoListener = new OnClickListener()
-    {
-        public void onClick(View v)
-        {
-            // Here we start the next activity, and then call finish()
-            // so that our own will stop running and be removed from the
-            // history stack.
-            Intent intent = new Intent();
-            intent.setClass(Forwarding.this, ForwardTarget.class);
-            startActivity(intent);
-            finish();
-        }
-    };
+  }
 }
-

@@ -16,10 +16,8 @@
 package com.example.android.apis.app
 
 import android.app.Activity
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.SearchView
 import android.widget.SearchView.OnQueryTextListener
