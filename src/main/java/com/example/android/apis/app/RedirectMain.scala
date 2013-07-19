@@ -17,21 +17,20 @@ package com.example.android.apis.app
 
 import com.example.android.apis.R
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import org.scaloid.common._
 /**
  * Entry into our redirection example, describing what will happen.
  */
-object RedirectMain {
+ object RedirectMain {
   val INIT_TEXT_REQUEST = 0
   val NEW_TEXT_REQUEST = 1
 }
 
 class RedirectMain extends SActivity {
+  import RedirectMain._
   protected override def onCreate(savedInstanceState: Bundle) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.redirect_main)
@@ -97,7 +96,5 @@ class RedirectMain extends SActivity {
     return false
   }
   val RESULT_CANCELED = 0
-  val INIT_TEXT_REQUEST = 0
-  val NEW_TEXT_REQUEST = 1
   private var mTextPref: String = null
 }
