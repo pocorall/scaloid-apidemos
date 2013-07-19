@@ -13,29 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.example.android.apis.app;
+package com.example.android.apis.app
 
 // Need the following import to get access to the app resources, since this
 // class is in a sub-package.
-import com.example.android.apis.R;
 
-import android.app.Activity;
-import android.os.Bundle;
-
-
+import com.example.android.apis.R
+import android.content.Intent
+import android.os.Bundle
+import android.widget.Button
+import org.scaloid.common._
 /**
- * Example of removing yourself from the history stack after forwarding to
- * another activity.
+ * Entry into our redirection example, describing what will happen.
  */
-public class ForwardTarget extends Activity
-{
-    @Override
-	protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.forward_target);
+class RedirectEnter extends SActivity {
+  protected override def onCreate(savedInstanceState: Bundle) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.redirect_enter)
+    // Watch for button clicks.
+    val goButton = find[Button](R.id.go)
+    goButton.onClick {
+      // Here we start up the main entry point of our redirection
+      // example.
+      val intent = new Intent(RedirectEnter.this, classOf[RedirectMain])
+      startActivity(intent)
     }
+  }
 }
-
