@@ -27,6 +27,7 @@ import android.os.Bundle
 import android.widget.Toast
 import java.util.Calendar
 import org.scaloid.common._
+import android.view.Gravity
 
 /**
  * Example of scheduling one-shot and repeating alarms.  See
@@ -65,7 +66,6 @@ class AlarmController extends SActivity {
 
   protected override def onCreate(savedInstanceState: Bundle) {
     super.onCreate(savedInstanceState)
-    val center_horizontal = 1
     contentView = new SVerticalLayout {
       STextView(R.string.alarm_controller).<<(MATCH_PARENT, WRAP_CONTENT).Weight(0.0f).marginBottom(4 dip)
       SButton(R.string.one_shot_alarm, {
@@ -132,6 +132,6 @@ class AlarmController extends SActivity {
         mToast.show
       }).<<.wrap
 
-    }.gravity(center_horizontal).padding(4 dip)
+    }.gravity(Gravity.CENTER_HORIZONTAL).padding(4 dip)
   }
 }

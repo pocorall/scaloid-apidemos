@@ -14,22 +14,18 @@
  * limitations under the License.
  */
 package com.example.android.apis.app
-
 // Need the following import to get access to the app resources, since this
 // class is in a sub-package.
 
 import com.example.android.apis.R
-import android.app.Activity
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Intent
 import android.os.SystemClock
 import android.os.Bundle
-import android.view.View
-import android.view.View.OnClickListener
-import android.widget.Button
 import android.widget.Toast
 import org.scaloid.common._
+import android.view.Gravity
 
 /**
  * This demonstrates how you can schedule an alarm that causes a service to
@@ -40,24 +36,22 @@ class AlarmService extends SActivity {
   protected override def onCreate(savedInstanceState: Bundle) {
     super.onCreate(savedInstanceState)
     mAlarmSender = PendingIntent.getService(AlarmService.this, 0, new Intent(AlarmService.this, classOf[AlarmService_Service]), 0)
-    setContentView(R.layout.alarm_service)
-//    val center_horizontal = 1
-//    contentView = new SVerticalLayout {
-//         STextView(R.string.alarm_service).<<(MATCH_PARENT, WRAP_CONTENT).marginBottom(4 dip).Weight(0.0f)
-//
-//    }.gravity(center_horizontal).padding(4 dip) //.<<.fill
+    val center_horizontal = 1
+    contentView = new SVerticalLayout {
+      STextView(R.string.alarm_service).<<(MATCH_PARENT, WRAP_CONTENT).marginBottom(4 dip).Weight(0.0f)
+      SButton(R.string.start_alarm_service, {
+        val firstTime: Long = SystemClock.elapsedRealtime
+        val am = getSystemService(ALARM_SERVICE).asInstanceOf[AlarmManager]
+        am.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, firstTime, 30 * 1000, mAlarmSender)
+        Toast.makeText(AlarmService.this, R.string.repeating_scheduled, Toast.LENGTH_LONG).show
+      }).<<.wrap.>>.requestFocus()
 
-    find[Button](R.id.start_alarm).onClick {
-      val firstTime: Long = SystemClock.elapsedRealtime
-      val am = getSystemService(ALARM_SERVICE).asInstanceOf[AlarmManager]
-      am.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, firstTime, 30 * 1000, mAlarmSender)
-      Toast.makeText(AlarmService.this, R.string.repeating_scheduled, Toast.LENGTH_LONG).show
-    }
-    find[Button](R.id.stop_alarm).onClick {
-      val am = getSystemService(ALARM_SERVICE).asInstanceOf[AlarmManager]
-      am.cancel(mAlarmSender)
-      Toast.makeText(AlarmService.this, R.string.repeating_unscheduled, Toast.LENGTH_LONG).show
-    }
+      SButton(R.string.stop_alarm_service, {
+        val am = getSystemService(ALARM_SERVICE).asInstanceOf[AlarmManager]
+        am.cancel(mAlarmSender)
+        Toast.makeText(AlarmService.this, R.string.repeating_unscheduled, Toast.LENGTH_LONG).show
+      }).<<.wrap.>>.requestFocus()
+    }.gravity(Gravity.CENTER_HORIZONTAL).padding(4 dip)
   }
   val ALARM_SERVICE = "alarm"
   private var mAlarmSender: PendingIntent = null

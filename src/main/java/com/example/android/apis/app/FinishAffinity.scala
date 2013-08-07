@@ -18,12 +18,12 @@ package com.example.android.apis.app
 import android.content.Intent
 import android.os.Bundle
 import org.scaloid.common._
+import android.view.Gravity
 
 class FinishAffinity extends SActivity {
   protected override def onCreate(savedInstanceState: Bundle) {
     super.onCreate(savedInstanceState)
     var textViewSeq: STextView = null
-    val center_horizontal = 1
     contentView = new SVerticalLayout {
       STextView("No matter how deep you go, Activity.finishAffinity() will get you back.").<<(MATCH_PARENT, WRAP_CONTENT).marginBottom(4 dip)
       textViewSeq = STextView().<<(MATCH_PARENT, WRAP_CONTENT).marginBottom(4 dip).>>
@@ -33,7 +33,7 @@ class FinishAffinity extends SActivity {
         startActivity(intent)
       }).<<.wrap.>>.requestFocus()
       SButton("FINISH!", finishAffinity()).<<.wrap.>>.requestFocus()
-    }.gravity(center_horizontal).padding(4 dip)
+    }.gravity(Gravity.CENTER_HORIZONTAL).padding(4 dip)
 
     mNesting = getIntent.getIntExtra("nesting", 1)
     textViewSeq.setText("Current nesting: " + mNesting)
