@@ -15,40 +15,30 @@
  */
 package com.example.android.apis.app
 
-import com.example.android.apis.R
-import android.app.Activity
-import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.view.View.OnClickListener
-import android.widget.Button
-import android.widget.TextView
 import org.scaloid.common._
 
 class FinishAffinity extends SActivity {
   protected override def onCreate(savedInstanceState: Bundle) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_finish_affinity)
-    mNesting = getIntent.getIntExtra("nesting", 1)
-    (findViewById(R.id.seq).asInstanceOf[TextView]).setText("Current nesting: " + mNesting)
-    var button: Button = findViewById(R.id.nest).asInstanceOf[Button]
-    button.setOnClickListener(mNestListener)
-    button = findViewById(R.id.finish).asInstanceOf[Button]
-    button.setOnClickListener(mFinishListener)
-  }
+    //setContentView(R.layout.activity_finish_affinity)
+    var textViewSeq: STextView = null
+    val center_horizontal = 1
 
+    contentView = new SVerticalLayout {
+      STextView("No matter how deep you go, Activity.finishAffinity() will get you back.").<<(MATCH_PARENT, WRAP_CONTENT).marginBottom(4 dip)
+      textViewSeq = STextView().<<(MATCH_PARENT, WRAP_CONTENT).marginBottom(4 dip).>>
+      SButton("Nest some more", {
+        val intent = new Intent(FinishAffinity.this, classOf[FinishAffinity])
+        intent.putExtra("nesting", mNesting + 1)
+        startActivity(intent)
+      }).<<.wrap.>>.requestFocus()
+      SButton("FINISH!", finishAffinity()).<<.wrap.>>.requestFocus()
+    }.gravity(center_horizontal).padding(4 dip)
+
+    mNesting = getIntent.getIntExtra("nesting", 1)
+    textViewSeq.setText("Current nesting: " + mNesting)
+  }
   var mNesting: Int = 0
-  private var mNestListener: View.OnClickListener = new View.OnClickListener {
-    def onClick(v: View) {
-      val intent: Intent = new Intent(FinishAffinity.this, classOf[FinishAffinity])
-      intent.putExtra("nesting", mNesting + 1)
-      startActivity(intent)
-    }
-  }
-  private var mFinishListener: View.OnClickListener = new View.OnClickListener {
-    def onClick(v: View) {
-      finishAffinity
-    }
-  }
 }

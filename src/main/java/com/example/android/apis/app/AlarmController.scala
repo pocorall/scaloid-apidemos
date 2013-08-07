@@ -24,8 +24,6 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.os.SystemClock
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
 import android.widget.Toast
 import java.util.Calendar
 import org.scaloid.common._
@@ -67,70 +65,75 @@ class AlarmController extends SActivity {
 
   protected override def onCreate(savedInstanceState: Bundle) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.alarm_controller)
-    // Watch for button clicks.
-    find[Button](R.id.one_shot).onClick {
-      // When the alarm goes off, we want to broadcast an Intent to our
-      // BroadcastReceiver.  Here we make an Intent with an explicit class
-      // name to have our own receiver (which has been published in
-      // AndroidManifest.xml) instantiated and called, and then create an
-      // IntentSender to have the intent executed as a broadcast.
-      val intent: Intent = new Intent(AlarmController.this, classOf[OneShotAlarm])
-      val sender: PendingIntent = PendingIntent.getBroadcast(AlarmController.this, 0, intent, 0)
-      // We want the alarm to go off 30 seconds from now.
-      val calendar: Calendar = Calendar.getInstance
-      calendar.setTimeInMillis(System.currentTimeMillis)
-      calendar.add(Calendar.SECOND, 30)
-      // Schedule the alarm!
-      val am: AlarmManager = getSystemService(ALARM_SERVICE).asInstanceOf[AlarmManager]
-      am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis, sender)
-      // Tell the user about what we did.
-      if (mToast != null) {
-        mToast.cancel
-      }
-      mToast = Toast.makeText(AlarmController.this, R.string.one_shot_scheduled, Toast.LENGTH_LONG)
-      mToast.show
-    }
+    // setContentView(R.layout.alarm_controller)
+    val center_horizontal = 1
 
-    find[Button](R.id.start_repeating).onClick {
-      // When the alarm goes off, we want to broadcast an Intent to our
-      // BroadcastReceiver.  Here we make an Intent with an explicit class
-      // name to have our own receiver (which has been published in
-      // AndroidManifest.xml) instantiated and called, and then create an
-      // IntentSender to have the intent executed as a broadcast.
-      // Note that unlike above, this IntentSender is configured to
-      // allow itself to be sent multiple times.
-      val intent: Intent = new Intent(AlarmController.this, classOf[RepeatingAlarm])
-      val sender: PendingIntent = PendingIntent.getBroadcast(AlarmController.this, 0, intent, 0)
-      // We want the alarm to go off 30 seconds from now.
-      var firstTime: Long = SystemClock.elapsedRealtime
-      firstTime += 15 * 1000
-      // Schedule the alarm!
-      val am: AlarmManager = getSystemService(ALARM_SERVICE).asInstanceOf[AlarmManager]
-      am.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, firstTime, 15 * 1000, sender)
+    contentView = new SVerticalLayout {
+      STextView(R.string.alarm_controller).<<(MATCH_PARENT, WRAP_CONTENT).Weight(0.0f).marginBottom(4 dip)
+      SButton(R.string.one_shot_alarm, {
+        // When the alarm goes off, we want to broadcast an Intent to our
+        // BroadcastReceiver.  Here we make an Intent with an explicit class
+        // name to have our own receiver (which has been published in
+        // AndroidManifest.xml) instantiated and called, and then create an
+        // IntentSender to have the intent executed as a broadcast.
+        val intent = new Intent(AlarmController.this, classOf[OneShotAlarm])
+        val sender = PendingIntent.getBroadcast(AlarmController.this, 0, intent, 0)
+        // We want the alarm to go off 30 seconds from now.
+        val calendar = Calendar.getInstance
+        calendar.setTimeInMillis(System.currentTimeMillis)
+        calendar.add(Calendar.SECOND, 30)
+        // Schedule the alarm!
+        val am = getSystemService(ALARM_SERVICE).asInstanceOf[AlarmManager]
+        am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis, sender)
+        // Tell the user about what we did.
+        if (mToast != null) {
+          mToast.cancel
+        }
+        mToast = Toast.makeText(AlarmController.this, R.string.one_shot_scheduled, Toast.LENGTH_LONG)
+        mToast.show
+      }).<<.wrap.>>.requestFocus()
 
-      // Tell the user about what we did.
-      if (mToast != null) {
-        mToast.cancel
-      }
-      mToast = Toast.makeText(AlarmController.this, R.string.repeating_scheduled, Toast.LENGTH_LONG)
-      mToast.show
-    }
+      SButton(R.string.start_repeating_alarm, {
+        // When the alarm goes off, we want to broadcast an Intent to our
+        // BroadcastReceiver.  Here we make an Intent with an explicit class
+        // name to have our own receiver (which has been published in
+        // AndroidManifest.xml) instantiated and called, and then create an
+        // IntentSender to have the intent executed as a broadcast.
+        // Note that unlike above, this IntentSender is configured to
+        // allow itself to be sent multiple times.
+        val intent = new Intent(AlarmController.this, classOf[RepeatingAlarm])
+        val sender = PendingIntent.getBroadcast(AlarmController.this, 0, intent, 0)
+        // We want the alarm to go off 30 seconds from now.
+        var firstTime: Long = SystemClock.elapsedRealtime
+        firstTime += 15 * 1000
+        // Schedule the alarm!
+        val am: AlarmManager = getSystemService(ALARM_SERVICE).asInstanceOf[AlarmManager]
+        am.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, firstTime, 15 * 1000, sender)
 
-    find[Button](R.id.stop_repeating).onClick {
-      // Create the same intent, and thus a matching IntentSender, for
-      // the one that was scheduled.
-      val intent: Intent = new Intent(AlarmController.this, classOf[RepeatingAlarm])
-      val sender: PendingIntent = PendingIntent.getBroadcast(AlarmController.this, 0, intent, 0)
-      // And cancel the alarm.
-      val am: AlarmManager = getSystemService(ALARM_SERVICE).asInstanceOf[AlarmManager]
-      am.cancel(sender)
-      // Tell the user about what we did.
-      if (mToast != null) {
-        mToast.cancel
-      }
-      mToast = Toast.makeText(AlarmController.this, R.string.repeating_unscheduled, Toast.LENGTH_LONG)
-      mToast.show
-    }
+        // Tell the user about what we did.
+        if (mToast != null) {
+          mToast.cancel
+        }
+        mToast = Toast.makeText(AlarmController.this, R.string.repeating_scheduled, Toast.LENGTH_LONG)
+        mToast.show
+      }).<<.wrap
+
+      SButton(R.string.stop_repeating_alarm, {
+        // Create the same intent, and thus a matching IntentSender, for
+        // the one that was scheduled.
+        val intent = new Intent(AlarmController.this, classOf[RepeatingAlarm])
+        val sender = PendingIntent.getBroadcast(AlarmController.this, 0, intent, 0)
+        // And cancel the alarm.
+        val am: AlarmManager = getSystemService(ALARM_SERVICE).asInstanceOf[AlarmManager]
+        am.cancel(sender)
+        // Tell the user about what we did.
+        if (mToast != null) {
+          mToast.cancel
+        }
+        mToast = Toast.makeText(AlarmController.this, R.string.repeating_unscheduled, Toast.LENGTH_LONG)
+        mToast.show
+      }).<<.wrap
+
+    }.gravity(center_horizontal).padding(4 dip)
   }
 }

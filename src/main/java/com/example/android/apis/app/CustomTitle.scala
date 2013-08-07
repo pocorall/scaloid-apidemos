@@ -60,23 +60,23 @@ class CustomTitle extends SActivity {
     contentView = new SVerticalLayout {
       val center_vertical = 0x10
 
-      new SLinearLayout{
-        leftTextEdit = SEditText(R.string.custom_title_left)//.gravity(center_vertical).ems(10).<<.wrap.>>
-        leftTextButton = SButton(R.string.custom_title_left_button)//.gravity(center_vertical).<<.wrap.>>
+      this += new SLinearLayout{
+        leftTextEdit = SEditText(R.string.custom_title_left).<<.wrap.>> //.gravity(center_vertical).ems(10).<<.wrap.>>
+        leftTextButton = SButton(R.string.custom_title_left_button).<<.wrap.>> //.gravity(center_vertical).<<.wrap.>>
       }
-      new SLinearLayout{
-        rightTextEdit = SEditText(R.string.custom_title_right)//.gravity(center_vertical).ems(10).<<.wrap.>>
-        rightTextButton = SButton(R.string.custom_title_right_button)//.gravity(center_vertical).<<.wrap.>>
+      this += new SLinearLayout{
+        rightTextEdit = SEditText(R.string.custom_title_right).<<.wrap.>> //.gravity(center_vertical).ems(10).<<.wrap.>>
+        rightTextButton = SButton(R.string.custom_title_right_button).<<.wrap.>> //.gravity(center_vertical).<<.wrap.>>
       }
     }
-//    getWindow.setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title_1)
-//    val leftText = find[TextView](R.id.left_text)
-//    val rightText = find[TextView](R.id.right_text)
-//    leftTextButton.onClick {
-//      leftText.setText(leftTextEdit.getText)
-//    }
-//    rightTextButton.onClick {
-//        rightText.setText(rightTextEdit.getText)
-//    }
+    getWindow.setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title_1)
+    val leftText = find[TextView](R.id.left_text)
+    val rightText = find[TextView](R.id.right_text)
+    leftTextButton.onClick {
+      leftText.setText(leftTextEdit.getText)
+    }
+    rightTextButton.onClick {
+        rightText.setText(rightTextEdit.getText)
+    }
 }
 }
