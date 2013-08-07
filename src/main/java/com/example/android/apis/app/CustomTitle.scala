@@ -16,7 +16,7 @@
 package com.example.android.apis.app
 
 import android.os.Bundle
-import android.view.Window
+import android.view.{Gravity, Window}
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -57,14 +57,13 @@ class CustomTitle extends SActivity {
     var rightTextEdit:SEditText = null
     var rightTextButton:SButton = null
     contentView = new SVerticalLayout {
-      val center_vertical = 0x10
       this += new SLinearLayout{
-        leftTextEdit = SEditText(R.string.custom_title_left).<<.wrap.>> //.gravity(center_vertical).ems(10).<<.wrap.>>
-        leftTextButton = SButton(R.string.custom_title_left_button).<<.wrap.>> //.gravity(center_vertical).<<.wrap.>>
+        leftTextEdit = SEditText(R.string.custom_title_left).ems(10).<<.wrap.>> //.Gravity(Gravity.CENTER_VERTICAL)
+        leftTextButton = SButton(R.string.custom_title_left_button).<<.wrap.>> //.Gravity(Gravity.CENTER_VERTICAL)
       }
       this += new SLinearLayout{
-        rightTextEdit = SEditText(R.string.custom_title_right).<<.wrap.>> //.gravity(center_vertical).ems(10).<<.wrap.>>
-        rightTextButton = SButton(R.string.custom_title_right_button).<<.wrap.>> //.gravity(center_vertical).<<.wrap.>>
+        rightTextEdit = SEditText(R.string.custom_title_right).ems(10).<<.wrap.>> //.Gravity(Gravity.CENTER_VERTICAL)
+        rightTextButton = SButton(R.string.custom_title_right_button).<<.wrap.>> //.Gravity(Gravity.CENTER_VERTICAL)
       }
     }
     getWindow.setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title_1)
