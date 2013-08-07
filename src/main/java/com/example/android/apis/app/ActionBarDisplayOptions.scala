@@ -32,7 +32,6 @@ import org.scaloid.common._
 class ActionBarDisplayOptions extends SActivity {
   protected override def onCreate(savedInstanceState: Bundle) {
     super.onCreate(savedInstanceState)
-
     val bar = getActionBar
     def displayFlag(flags: Int) = bar.setDisplayOptions(bar.getDisplayOptions ^ flags, flags)
 

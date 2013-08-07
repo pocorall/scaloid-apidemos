@@ -52,14 +52,12 @@ class CustomTitle extends SActivity {
   protected override def onCreate(savedInstanceState: Bundle) {
     super.onCreate(savedInstanceState)
     requestWindowFeature(Window.FEATURE_CUSTOM_TITLE)
-//    setContentView(R.layout.custom_title)
     var leftTextEdit:SEditText = null
     var leftTextButton:SButton = null
     var rightTextEdit:SEditText = null
     var rightTextButton:SButton = null
     contentView = new SVerticalLayout {
       val center_vertical = 0x10
-
       this += new SLinearLayout{
         leftTextEdit = SEditText(R.string.custom_title_left).<<.wrap.>> //.gravity(center_vertical).ems(10).<<.wrap.>>
         leftTextButton = SButton(R.string.custom_title_left_button).<<.wrap.>> //.gravity(center_vertical).<<.wrap.>>

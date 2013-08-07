@@ -65,9 +65,7 @@ class AlarmController extends SActivity {
 
   protected override def onCreate(savedInstanceState: Bundle) {
     super.onCreate(savedInstanceState)
-    // setContentView(R.layout.alarm_controller)
     val center_horizontal = 1
-
     contentView = new SVerticalLayout {
       STextView(R.string.alarm_controller).<<(MATCH_PARENT, WRAP_CONTENT).Weight(0.0f).marginBottom(4 dip)
       SButton(R.string.one_shot_alarm, {

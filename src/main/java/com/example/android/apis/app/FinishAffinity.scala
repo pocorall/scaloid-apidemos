@@ -22,10 +22,8 @@ import org.scaloid.common._
 class FinishAffinity extends SActivity {
   protected override def onCreate(savedInstanceState: Bundle) {
     super.onCreate(savedInstanceState)
-    //setContentView(R.layout.activity_finish_affinity)
     var textViewSeq: STextView = null
     val center_horizontal = 1
-
     contentView = new SVerticalLayout {
       STextView("No matter how deep you go, Activity.finishAffinity() will get you back.").<<(MATCH_PARENT, WRAP_CONTENT).marginBottom(4 dip)
       textViewSeq = STextView().<<(MATCH_PARENT, WRAP_CONTENT).marginBottom(4 dip).>>
