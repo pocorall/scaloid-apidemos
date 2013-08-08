@@ -15,10 +15,7 @@
  */
 package com.example.android.apis.app
 
-import android.os.Bundle
 import android.view.{Gravity, Window}
-import android.widget.Button
-import android.widget.EditText
 import android.widget.TextView
 import com.example.android.apis.R
 import org.scaloid.common._
@@ -49,8 +46,7 @@ class CustomTitle extends SActivity {
    * call {@link android.app.Activity#setContentView(int)} to
    * describe what is to be displayed in the screen.
    */
-  protected override def onCreate(savedInstanceState: Bundle) {
-    super.onCreate(savedInstanceState)
+  onCreate {
     requestWindowFeature(Window.FEATURE_CUSTOM_TITLE)
     var leftTextEdit:SEditText = null
     var leftTextButton:SButton = null
@@ -69,11 +65,7 @@ class CustomTitle extends SActivity {
     getWindow.setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title_1)
     val leftText = find[TextView](R.id.left_text)
     val rightText = find[TextView](R.id.right_text)
-    leftTextButton.onClick {
-      leftText.setText(leftTextEdit.getText)
-    }
-    rightTextButton.onClick {
-        rightText.setText(rightTextEdit.getText)
-    }
+    leftTextButton.onClick(leftText.setText(leftTextEdit.getText))
+    rightTextButton.onClick(rightText.setText(rightTextEdit.getText))
 }
 }

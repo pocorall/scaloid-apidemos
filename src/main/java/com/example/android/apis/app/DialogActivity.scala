@@ -20,7 +20,7 @@ package com.example.android.apis.app
 
 import com.example.android.apis.R
 import android.os.Bundle
-import android.view.Window
+import android.view.{Gravity, Window}
 import android.widget.Button
 import android.widget.LinearLayout
 import org.scaloid.common._
@@ -37,30 +37,37 @@ class DialogActivity extends SActivity {
    * call {@link android.app.Activity#setContentView setContentView()} to
    * describe what is to be displayed in the screen.
    */
-  protected override def onCreate(savedInstanceState: Bundle) {
-    // Be sure to call the super class.
-    super.onCreate(savedInstanceState)
+   onCreate {
     requestWindowFeature(Window.FEATURE_LEFT_ICON)
     // See assets/res/any/layout/dialog_activity.xml for this
     // view layout definition, which is being set here as
     // the content of our screen.
-    setContentView(R.layout.dialog_activity)
+//   setContentView(R.layout.dialog_activity)
+     var  innerLayout: SLinearLayout = null
+     contentView = new SVerticalLayout {
+       STextView(R.string.dialog_activity_text).<<.wrap.>>.gravity(Gravity.CENTER_VERTICAL&Gravity.CENTER_HORIZONTAL)
+         innerLayout = new SLinearLayout().padding(4 dip).<<.wrap.>>
+       this += innerLayout
+         this += new SLinearLayout {
+           SButton(R.string.dialog_activity_add, {
+             val layout = innerLayout
+             val iv = new SImageView()
+             iv.setImageDrawable(getResources.getDrawable(R.drawable.icon48x48_1))
+             iv.setPadding(4, 4, 4, 4)
+             layout.addView(iv)
+           }).<<.wrap.Weight(1.0f)
+           SButton(R.string.dialog_activity_remove, {
+             val layout = innerLayout
+             val num = layout.getChildCount
+             if (num > 0) {
+               layout.removeViewAt(num - 1)
+             }
+           }).<<.wrap.Weight(1.0f)
+   }
+     }.padding(4 dip).gravity(Gravity.CENTER_VERTICAL)
+
     getWindow.setTitle("This is just a test")
     getWindow.setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, android.R.drawable.ic_dialog_alert)
-    find[Button](R.id.add).onClick {
-        val layout = find[LinearLayout](R.id.inner_content)
-        //      val iv = new ImageView(DialogActivity.this)
-        val iv = new SImageView()
-        iv.setImageDrawable(getResources.getDrawable(R.drawable.icon48x48_1))
-        iv.setPadding(4, 4, 4, 4)
-        layout.addView(iv)
-    }
-    find[Button](R.id.remove).onClick {
-        val layout = find[LinearLayout](R.id.inner_content)
-        val num = layout.getChildCount
-        if (num > 0) {
-          layout.removeViewAt(num - 1)
-        }
-    }
+
   }
 }

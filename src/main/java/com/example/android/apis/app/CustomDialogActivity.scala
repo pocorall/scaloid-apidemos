@@ -22,6 +22,7 @@ import com.example.android.apis.R
 import android.app.Activity
 import android.os.Bundle
 import org.scaloid.common._
+import android.view.Gravity
 
 /**
  * <h3>Dialog Activity</h3>
@@ -35,12 +36,8 @@ class CustomDialogActivity extends SActivity {
    * call {@link android.app.Activity#setContentView setContentView()} to
    * describe what is to be displayed in the screen.
    */
-  protected override def onCreate(savedInstanceState: Bundle) {
-    // Be sure to call the super class.
-    super.onCreate(savedInstanceState)
-    // See assets/res/any/layout/dialog_activity.xml for this
-    // view layout definition, which is being set here as
-    // the content of our screen.
-    setContentView(R.layout.custom_dialog_activity)
-  }
+  onCreate{
+    contentView  = new SVerticalLayout {
+      STextView(R.string.custom_dialog_activity_text).gravity(Gravity.CENTER_HORIZONTAL)
+    }}
 }
