@@ -58,12 +58,12 @@ class CustomTitle extends SActivity {
     var rightTextButton:SButton = null
     contentView = new SVerticalLayout {
       this += new SLinearLayout{
-        leftTextEdit = SEditText(R.string.custom_title_left).ems(10).<<.wrap.>> //.Gravity(Gravity.CENTER_VERTICAL)
-        leftTextButton = SButton(R.string.custom_title_left_button).<<.wrap.>> //.Gravity(Gravity.CENTER_VERTICAL)
+        leftTextEdit = SEditText(R.string.custom_title_left).ems(10).Gravity(Gravity.CENTER_VERTICAL).wrap.>>
+        leftTextButton = SButton(R.string.custom_title_left_button).Gravity(Gravity.CENTER_VERTICAL).wrap.>>
       }
       this += new SLinearLayout{
-        rightTextEdit = SEditText(R.string.custom_title_right).ems(10).<<.wrap.>> //.Gravity(Gravity.CENTER_VERTICAL)
-        rightTextButton = SButton(R.string.custom_title_right_button).<<.wrap.>> //.Gravity(Gravity.CENTER_VERTICAL)
+        rightTextEdit = SEditText(R.string.custom_title_right).ems(10).Gravity(Gravity.CENTER_VERTICAL).wrap.>>
+        rightTextButton = SButton(R.string.custom_title_right_button).Gravity(Gravity.CENTER_VERTICAL).wrap.>>
       }
     }
     getWindow.setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title_1)

@@ -14,28 +14,23 @@
  * limitations under the License.
  */
 package com.example.android.apis.app
-
 // Need the following import to get access to the app resources, since this
 // class is in a sub-package.
-
 import com.example.android.apis.R
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Intent
 import android.os.SystemClock
-import android.os.Bundle
 import android.widget.Toast
 import java.util.Calendar
 import org.scaloid.common._
 import android.view.Gravity
-
 /**
  * Example of scheduling one-shot and repeating alarms.  See
  * {@link OneShotAlarm} for the code run when the one-shot alarm goes off, and
  * {@link RepeatingAlarm} for the code run when the repeating alarm goes off.
  * <h4>Demo</h4>
 App/Service/Alarm Controller
-
 <h4>Source files</h4>
 <table class="LinkTable">
         <tr>
@@ -60,12 +55,9 @@ App/Service/Alarm Controller
 
  */
 class AlarmController extends SActivity {
-
   val ALARM_SERVICE = "alarm"
   private[app] var mToast: Toast = null
-
-  protected override def onCreate(savedInstanceState: Bundle) {
-    super.onCreate(savedInstanceState)
+  onCreate {
     contentView = new SVerticalLayout {
       STextView(R.string.alarm_controller).<<(MATCH_PARENT, WRAP_CONTENT).Weight(0.0f).marginBottom(4 dip)
       SButton(R.string.one_shot_alarm, {
@@ -131,7 +123,6 @@ class AlarmController extends SActivity {
         mToast = Toast.makeText(AlarmController.this, R.string.repeating_unscheduled, Toast.LENGTH_LONG)
         mToast.show
       }).<<.wrap
-
     }.gravity(Gravity.CENTER_HORIZONTAL).padding(4 dip)
   }
 }

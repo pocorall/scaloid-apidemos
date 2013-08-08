@@ -17,9 +17,9 @@ package com.example.android.apis.app
 
 import com.example.android.apis.R
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import org.scaloid.common._
+import android.view.Gravity
 
 class ActivityRecreate extends SActivity {
   protected override def onCreate(savedInstanceState: Bundle) {
@@ -37,13 +37,11 @@ class ActivityRecreate extends SActivity {
       }
       setTheme(mCurTheme)
     }
-    setContentView(R.layout.activity_recreate)
-    // Watch for button clicks.
-    find[Button](R.id.recreate).onClick{
-      recreate
-    }
+    contentView = new SVerticalLayout {
+      STextView(R.string.activity_recreate_msg).<<(MATCH_PARENT, WRAP_CONTENT).marginBottom(4 dip).Weight(0.0f)
+      SButton(R.string.recreate, recreate).<<.wrap.>>.requestFocus()
+    }.gravity(Gravity.CENTER_HORIZONTAL).padding(4 dip)
   }
-
   protected override def onSaveInstanceState(savedInstanceState: Bundle) {
     super.onSaveInstanceState(savedInstanceState)
     savedInstanceState.putInt("theme", mCurTheme)

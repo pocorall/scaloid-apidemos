@@ -17,7 +17,6 @@ package com.example.android.apis.app
 
 import com.example.android.apis.R
 import android.app.{FragmentTransaction, ActionBar}
-import android.os.Bundle
 import android.view.Gravity
 import android.view.Menu
 import android.view.View
@@ -30,22 +29,9 @@ import org.scaloid.common._
  * This demo shows how various action bar display option flags can be combined and their effects.
  */
 class ActionBarDisplayOptions extends SActivity {
-  protected override def onCreate(savedInstanceState: Bundle) {
-    super.onCreate(savedInstanceState)
+  onCreate{
     val bar = getActionBar
     def displayFlag(flags: Int) = bar.setDisplayOptions(bar.getDisplayOptions ^ flags, flags)
-
-    def onCustomGravityClicked = {
-      val lp = mCustomView.getLayoutParams.asInstanceOf[ActionBar.LayoutParams]
-      val newGravity: Int = (lp.gravity & HORIZONTAL_GRAVITY_MASK) match {
-        case LEFT => CENTER_HORIZONTAL
-        case CENTER_HORIZONTAL => RIGHT
-        case RIGHT => LEFT
-      }
-      lp.gravity = lp.gravity & ~HORIZONTAL_GRAVITY_MASK | newGravity
-      bar.setCustomView(mCustomView, lp)
-    }
-
     contentView = new SVerticalLayout {
       SButton(R.string.toggle_home_as_up, displayFlag(DISPLAY_HOME_AS_UP)).<<.wrap
       SButton(R.string.toggle_show_home, displayFlag(DISPLAY_SHOW_HOME)).<<.wrap
@@ -54,28 +40,31 @@ class ActionBarDisplayOptions extends SActivity {
       SButton(R.string.toggle_show_custom, displayFlag(DISPLAY_SHOW_CUSTOM)).<<.wrap
       SButton(R.string.toggle_navigation, (bar.setNavigationMode(
         if (bar.getNavigationMode == NAVIGATION_MODE_STANDARD) NAVIGATION_MODE_TABS else NAVIGATION_MODE_STANDARD))).<<.wrap
-      SButton(R.string.cycle_custom_gravity, onCustomGravityClicked _).<<.wrap
+      SButton(R.string.cycle_custom_gravity, {
+        val lp = mCustomView.getLayoutParams.asInstanceOf[ActionBar.LayoutParams]
+        val newGravity: Int = (lp.gravity & HORIZONTAL_GRAVITY_MASK) match {
+          case LEFT => CENTER_HORIZONTAL
+          case CENTER_HORIZONTAL => RIGHT
+          case RIGHT => LEFT
+        }
+        lp.gravity = lp.gravity & ~HORIZONTAL_GRAVITY_MASK | newGravity
+        bar.setCustomView(mCustomView, lp)
+      }).<<.wrap
     }
-
     mCustomView = getLayoutInflater.inflate(R.layout.action_bar_display_options_custom, null)
-
     bar.setCustomView(mCustomView, new ActionBar.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT))
     val nullListener = new ActionBar.TabListener {
       def onTabSelected(p1: Tab, p2: FragmentTransaction) {}
-
       def onTabUnselected(p1: Tab, p2: FragmentTransaction) {}
-
       def onTabReselected(p1: Tab, p2: FragmentTransaction) {}
     }
     bar.addTab(bar.newTab.setText("Tab 1").setTabListener(nullListener))
     bar.addTab(bar.newTab.setText("Tab 2").setTabListener(nullListener))
     bar.addTab(bar.newTab.setText("Tab 3").setTabListener(nullListener))
   }
-
-  override def onCreateOptionsMenu(menu: Menu): Boolean = {
+  override def onCreateOptionsMenu(menu: Menu) = {
     getMenuInflater.inflate(R.menu.display_options_actions, menu)
     true
   }
-
   private var mCustomView: View = null
 }
