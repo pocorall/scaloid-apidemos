@@ -32,7 +32,7 @@ class ForwardTarget extends SActivity {
   protected override def onCreate(savedInstanceState: Bundle) {
     super.onCreate(savedInstanceState)
     contentView = new SVerticalLayout {
-    STextView(R.string.forward_target).<<(MATCH_PARENT, WRAP_CONTENT).Weight(0).>>.setTextAppearance(this, android.R.attr.textAppearanceMedium)
+    val textView = STextView(R.string.forward_target).<<(MATCH_PARENT, WRAP_CONTENT).Weight(0).>>.setTextAppearance(context, android.R.attr.textAppearanceMedium)
     }.gravity(Gravity.CENTER_HORIZONTAL).padding(4 dip)
   }
 }
