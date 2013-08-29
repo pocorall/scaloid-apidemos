@@ -22,7 +22,7 @@ import com.example.android.apis.R
 import android.content.Intent
 import android.text.Editable
 import android.os.Bundle
-import android.view.View
+import android.view.{Gravity, View}
 import android.widget.Button
 import android.widget.TextView
 import org.scaloid.common._
@@ -74,18 +74,19 @@ class ReceiveResult extends SActivity {
    * call {@link android.app.Activity#setContentView setContentView()} to
    * describe what is to be displayed in the screen.
    */
-  protected override def onCreate(savedInstanceState: Bundle) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.receive_result)
-    mResults = find[TextView](R.id.results)
+  onCreate {
+    contentView = new SVerticalLayout {
+      STextView(R.string.receive_result_instructions).<<(MATCH_PARENT, WRAP_CONTENT).>>.padding(0,0,0,4 dip).Weight(0)   //.setTextAppearance(context, android.R.attr.textAppearanceMedium)
+      mResults = STextView().padding(0,0,0,4 dip).<<(MATCH_PARENT, 10 dip).Weight(1).>>
+      mResults.setBackground(R.drawable.green)
+      SButton(R.string.receive_result_result, {
+        // Start the activity whose result we want to retrieve.  The
+        // result will come back with request code GET_CODE.
+        val intent = new Intent(ReceiveResult.this, classOf[SendResult])
+        startActivityForResult(intent, GET_CODE)
+      }).<<.wrap.>>.Weight(0)
+    }.padding(4 dip).gravity(Gravity.CENTER_HORIZONTAL)
     mResults.setText(mResults.getText, TextView.BufferType.EDITABLE)
-    val getButton = find[Button](R.id.get)
-    getButton.onClick {
-      // Start the activity whose result we want to retrieve.  The
-      // result will come back with request code GET_CODE.
-      val intent = new Intent(ReceiveResult.this, classOf[SendResult])
-      startActivityForResult(intent, GET_CODE)
-    }
   }
   /**
    * This method is called when the sending activity has finished, with the
@@ -124,5 +125,5 @@ class ReceiveResult extends SActivity {
   }
   // Definition of the one requestCode we use for receiving resuls.
   val GET_CODE = 0;
-  private var mResults: TextView = null
+  private var mResults: STextView = null
 }

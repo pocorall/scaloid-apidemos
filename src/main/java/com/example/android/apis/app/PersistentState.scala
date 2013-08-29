@@ -69,17 +69,19 @@ class PersistentState extends SActivity {
    * the Activity's content, and retrieve the EditText widget whose state we
    * will persistent.
    */
-  protected override def onCreate(savedInstanceState: Bundle) {
-    // Be sure to call the super class.
-    super.onCreate(savedInstanceState)
+   onCreate {
     // See assets/res/any/layout/save_restore_state.xml for this
     // view layout definition, which is being set here as
     // the content of our screen.
-    setContentView(R.layout.save_restore_state)
-    // Set message to be appropriate for this screen.
-    (find[TextView](R.id.msg)).setText(R.string.persistent_msg)
-    // Retrieve the EditText widget whose state we will save.
-    mSaved = find[EditText](R.id.saved)
+     contentView = new SScrollView {
+       this += new SVerticalLayout {
+         STextView(R.string.persistent_msg).<<(MATCH_PARENT, WRAP_CONTENT).>>.padding(0,0,0,4 dip).Weight(0)  //.setTextAppearance(context, android.R.attr.textAppearanceMedium)
+         STextView(R.string.saves_state).<<(MATCH_PARENT, WRAP_CONTENT).>>.padding(0,0,0,4 dip).Weight(0)  //.setTextAppearance(context, android.R.attr.textAppearanceMedium)
+         mSaved = SEditText(R.string.initial_text).backgroundDrawable(R.drawable.green).freezesText(true).padding(0,0,0,4 dip).<<(MATCH_PARENT, WRAP_CONTENT).Weight(1).>>  //.setTextAppearance(context, android.R.attr.textAppearanceMedium)
+         STextView(R.string.no_saves_state).<<(MATCH_PARENT, WRAP_CONTENT).>>.padding(0,8 dip,0,4 dip).Weight(0)  //.setTextAppearance(context, android.R.attr.textAppearanceMedium)
+         SEditText(R.string.initial_text).backgroundDrawable(R.drawable.red).freezesText(true).<<(MATCH_PARENT, WRAP_CONTENT).>>.padding(0,0,0,4 dip).Weight(1)  //.setTextAppearance(context, android.R.attr.textAppearanceMedium)
+       }.padding(4 dip)
+     }
 
     onResume {
       val prefs = getPreferences(0)
@@ -101,5 +103,5 @@ class PersistentState extends SActivity {
       editor.commit
     }
   }
-  private var mSaved: EditText = null
+  private var mSaved: SEditText = null
 }

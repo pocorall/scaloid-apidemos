@@ -23,20 +23,21 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import org.scaloid.common._
+import android.view.Gravity
+
 /**
  * Entry into our redirection example, describing what will happen.
  */
 class RedirectEnter extends SActivity {
-  protected override def onCreate(savedInstanceState: Bundle) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.redirect_enter)
-    // Watch for button clicks.
-    val goButton = find[Button](R.id.go)
-    goButton.onClick {
-      // Here we start up the main entry point of our redirection
-      // example.
-      val intent = new Intent(RedirectEnter.this, classOf[RedirectMain])
-      startActivity(intent)
-    }
+   onCreate {
+     contentView = new SVerticalLayout{
+       STextView(R.string.redirect_enter).padding(0,0,0,4 dip).<<(MATCH_PARENT, WRAP_CONTENT).>>.Weight(0)  //.setTextAppearance(context, android.R.attr.textAppearanceMedium)
+       SButton(R.string.go, {
+         // Here we start up the main entry point of our redirection
+         // example.
+         val intent = new Intent(RedirectEnter.this, classOf[RedirectMain])
+         startActivity(intent)
+       }).<<.wrap.>>.requestFocus();
+     }.padding(4 dip).gravity(Gravity.CENTER_HORIZONTAL)
   }
 }
