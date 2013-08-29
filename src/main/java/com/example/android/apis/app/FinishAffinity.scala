@@ -21,8 +21,7 @@ import org.scaloid.common._
 import android.view.Gravity
 
 class FinishAffinity extends SActivity {
-  protected override def onCreate(savedInstanceState: Bundle) {
-    super.onCreate(savedInstanceState)
+  onCreate {
     var textViewSeq: STextView = null
     contentView = new SVerticalLayout {
       STextView("No matter how deep you go, Activity.finishAffinity() will get you back.").<<(MATCH_PARENT, WRAP_CONTENT).marginBottom(4 dip)

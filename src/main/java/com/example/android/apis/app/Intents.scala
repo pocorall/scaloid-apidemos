@@ -20,16 +20,17 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import org.scaloid.common._
+import android.view.Gravity
 
 class Intents extends SActivity {
-  protected override def onCreate(savedInstanceState: Bundle) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.intents)
-    find[Button](R.id.get_music).onClick {
-      val intent: Intent = new Intent(Intent.ACTION_GET_CONTENT)
-      intent.setType("audio/*")
-      startActivity(Intent.createChooser(intent, "Select music"))
-    }
+   onCreate {
+     contentView = new SVerticalLayout {
+        STextView(R.string.intents).<<(MATCH_PARENT, WRAP_CONTENT).>>.padding(0, 0, 0, 4 dip).Weight(0) //.setTextAppearance(context, android.R.attr.textAppearanceMedium)
+       SButton(R.string.get_music, {
+         val intent: Intent = new Intent(Intent.ACTION_GET_CONTENT)
+         intent.setType("audio/*")
+         startActivity(Intent.createChooser(intent, "Select music"))
+       }).<<.wrap.>>.requestFocus()
+     }.padding(4 dip).gravity(Gravity.CENTER_HORIZONTAL)
   }
-
 }

@@ -27,8 +27,7 @@ class ClockBackActivity extends SActivity {
   /**
    * {@inheritDoc}
    */
-  override def onCreate(savedInstanceState: Bundle) {
-    super.onCreate(savedInstanceState)
+   onCreate {
     contentView = new SVerticalLayout {
       STextView(R.string.accessibility_service_instructions).<<.wrap
       SImageButton().backgroundResource(R.drawable.ic_launcher_settings).onClick(startActivity(sSettingsIntent)).scaleType(ImageView.ScaleType.FIT_CENTER).adjustViewBounds(true).<<(32 dip, 32 dip).marginTop(50 dip).Gravity(Gravity.CENTER)

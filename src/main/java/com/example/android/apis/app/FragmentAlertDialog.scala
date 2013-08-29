@@ -25,6 +25,8 @@ import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import org.scaloid.common._
+import android.view.Gravity
+
 /**
  * Demonstrates how to show an AlertDialog that is managed by a Fragment.
  */
@@ -35,7 +37,7 @@ object FragmentAlertDialog {
       val args = new Bundle
       args.putInt("title", title)
       frag.setArguments(args)
-      return frag
+      frag
     }
   }
   class MyAlertDialogFragment extends DialogFragment {
@@ -55,14 +57,11 @@ object FragmentAlertDialog {
 }
 
 class FragmentAlertDialog extends SActivity {
-  protected override def onCreate(savedInstanceState: Bundle) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.fragment_dialog)
-    val tv = findViewById(R.id.text)
-    (tv.asInstanceOf[TextView]).setText("Example of displaying an alert dialog with a DialogFragment")
-    find[Button](R.id.show).onClick {
-        showDialog
-      }
+  onCreate {
+    contentView = new SVerticalLayout {
+      STextView("Example of displaying an alert dialog with a DialogFragment").Weight(1).Gravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL).wrap.>>   //.setTextAppearance(android.R.attr.textAppearanceMedium)
+      SButton(R.string.show, showDialog).<<.wrap.Weight(0)
+    }.padding(4 dip).gravity(Gravity.CENTER_HORIZONTAL)
   }
   import FragmentAlertDialog._
   private[app] def showDialog {

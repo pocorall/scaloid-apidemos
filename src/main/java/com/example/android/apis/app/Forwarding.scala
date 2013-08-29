@@ -51,8 +51,7 @@ App/Activity/Receive Result
 </table>
  */
 class Forwarding extends SActivity {
-  protected override def onCreate(savedInstanceState: Bundle) {
-    super.onCreate(savedInstanceState)
+  onCreate {
     contentView = new SVerticalLayout {
       STextView(R.string.forwarding).padding(0,0,0,4 dip).<<.wrap.>>.setTextAppearance(context, android.R.attr.textAppearanceMedium)
       SButton(R.string.go, {
