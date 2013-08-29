@@ -21,7 +21,7 @@ package com.example.android.apis.app
 import com.example.android.apis.R
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.view.{Gravity, View}
 import android.widget.Button
 import org.scaloid.common._
 /**
@@ -53,16 +53,17 @@ App/Activity/Receive Result
 class Forwarding extends SActivity {
   protected override def onCreate(savedInstanceState: Bundle) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.forwarding)
-    // Watch for button clicks.
-    find[Button](R.id.go).onClick {
-      // Here we start the next activity, and then call finish()
-      // so that our own will stop running and be removed from the
-      // history stack.
-      val intent = new Intent
-      intent.setClass(Forwarding.this, classOf[ForwardTarget])
-      startActivity(intent)
-      finish
-    }
+    contentView = new SVerticalLayout {
+      STextView(R.string.forwarding).padding(0,0,0,4 dip).<<.wrap.>>.setTextAppearance(context, android.R.attr.textAppearanceMedium)
+      SButton(R.string.go, {
+        // Here we start the next activity, and then call finish()
+        // so that our own will stop running and be removed from the
+        // history stack.
+        val intent = new Intent
+        intent.setClass(Forwarding.this, classOf[ForwardTarget])
+        startActivity(intent)
+        finish
+      }).<<.wrap.>>.requestFocus()
+    }.gravity(Gravity.CENTER_HORIZONTAL)
   }
 }

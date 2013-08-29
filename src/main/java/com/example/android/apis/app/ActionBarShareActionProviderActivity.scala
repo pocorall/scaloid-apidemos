@@ -18,7 +18,7 @@ package com.example.android.apis.app
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.view.Menu
+import android.view.{MenuItem, Menu}
 import android.widget.ShareActionProvider
 import com.example.android.apis.R
 import java.io.FileNotFoundException
@@ -37,14 +37,13 @@ class ActionBarShareActionProviderActivity extends SActivity {
   onCreate(copyPrivateRawResuorceToPubliclyAccessibleFile)
   override def onCreateOptionsMenu(menu: Menu) = {
     getMenuInflater.inflate(R.menu.action_bar_share_action_provider, menu)
-    val actionItem = menu.findItem(R.id.menu_item_share_action_provider_action_bar)
-    val actionProvider = actionItem.getActionProvider.asInstanceOf[ShareActionProvider]
-    actionProvider.setShareHistoryFileName(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME)
-    actionProvider.setShareIntent(createShareIntent)
-    val overflowItem = menu.findItem(R.id.menu_item_share_action_provider_overflow)
-    val overflowProvider = overflowItem.getActionProvider.asInstanceOf[ShareActionProvider]
-    overflowProvider.setShareHistoryFileName(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME)
-    overflowProvider.setShareIntent(createShareIntent)
+    def setMenu(menuItem: MenuItem) = {
+      val provider = menuItem.getActionProvider.asInstanceOf[ShareActionProvider]
+      provider.setShareHistoryFileName(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME)
+      provider.setShareIntent(createShareIntent)
+    }
+    setMenu(menu.findItem(R.id.menu_item_share_action_provider_action_bar))
+    setMenu(menu.findItem(R.id.menu_item_share_action_provider_overflow))
     true
   }
   /**
@@ -72,18 +71,14 @@ class ActionBarShareActionProviderActivity extends SActivity {
       val buffer = new Array[Byte](1024)
       var length: Int = 0
       try {
-        while ((({
+        while (({
           length = inputStream.read(buffer);
-          length
-        })) > 0) {
+          length }) > 0)
           outputStream.write(buffer, 0, length)
-        }
-      }
-      catch {
+      } catch {
         case ioe: IOException => {}
       }
-    }
-    catch {
+    } catch {
       case fnfe: FileNotFoundException => {}
     }
     finally {

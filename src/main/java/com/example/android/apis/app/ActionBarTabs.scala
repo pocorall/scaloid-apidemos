@@ -30,31 +30,39 @@ import org.scaloid.common._
  * with other action bar features.
  */
 class ActionBarTabs extends SActivity {
-  onCreate(setContentView(R.layout.action_bar_tabs))
-  def onAddTab(v: View) {
-    val bar = getActionBar
-    val tabCount = bar.getTabCount
-    val text = "Tab " + tabCount
-    bar.addTab(bar.newTab.setText(text).setTabListener(new TabListener(new TabContentFragment(text))))
-  }
-  def onRemoveTab(v: View) {
-    val bar: ActionBar = getActionBar
-    bar.removeTabAt(bar.getTabCount - 1)
-  }
-  def onToggleTabs(v: View) {
-    val bar = getActionBar
-    if (bar.getNavigationMode == ActionBar.NAVIGATION_MODE_TABS) {
-      bar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD)
-      bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE, ActionBar.DISPLAY_SHOW_TITLE)
+  var frameLayoutId:Int = 0
+  onCreate{
+    contentView = new SVerticalLayout {
+      lazy val fLayout =  new SFrameLayout().<<(MATCH_PARENT, 0 dip).Weight(1).>>
+      frameLayoutId = fLayout.uniqueId
+      this += fLayout
+      this += new SVerticalLayout {
+        SButton(R.string.btn_add_tab, {
+          val bar = getActionBar
+          val tabCount = bar.getTabCount
+          val text = "Tab " + tabCount
+          bar.addTab(bar.newTab.setText(text).setTabListener(new TabListener(new TabContentFragment(text))))
+        }).<<.wrap
+        SButton(R.string.btn_remove_tab, {
+          val bar: ActionBar = getActionBar
+          bar.removeTabAt(bar.getTabCount - 1)
+        }).<<.wrap
+        SButton(R.string.btn_toggle_tabs,  {
+          val bar = getActionBar
+          if (bar.getNavigationMode == ActionBar.NAVIGATION_MODE_TABS) {
+            bar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD)
+            bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE, ActionBar.DISPLAY_SHOW_TITLE)
+          }
+          else {
+            bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS)
+            bar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE)
+          }
+        }).<<.wrap
+        SButton(R.string.btn_remove_all_tabs,  getActionBar.removeAllTabs()).<<.wrap
+      }.<<(MATCH_PARENT, 0 dip).Weight(1f).>>
     }
-    else {
-      bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS)
-      bar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE)
-    }
   }
-  def onRemoveAllTabs(v: View) {
-    getActionBar.removeAllTabs()
-  }
+
   /**
    * A TabListener receives event callbacks from the action bar as tabs
    * are deselected, selected, and reselected. A FragmentTransaction
@@ -74,7 +82,7 @@ class ActionBarTabs extends SActivity {
       mFragment = fragment
     }
     def onTabSelected(tab: ActionBar.Tab, ft: FragmentTransaction) {
-      ft.add(R.id.fragment_content, mFragment, mFragment.getText)
+      ft.add(frameLayoutId, mFragment, mFragment.getText)
     }
     def onTabUnselected(tab: ActionBar.Tab, ft: FragmentTransaction) {
       ft.remove(mFragment)

@@ -22,6 +22,8 @@ import com.example.android.apis.R
 import android.app.Activity
 import android.os.Bundle
 import org.scaloid.common._
+import android.view.Gravity
+
 /**
  * Example of removing yourself from the history stack after forwarding to
  * another activity.
@@ -29,6 +31,8 @@ import org.scaloid.common._
 class ForwardTarget extends SActivity {
   protected override def onCreate(savedInstanceState: Bundle) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.forward_target)
+    contentView = new SVerticalLayout {
+    STextView(R.string.forward_target).<<(MATCH_PARENT, WRAP_CONTENT).Weight(0).>>.setTextAppearance(this, android.R.attr.textAppearanceMedium)
+    }.gravity(Gravity.CENTER_HORIZONTAL).padding(4 dip)
   }
 }

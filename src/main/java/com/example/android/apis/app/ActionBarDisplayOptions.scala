@@ -58,9 +58,7 @@ class ActionBarDisplayOptions extends SActivity {
       def onTabUnselected(p1: Tab, p2: FragmentTransaction) {}
       def onTabReselected(p1: Tab, p2: FragmentTransaction) {}
     }
-    bar.addTab(bar.newTab.setText("Tab 1").setTabListener(nullListener))
-    bar.addTab(bar.newTab.setText("Tab 2").setTabListener(nullListener))
-    bar.addTab(bar.newTab.setText("Tab 3").setTabListener(nullListener))
+    List("Tab 1", "Tab 2", "Tab 3").foreach(text => bar.addTab(bar.newTab.setText(text).setTabListener(nullListener)))
   }
   override def onCreateOptionsMenu(menu: Menu) = {
     getMenuInflater.inflate(R.menu.display_options_actions, menu)

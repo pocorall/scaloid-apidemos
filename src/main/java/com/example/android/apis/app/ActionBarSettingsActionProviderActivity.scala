@@ -33,11 +33,9 @@ import org.scaloid.common._
  * provider.
  */
 object ActionBarSettingsActionProviderActivity {
-
   class SettingsActionProvider(mContext: Context) extends ActionProvider(mContext) {
     /** An intent for launching the system settings. */
     private val sSettingsIntent = new Intent(Settings.ACTION_SETTINGS)
-
     def onCreateActionView = {
       val layoutInflater = LayoutInflater.from(mContext)
       val view = layoutInflater.inflate(R.layout.action_bar_settings_action_provider, null)
