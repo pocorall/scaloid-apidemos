@@ -77,8 +77,7 @@ class ReceiveResult extends SActivity {
   onCreate {
     contentView = new SVerticalLayout {
       STextView(R.string.receive_result_instructions).<<(MATCH_PARENT, WRAP_CONTENT).>>.padding(0,0,0,4 dip).Weight(0)   //.setTextAppearance(context, android.R.attr.textAppearanceMedium)
-      mResults = STextView().padding(0,0,0,4 dip).<<(MATCH_PARENT, 10 dip).Weight(1).>>
-      mResults.setBackground(R.drawable.green)
+      mResults = STextView().backgroundDrawable(R.drawable.green).padding(0,0,0,4 dip).<<(MATCH_PARENT, 10 dip).Weight(1).>>
       SButton(R.string.receive_result_result, {
         // Start the activity whose result we want to retrieve.  The
         // result will come back with request code GET_CODE.

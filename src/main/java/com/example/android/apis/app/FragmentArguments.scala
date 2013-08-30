@@ -28,6 +28,8 @@ import org.scaloid.common._
  * and layout attributes.
  */
 object FragmentArguments {
+
+
   object MyFragment {
     /**
      * Create a new instance of MyFragment that will be initialized
@@ -76,6 +78,7 @@ object FragmentArguments {
     private[app] var mLabel: CharSequence = null
   }
 }
+import FragmentArguments._
 class FragmentArguments extends SActivity {
   protected override def onCreate(savedInstanceState: Bundle) {
     super.onCreate(savedInstanceState)
@@ -83,9 +86,10 @@ class FragmentArguments extends SActivity {
 //    contentView = new SVerticalLayout {
 //      STextView(R.string.fragment_arguments_msg).padding(4 dip).Gravity(Gravity.TOP|Gravity.CENTER_VERTICAL).Weight(0).wrap.>>.setTextAppearance(context, android.R.attr.textAppearanceMedium)
 //      this += new SLinearLayout {
-//        Fragment(R.string.fragment_arguments_embedded)
+////        Fragment(R.string.fragment_arguments_embedded).<<(0, WRAP_CONTENT).Weight(1)
+//        this += new SFrameLayout().<<(0, WRAP_CONTENT).Weight(1).>>
 //      }.padding(4 dip)
-//
+////      Fragment(R.string.fragment_arguments_embedded_land).<<(MATCH_PARENT, WRAP_CONTENT)
 //    }.padding(4 dip).gravity(Gravity.CENTER_HORIZONTAL)
     if (savedInstanceState == null) {
       val ft = getFragmentManager.beginTransaction
