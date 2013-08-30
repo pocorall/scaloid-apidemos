@@ -17,8 +17,6 @@ package com.example.android.apis.app
 
 import com.example.android.apis.R
 import android.app.ActionBar
-import android.app.ActionBar.Tab
-import android.app.Activity
 import android.app.Fragment
 import android.app.FragmentTransaction
 import android.os.Bundle
@@ -26,44 +24,43 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
-
+import org.scaloid.common._
 /**
  * This demonstrates the use of action bar tabs and how they interact
  * with other action bar features.
  */
-class ActionBarTabs extends Activity {
-  protected override def onCreate(savedInstanceState: Bundle) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.action_bar_tabs)
-  }
-
-  def onAddTab(v: View) {
-    val bar: ActionBar = getActionBar
-    val tabCount: Int = bar.getTabCount
-    val text: String = "Tab " + tabCount
-    bar.addTab(bar.newTab.setText(text).setTabListener(new TabListener(new TabContentFragment(text))))
-  }
-
-  def onRemoveTab(v: View) {
-    val bar: ActionBar = getActionBar
-    bar.removeTabAt(bar.getTabCount - 1)
-  }
-
-  def onToggleTabs(v: View) {
-    val bar = getActionBar
-    if (bar.getNavigationMode == ActionBar.NAVIGATION_MODE_TABS) {
-      bar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD)
-      bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE, ActionBar.DISPLAY_SHOW_TITLE)
+class ActionBarTabs extends SActivity {
+  var frameLayoutId:Int = 0
+  onCreate{
+    contentView = new SVerticalLayout {
+      lazy val fLayout =  new SFrameLayout().<<(MATCH_PARENT, 0 dip).Weight(1).>>
+      frameLayoutId = fLayout.uniqueId
+      this += fLayout
+      this += new SVerticalLayout {
+        SButton(R.string.btn_add_tab, {
+          val bar = getActionBar
+          val tabCount = bar.getTabCount
+          val text = "Tab " + tabCount
+          bar.addTab(bar.newTab.setText(text).setTabListener(new TabListener(new TabContentFragment(text))))
+        }).<<.wrap
+        SButton(R.string.btn_remove_tab, {
+          val bar: ActionBar = getActionBar
+          bar.removeTabAt(bar.getTabCount - 1)
+        }).<<.wrap
+        SButton(R.string.btn_toggle_tabs,  {
+          val bar = getActionBar
+          if (bar.getNavigationMode == ActionBar.NAVIGATION_MODE_TABS) {
+            bar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD)
+            bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE, ActionBar.DISPLAY_SHOW_TITLE)
+          }
+          else {
+            bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS)
+            bar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE)
+          }
+        }).<<.wrap
+        SButton(R.string.btn_remove_all_tabs,  getActionBar.removeAllTabs()).<<.wrap
+      }.<<(MATCH_PARENT, 0 dip).Weight(1f).>>
     }
-    else {
-      bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS)
-      bar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE)
-    }
-  }
-
-  def onRemoveAllTabs(v: View) {
-    getActionBar.removeAllTabs()
   }
 
   /**
@@ -84,32 +81,24 @@ class ActionBarTabs extends Activity {
       this()
       mFragment = fragment
     }
-
     def onTabSelected(tab: ActionBar.Tab, ft: FragmentTransaction) {
-      ft.add(R.id.fragment_content, mFragment, mFragment.getText)
+      ft.add(frameLayoutId, mFragment, mFragment.getText)
     }
-
     def onTabUnselected(tab: ActionBar.Tab, ft: FragmentTransaction) {
       ft.remove(mFragment)
     }
-
     def onTabReselected(tab: ActionBar.Tab, ft: FragmentTransaction) {
-      Toast.makeText(ActionBarTabs.this, "Reselected!", Toast.LENGTH_SHORT).show()
+      toast("Reselected!")
     }
-
     private var mFragment: TabContentFragment = null
   }
-
   private class TabContentFragment(mText: String) extends Fragment {
-    def getText: String = mText
-
-    override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View = {
+    def getText = mText
+    override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle) = {
       val fragView = inflater.inflate(R.layout.action_bar_tab_content, container, false)
-      val text = fragView.findViewById(R.id.text).asInstanceOf[TextView]
+      val text = fragView.find[TextView](R.id.text)
       text.setText(mText)
       fragView
     }
-
   }
-
 }

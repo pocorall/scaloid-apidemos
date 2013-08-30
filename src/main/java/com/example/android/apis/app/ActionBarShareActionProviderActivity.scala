@@ -15,19 +15,17 @@
  */
 package com.example.android.apis.app
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
+import android.view.{MenuItem, Menu}
 import android.widget.ShareActionProvider
 import com.example.android.apis.R
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
+import org.scaloid.common._
 
 /**
  * This activity demonstrates how to use an {@link android.view.ActionProvider}
@@ -35,40 +33,31 @@ import java.io.InputStream
  * a menu item with ShareActionProvider as its action provider. The
  * ShareActionProvider is responsible for managing the UI for sharing actions.
  */
-class ActionBarShareActionProviderActivity extends Activity {
-  override def onCreate(savedInstanceState: Bundle) {
-    super.onCreate(savedInstanceState)
-    copyPrivateRawResuorceToPubliclyAccessibleFile
-  }
-
-  override def onCreateOptionsMenu(menu: Menu): Boolean = {
+class ActionBarShareActionProviderActivity extends SActivity {
+  onCreate(copyPrivateRawResuorceToPubliclyAccessibleFile)
+  override def onCreateOptionsMenu(menu: Menu) = {
     getMenuInflater.inflate(R.menu.action_bar_share_action_provider, menu)
-    val actionItem = menu.findItem(R.id.menu_item_share_action_provider_action_bar)
-    val actionProvider = actionItem.getActionProvider.asInstanceOf[ShareActionProvider]
-    actionProvider.setShareHistoryFileName(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME)
-    actionProvider.setShareIntent(createShareIntent)
-    val overflowItem = menu.findItem(R.id.menu_item_share_action_provider_overflow)
-    val overflowProvider = overflowItem.getActionProvider.asInstanceOf[ShareActionProvider]
-    overflowProvider.setShareHistoryFileName(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME)
-    overflowProvider.setShareIntent(createShareIntent)
+    def setMenu(menuItem: MenuItem) = {
+      val provider = menuItem.getActionProvider.asInstanceOf[ShareActionProvider]
+      provider.setShareHistoryFileName(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME)
+      provider.setShareIntent(createShareIntent)
+    }
+    setMenu(menu.findItem(R.id.menu_item_share_action_provider_action_bar))
+    setMenu(menu.findItem(R.id.menu_item_share_action_provider_overflow))
     true
   }
-
   /**
    * Creates a sharing {@link Intent}.
-   *
    * @return The sharing intent.
    */
   private def createShareIntent: Intent = {
-    val shareIntent: Intent = new Intent(Intent.ACTION_SEND)
+    val shareIntent = new Intent(Intent.ACTION_SEND)
     shareIntent.setType("image/*")
-    val uri: Uri = Uri.fromFile(getFileStreamPath("shared.png"))
+    val uri = Uri.fromFile(getFileStreamPath("shared.png"))
     shareIntent.putExtra(Intent.EXTRA_STREAM, uri)
     shareIntent
   }
-
-  private final val SHARED_FILE_NAME: String = "shared.png"
-
+  private val SHARED_FILE_NAME: String = "shared.png"
   /**
    * Copies a private raw resource content to a publicly readable
    * file such that the latter can be shared with other applications.
@@ -79,39 +68,29 @@ class ActionBarShareActionProviderActivity extends Activity {
     try {
       inputStream = getResources.openRawResource(R.raw.robot)
       outputStream = openFileOutput(SHARED_FILE_NAME, Context.MODE_WORLD_READABLE | Context.MODE_APPEND)
-      val buffer: Array[Byte] = new Array[Byte](1024)
+      val buffer = new Array[Byte](1024)
       var length: Int = 0
       try {
-        while ((({
+        while (({
           length = inputStream.read(buffer);
-          length
-        })) > 0) {
+          length }) > 0)
           outputStream.write(buffer, 0, length)
-        }
+      } catch {
+        case ioe: IOException => {}
       }
-      catch {
-        case ioe: IOException => {
-        }
-      }
-    }
-    catch {
-      case fnfe: FileNotFoundException => {
-      }
+    } catch {
+      case fnfe: FileNotFoundException => {}
     }
     finally {
       try {
         inputStream.close
-      }
-      catch {
-        case ioe: IOException => {
-        }
+      } catch {
+        case ioe: IOException => {}
       }
       try {
         outputStream.close
-      }
-      catch {
-        case ioe: IOException => {
-        }
+      } catch {
+        case ioe: IOException => {}
       }
     }
   }
