@@ -20,9 +20,7 @@ import android.app.Activity
 import android.app.Fragment
 import android.os.Bundle
 import android.util.AttributeSet
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.{Gravity, LayoutInflater, View, ViewGroup}
 import android.widget.TextView
 import org.scaloid.common._
 /**
@@ -82,6 +80,13 @@ class FragmentArguments extends SActivity {
   protected override def onCreate(savedInstanceState: Bundle) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.fragment_arguments)
+//    contentView = new SVerticalLayout {
+//      STextView(R.string.fragment_arguments_msg).padding(4 dip).Gravity(Gravity.TOP|Gravity.CENTER_VERTICAL).Weight(0).wrap.>>.setTextAppearance(context, android.R.attr.textAppearanceMedium)
+//      this += new SLinearLayout {
+//        Fragment(R.string.fragment_arguments_embedded)
+//      }.padding(4 dip)
+//
+//    }.padding(4 dip).gravity(Gravity.CENTER_HORIZONTAL)
     if (savedInstanceState == null) {
       val ft = getFragmentManager.beginTransaction
       import FragmentArguments._

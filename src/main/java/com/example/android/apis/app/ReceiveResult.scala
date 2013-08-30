@@ -86,7 +86,7 @@ class ReceiveResult extends SActivity {
         startActivityForResult(intent, GET_CODE)
       }).<<.wrap.>>.Weight(0)
     }.padding(4 dip).gravity(Gravity.CENTER_HORIZONTAL)
-    mResults.setText(mResults.getText, TextView.BufferType.EDITABLE)
+    mResults.setText(mResults.text, TextView.BufferType.EDITABLE)
   }
   /**
    * This method is called when the sending activity has finished, with the
@@ -102,7 +102,7 @@ class ReceiveResult extends SActivity {
     // we launch.
     if (requestCode == GET_CODE) {
       // We will be adding to our text.
-      val text = mResults.getText.asInstanceOf[Editable]
+      val text = mResults.text.asInstanceOf[Editable]
       // This is a standard resultCode that is sent back if the
       // activity doesn't supply an explicit result.  It will also
       // be returned if the activity failed to launch.

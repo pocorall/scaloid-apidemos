@@ -67,18 +67,9 @@ class Animation extends SActivity {
       zoomThumbnailButton = SButton(R.string.activity_zoom_thumbnail_animation).<<.wrap.>>
     }.padding(4 dip).gravity(Gravity.CENTER_HORIZONTAL)
     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-      modernFadeButton.onClick {
-        val opts = ActivityOptions.makeCustomAnimation(Animation.this, R.anim.fade, R.anim.hold)
-        startActivity(SIntent[AlertDialogSamples], opts.toBundle)
-      }
-      modernZoomButton.onClick {
-        val opts = ActivityOptions.makeCustomAnimation(Animation.this, R.anim.zoom_enter, R.anim.zoom_enter)
-        startActivity(SIntent[AlertDialogSamples], opts.toBundle)
-      }
-      scaleUpButton.onClick {
-        (v: View) => val opts = ActivityOptions.makeScaleUpAnimation(v, 0, 0, v.getWidth, v.getHeight)
-          startActivity(SIntent[AlertDialogSamples], opts.toBundle)
-      }
+      modernFadeButton.onClick(startActivityOption(ActivityOptions.makeCustomAnimation(Animation.this, R.anim.fade, R.anim.hold)))
+      modernZoomButton.onClick(startActivityOption(ActivityOptions.makeCustomAnimation(Animation.this, R.anim.zoom_enter, R.anim.zoom_enter)))
+      scaleUpButton.onClick((v: View) => startActivityOption(ActivityOptions.makeScaleUpAnimation(v, 0, 0, v.getWidth, v.getHeight)))
       zoomThumbnailButton.onClick {
         (v: View) =>
           v.enableDrawingCache
@@ -86,16 +77,18 @@ class Animation extends SActivity {
           v.refreshDrawableState()
           val bm = v.getDrawingCache
           val c = new Canvas(bm)
-          val opts = ActivityOptions.makeThumbnailScaleUpAnimation(v, bm, 0, 0)
-          startActivity(SIntent[AlertDialogSamples], opts.toBundle)
+          startActivityOption(ActivityOptions.makeThumbnailScaleUpAnimation(v, bm, 0, 0))
           v.disableDrawingCache
       }
     }
     else {
-      modernFadeButton.setEnabled(false)
-      modernZoomButton.setEnabled(false)
-      scaleUpButton.setEnabled(false)
-      zoomThumbnailButton.setEnabled(false)
+      modernFadeButton.disable
+      modernZoomButton.disable
+      scaleUpButton.disable
+      zoomThumbnailButton.disable
+    }
+    def startActivityOption(opts: ActivityOptions) {
+      startActivity(SIntent[AlertDialogSamples], opts.toBundle)
     }
   }
 }

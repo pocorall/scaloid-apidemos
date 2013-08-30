@@ -37,36 +37,24 @@ class DialogActivity extends SActivity {
    * call {@link android.app.Activity#setContentView setContentView()} to
    * describe what is to be displayed in the screen.
    */
-   onCreate {
+  onCreate {
     requestWindowFeature(Window.FEATURE_LEFT_ICON)
-    // See assets/res/any/layout/dialog_activity.xml for this
-    // view layout definition, which is being set here as
-    // the content of our screen.
-     var  innerLayout: SLinearLayout = null
-     contentView = new SVerticalLayout {
-       STextView(R.string.dialog_activity_text).<<.wrap.>>.gravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL).setTextAppearance(context, android.R.attr.textAppearanceMedium)
-         innerLayout = new SLinearLayout().padding(4 dip).<<.wrap.>>
-       this += innerLayout
-         this += new SLinearLayout {
-           SButton(R.string.dialog_activity_add, {
-             val layout = innerLayout
-             val iv = new SImageView()
-             iv.setImageDrawable(getResources.getDrawable(R.drawable.icon48x48_1))
-             iv.setPadding(4, 4, 4, 4)
-             layout.addView(iv)
-           }).<<.wrap.Weight(1.0f).>> //.setButtonStyle(android.R.attr.buttonBarButtonStyle)
-           SButton(R.string.dialog_activity_remove, {
-             val layout = innerLayout
-             val num = layout.getChildCount
-             if (num > 0) {
-               layout.removeViewAt(num - 1)
-             }
-           }).<<.wrap.Weight(1.0f).>> //.setButtonStyle(android.R.attr.buttonBarButtonStyle)
-   }
-     }.padding(4 dip).gravity(Gravity.CENTER_HORIZONTAL)
-
+    var innerLayout: SLinearLayout = null
+    contentView = new SVerticalLayout {
+      STextView(R.string.dialog_activity_text).<<.wrap.>>.gravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL).setTextAppearance(context, android.R.attr.textAppearanceMedium)
+      innerLayout = new SLinearLayout().padding(4 dip).<<.wrap.>>
+      this += innerLayout
+      this += new SLinearLayout {
+        SButton(R.string.dialog_activity_add, {
+          innerLayout.addView(new SImageView().imageDrawable(R.drawable.icon48x48_1).padding(4))
+        }).<<.wrap.Weight(1.0f).>> //.setButtonStyle(android.R.attr.buttonBarButtonStyle)
+        SButton(R.string.dialog_activity_remove, {
+          val num = innerLayout.getChildCount
+          if (num > 0) innerLayout.removeViewAt(num - 1)
+        }).<<.wrap.Weight(1.0f).>> //.setButtonStyle(android.R.attr.buttonBarButtonStyle)
+      }
+    }.padding(4 dip).gravity(Gravity.CENTER_HORIZONTAL)
     getWindow.setTitle("This is just a test")
     getWindow.setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, android.R.drawable.ic_dialog_alert)
-
   }
 }

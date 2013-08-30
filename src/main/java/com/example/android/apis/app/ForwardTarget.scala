@@ -31,7 +31,7 @@ import android.view.Gravity
 class ForwardTarget extends SActivity {
   onCreate {
     contentView = new SVerticalLayout {
-    val textView = STextView(R.string.forward_target).<<(MATCH_PARENT, WRAP_CONTENT).Weight(0).>>.setTextAppearance(context, android.R.attr.textAppearanceMedium)
+    STextView(R.string.forward_target).<<(MATCH_PARENT, WRAP_CONTENT).Weight(0).>>.setTextAppearance(context, android.R.attr.textAppearanceMedium)
     }.gravity(Gravity.CENTER_HORIZONTAL).padding(4 dip)
   }
 }
