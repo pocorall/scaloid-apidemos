@@ -31,14 +31,7 @@ import org.scaloid.common._
  * compositing effect.</p>
  */
 class TranslucentBlurActivity extends SActivity {
-  /**
-   * Initialization of the Activity after it is first created.  Must at least
-   * call {@link android.app.Activity#setContentView setContentView()} to
-   * describe what is to be displayed in the screen.
-   */
-  protected override def onCreate(icicle: Bundle) {
-    // Be sure to call the super class.
-    super.onCreate(icicle)
+  onCreate {
     // Have the system blur any windows behind this one.
     getWindow.setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND, WindowManager.LayoutParams.FLAG_BLUR_BEHIND)
     // See assets/res/any/layout/translucent_background.xml for this
