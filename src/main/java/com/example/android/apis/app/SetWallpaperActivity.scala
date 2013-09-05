@@ -67,7 +67,7 @@ class SetWallpaperActivity extends SActivity {
     imageView.setDrawingCacheEnabled(true)
     imageView.setImageDrawable(wallpaperDrawable)
   }
-  val mColors: Array[Int] = Array(Color.BLUE, Color.GREEN, Color.RED, Color.LTGRAY, Color.MAGENTA, Color.CYAN, Color.YELLOW, Color.WHITE)
+  val mColors = Array(Color.BLUE, Color.GREEN, Color.RED, Color.LTGRAY, Color.MAGENTA, Color.CYAN, Color.YELLOW, Color.WHITE)
   var imageView: SImageView = null
   var wallpaperManager: WallpaperManager = null
   var wallpaperDrawable: Drawable =   null

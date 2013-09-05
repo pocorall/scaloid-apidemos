@@ -49,5 +49,5 @@ class SendResult extends SActivity {
       }).<<.wrap.>>
     }.padding(4 dip).gravity(Gravity.CENTER_HORIZONTAL)
   }
-  val RESULT_OK = -1;
+  val RESULT_OK = -1
 }

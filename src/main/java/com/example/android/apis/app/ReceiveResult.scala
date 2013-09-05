@@ -81,8 +81,7 @@ class ReceiveResult extends SActivity {
       SButton(R.string.receive_result_result, {
         // Start the activity whose result we want to retrieve.  The
         // result will come back with request code GET_CODE.
-        val intent = new Intent(ReceiveResult.this, classOf[SendResult])
-        startActivityForResult(intent, GET_CODE)
+        startActivityForResult(SIntent[SendResult], GET_CODE)
       }).<<.wrap.>>.Weight(0)
     }.padding(4 dip).gravity(Gravity.CENTER_HORIZONTAL)
     mResults.setText(mResults.text, TextView.BufferType.EDITABLE)
@@ -123,6 +122,6 @@ class ReceiveResult extends SActivity {
     }
   }
   // Definition of the one requestCode we use for receiving resuls.
-  val GET_CODE = 0;
+  val GET_CODE = 0
   private var mResults: STextView = null
 }

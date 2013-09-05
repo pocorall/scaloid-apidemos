@@ -36,7 +36,7 @@ class RedirectEnter extends SActivity {
          // Here we start up the main entry point of our redirection
          // example.
          startActivity[RedirectMain]
-       }).<<.wrap.>>.requestFocus();
+       }).<<.wrap.>>.requestFocus()
      }.padding(4 dip).gravity(Gravity.CENTER_HORIZONTAL)
   }
 }

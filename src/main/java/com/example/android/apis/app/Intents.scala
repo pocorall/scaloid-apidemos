@@ -27,7 +27,7 @@ class Intents extends SActivity {
      contentView = new SVerticalLayout {
         STextView(R.string.intents).<<(MATCH_PARENT, WRAP_CONTENT).>>.padding(0, 0, 0, 4 dip).Weight(0) //.setTextAppearance(context, android.R.attr.textAppearanceMedium)
        SButton(R.string.get_music, {
-         val intent: Intent = new Intent(Intent.ACTION_GET_CONTENT)
+         val intent = new Intent(Intent.ACTION_GET_CONTENT)
          intent.setType("audio/*")
          startActivity(Intent.createChooser(intent, "Select music"))
        }).<<.wrap.>>.requestFocus()

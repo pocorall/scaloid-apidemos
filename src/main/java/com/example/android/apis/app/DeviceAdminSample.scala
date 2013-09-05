@@ -53,64 +53,61 @@ object DeviceAdminSample {
   /**
    * Simple converter used for long expiration times reported in mSec.
    */
-  private def timeToDaysMinutesSeconds(context: Context, time: Long): String = {
+  private def timeToDaysMinutesSeconds(context: Context, time: Long) = {
     val days: java.lang.Long = time / MS_PER_DAY
     val hours: java.lang.Long = (time / MS_PER_HOUR) % 24
     val minutes: java.lang.Long = (time / MS_PER_MINUTE) % 60
     context.getString(R.string.status_days_hours_minutes, days, hours, minutes)
   }
-
   /**
    * If the "user" is a monkey, post an alert and notify the caller.  This prevents automated
    * test frameworks from stumbling into annoying or dangerous operations.
    */
-  private def alertIfMonkey(context: Context, stringId: Int): Boolean = {
+  private def alertIfMonkey(context: Context, stringId: Int) = {
     if (ActivityManager.isUserAMonkey) {
       val builder = new AlertDialog.Builder(context)
       builder.setMessage(stringId)
       builder.setPositiveButton(R.string.monkey_ok, null)
       builder.show
-      return true
+      true
     }
     false
   }
 
-  private final val TAG: String = "DeviceAdminSample"
-  private final val REQUEST_CODE_ENABLE_ADMIN: Int = 1
-  private final val REQUEST_CODE_START_ENCRYPTION: Int = 2
-  private final val MS_PER_MINUTE: Long = 60 * 1000
-  private final val MS_PER_HOUR: Long = 60 * MS_PER_MINUTE
-  private final val MS_PER_DAY: Long = 24 * MS_PER_HOUR
-  private final val KEY_ENABLE_ADMIN: String = "key_enable_admin"
-  private final val KEY_DISABLE_CAMERA: String = "key_disable_camera"
-  private final val KEY_CATEGORY_QUALITY: String = "key_category_quality"
-  private final val KEY_SET_PASSWORD: String = "key_set_password"
-  private final val KEY_RESET_PASSWORD: String = "key_reset_password"
-  private final val KEY_QUALITY: String = "key_quality"
-  private final val KEY_MIN_LENGTH: String = "key_minimum_length"
-  private final val KEY_MIN_LETTERS: String = "key_minimum_letters"
-  private final val KEY_MIN_NUMERIC: String = "key_minimum_numeric"
-  private final val KEY_MIN_LOWER_CASE: String = "key_minimum_lower_case"
-  private final val KEY_MIN_UPPER_CASE: String = "key_minimum_upper_case"
-  private final val KEY_MIN_SYMBOLS: String = "key_minimum_symbols"
-  private final val KEY_MIN_NON_LETTER: String = "key_minimum_non_letter"
-  private final val KEY_CATEGORY_EXPIRATION: String = "key_category_expiration"
-  private final val KEY_HISTORY: String = "key_history"
-  private final val KEY_EXPIRATION_TIMEOUT: String = "key_expiration_timeout"
-  private final val KEY_EXPIRATION_STATUS: String = "key_expiration_status"
-  private final val KEY_CATEGORY_LOCK_WIPE: String = "key_category_lock_wipe"
-  private final val KEY_MAX_TIME_SCREEN_LOCK: String = "key_max_time_screen_lock"
-  private final val KEY_MAX_FAILS_BEFORE_WIPE: String = "key_max_fails_before_wipe"
-  private final val KEY_LOCK_SCREEN: String = "key_lock_screen"
-  private final val KEY_WIPE_DATA: String = "key_wipe_data"
-  private final val KEY_WIP_DATA_ALL: String = "key_wipe_data_all"
-  private final val KEY_CATEGORY_ENCRYPTION: String = "key_category_encryption"
-  private final val KEY_REQUIRE_ENCRYPTION: String = "key_require_encryption"
-  private final val KEY_ACTIVATE_ENCRYPTION: String = "key_activate_encryption"
-
+  private val TAG = "DeviceAdminSample"
+  private val REQUEST_CODE_ENABLE_ADMIN = 1
+  private val REQUEST_CODE_START_ENCRYPTION = 2
+  private val MS_PER_MINUTE = 60 * 1000
+  private val MS_PER_HOUR = 60 * MS_PER_MINUTE
+  private val MS_PER_DAY = 24 * MS_PER_HOUR
+  private val KEY_ENABLE_ADMIN = "key_enable_admin"
+  private val KEY_DISABLE_CAMERA = "key_disable_camera"
+  private val KEY_CATEGORY_QUALITY = "key_category_quality"
+  private val KEY_SET_PASSWORD = "key_set_password"
+  private val KEY_RESET_PASSWORD = "key_reset_password"
+  private val KEY_QUALITY = "key_quality"
+  private val KEY_MIN_LENGTH = "key_minimum_length"
+  private val KEY_MIN_LETTERS = "key_minimum_letters"
+  private val KEY_MIN_NUMERIC = "key_minimum_numeric"
+  private val KEY_MIN_LOWER_CASE = "key_minimum_lower_case"
+  private val KEY_MIN_UPPER_CASE = "key_minimum_upper_case"
+  private val KEY_MIN_SYMBOLS = "key_minimum_symbols"
+  private val KEY_MIN_NON_LETTER = "key_minimum_non_letter"
+  private val KEY_CATEGORY_EXPIRATION = "key_category_expiration"
+  private val KEY_HISTORY = "key_history"
+  private val KEY_EXPIRATION_TIMEOUT = "key_expiration_timeout"
+  private val KEY_EXPIRATION_STATUS = "key_expiration_status"
+  private val KEY_CATEGORY_LOCK_WIPE = "key_category_lock_wipe"
+  private val KEY_MAX_TIME_SCREEN_LOCK = "key_max_time_screen_lock"
+  private val KEY_MAX_FAILS_BEFORE_WIPE = "key_max_fails_before_wipe"
+  private val KEY_LOCK_SCREEN = "key_lock_screen"
+  private val KEY_WIPE_DATA = "key_wipe_data"
+  private val KEY_WIP_DATA_ALL = "key_wipe_data_all"
+  private val KEY_CATEGORY_ENCRYPTION = "key_category_encryption"
+  private val KEY_REQUIRE_ENCRYPTION = "key_require_encryption"
+  private val KEY_ACTIVATE_ENCRYPTION = "key_activate_encryption"
   /**
    * Common fragment code for DevicePolicyManager access.  Provides two shared elements:
-   *
    * 1.  Provides instance variables to access activity/context, DevicePolicyManager, etc.
    * 2.  Provides support for the "set password" button(s) shared by multiple fragments.
    */
@@ -156,18 +153,18 @@ object DeviceAdminSample {
       }
     }
 
-    def onPreferenceClick(preference: Preference): Boolean = {
+    def onPreferenceClick(preference: Preference) = {
       if (mSetPassword != null && preference == mSetPassword) {
         startActivity(new Intent(DevicePolicyManager.ACTION_SET_NEW_PASSWORD))
-        return true
+        true
       }
       false
     }
 
-    def onPreferenceChange(preference: Preference, newValue: AnyRef): Boolean = {
+    def onPreferenceChange(preference: Preference, newValue: AnyRef) = {
       if (mResetPassword != null && preference == mResetPassword) {
         doResetPassword(newValue.asInstanceOf[String])
-        return true
+        true
       }
       false
     }
@@ -191,7 +188,7 @@ object DeviceAdminSample {
     /**
      * Simple helper for summaries showing local & global (aggregate) policy settings
      */
-    protected def localGlobalSummary(local: AnyRef, global: AnyRef): String = {
+    protected def localGlobalSummary(local: AnyRef, global: AnyRef) = {
       getString(R.string.status_local_global, local, global)
     }
 
@@ -226,19 +223,19 @@ object DeviceAdminSample {
       }
     }
 
-    override def onPreferenceChange(preference: Preference, newValue: AnyRef): Boolean = {
+    override def onPreferenceChange(preference: Preference, newValue: AnyRef) = {
       if (super.onPreferenceChange(preference, newValue)) {
-        return true
+        true
       }
-      val value: Boolean = newValue.asInstanceOf[Boolean]
+      val value = newValue.asInstanceOf[Boolean]
       if (preference eq mEnableCheckbox) {
         if (value != mAdminActive) {
           if (value) {
-            val intent: Intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)
+            val intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)
             intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, mDeviceAdminSample)
             intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, mActivity.getString(R.string.add_admin_extra_app_text))
             startActivityForResult(intent, REQUEST_CODE_ENABLE_ADMIN)
-            return false
+            false
           }
           else {
             mDPM.removeActiveAdmin(mDeviceAdminSample)
@@ -273,7 +270,7 @@ object DeviceAdminSample {
    * PreferenceFragment for "password quality" preferences.
    */
   class QualityFragment extends AdminSampleFragment with OnPreferenceChangeListener {
-    private[app] final val mPasswordQualityValues: Array[Int] = Array[Int](DevicePolicyManager.PASSWORD_QUALITY_UNSPECIFIED, DevicePolicyManager.PASSWORD_QUALITY_SOMETHING, DevicePolicyManager.PASSWORD_QUALITY_NUMERIC, DevicePolicyManager.PASSWORD_QUALITY_ALPHABETIC, DevicePolicyManager.PASSWORD_QUALITY_ALPHANUMERIC, DevicePolicyManager.PASSWORD_QUALITY_COMPLEX)
+    private[app] final val mPasswordQualityValues = Array[Int](DevicePolicyManager.PASSWORD_QUALITY_UNSPECIFIED, DevicePolicyManager.PASSWORD_QUALITY_SOMETHING, DevicePolicyManager.PASSWORD_QUALITY_NUMERIC, DevicePolicyManager.PASSWORD_QUALITY_ALPHABETIC, DevicePolicyManager.PASSWORD_QUALITY_ALPHANUMERIC, DevicePolicyManager.PASSWORD_QUALITY_COMPLEX)
     private[app] final val mPasswordQualityValueStrings = Array[CharSequence](String.valueOf(DevicePolicyManager.PASSWORD_QUALITY_UNSPECIFIED), String.valueOf(DevicePolicyManager.PASSWORD_QUALITY_SOMETHING), String.valueOf(DevicePolicyManager.PASSWORD_QUALITY_NUMERIC), String.valueOf(DevicePolicyManager.PASSWORD_QUALITY_ALPHABETIC), String.valueOf(DevicePolicyManager.PASSWORD_QUALITY_ALPHANUMERIC), String.valueOf(DevicePolicyManager.PASSWORD_QUALITY_COMPLEX))
 
     override def onCreate(savedInstanceState: Bundle) {
@@ -337,13 +334,13 @@ object DeviceAdminSample {
       mMinNonLetter.setSummary(localGlobalSummary(local, global))
     }
 
-    override def onPreferenceChange(preference: Preference, newValue: AnyRef): Boolean = {
+    override def onPreferenceChange(preference: Preference, newValue: AnyRef) = {
       if (super.onPreferenceChange(preference, newValue)) {
-        return true
+        true
       }
-      val valueString: String = newValue.asInstanceOf[String]
+      val valueString = newValue.asInstanceOf[String]
       if (TextUtils.isEmpty(valueString)) {
-        return false
+        false
       }
       var value: Int = 0
       try {
@@ -351,7 +348,7 @@ object DeviceAdminSample {
       }
       catch {
         case nfe: NumberFormatException => {
-          val warning: String = mActivity.getString(R.string.number_format_warning, valueString)
+          val warning = mActivity.getString(R.string.number_format_warning, valueString)
           Toast.makeText(mActivity, warning, Toast.LENGTH_SHORT).show()
         }
       }
@@ -371,13 +368,13 @@ object DeviceAdminSample {
       true
     }
 
-    private def qualityValueToString(quality: Int): String = {
+    private def qualityValueToString(quality: Int) = {
       {
         var i: Int = 0
         while (i < mPasswordQualityValues.length) {
           if (mPasswordQualityValues(i) == quality) {
-            val qualities: Array[String] = mActivity.getResources.getStringArray(R.array.password_qualities)
-            return qualities(i)
+            val qualities = mActivity.getResources.getStringArray(R.array.password_qualities)
+            qualities(i)
           }
           i += 1
         }
@@ -425,20 +422,20 @@ object DeviceAdminSample {
       val local: java.lang.Integer = mDPM.getPasswordHistoryLength(mDeviceAdminSample)
       val global: java.lang.Integer = mDPM.getPasswordHistoryLength(null)
       mHistory.setSummary(localGlobalSummary(local, global))
-      val localLong: Long = mDPM.getPasswordExpirationTimeout(mDeviceAdminSample)
-      val globalLong: Long = mDPM.getPasswordExpirationTimeout(null)
+      val localLong = mDPM.getPasswordExpirationTimeout(mDeviceAdminSample)
+      val globalLong = mDPM.getPasswordExpirationTimeout(null)
       mExpirationTimeout.setSummary(localGlobalSummary((localLong / MS_PER_MINUTE): java.lang.Long, (globalLong / MS_PER_MINUTE): java.lang.Long))
-      val expirationStatus: String = getExpirationStatus
+      val expirationStatus = getExpirationStatus
       mExpirationStatus.setSummary(expirationStatus)
     }
 
-    override def onPreferenceChange(preference: Preference, newValue: AnyRef): Boolean = {
+    override def onPreferenceChange(preference: Preference, newValue: AnyRef) = {
       if (super.onPreferenceChange(preference, newValue)) {
-        return true
+        true
       }
-      val valueString: String = newValue.asInstanceOf[String]
+      val valueString = newValue.asInstanceOf[String]
       if (TextUtils.isEmpty(valueString)) {
-        return false
+        false
       }
       var value: Int = 0
       try {
@@ -446,7 +443,7 @@ object DeviceAdminSample {
       }
       catch {
         case nfe: NumberFormatException => {
-          val warning: String = mActivity.getString(R.string.number_format_warning, valueString)
+          val warning = mActivity.getString(R.string.number_format_warning, valueString)
           Toast.makeText(mActivity, warning, Toast.LENGTH_SHORT).show()
         }
       }
@@ -460,13 +457,13 @@ object DeviceAdminSample {
       true
     }
 
-    override def onPreferenceClick(preference: Preference): Boolean = {
+    override def onPreferenceClick(preference: Preference) = {
       if (super.onPreferenceClick(preference)) {
-        return true
+        true
       }
       if (preference == mExpirationStatus) {
         mExpirationStatus.setSummary(getExpirationStatus)
-        return true
+        true
       }
       false
     }
@@ -475,11 +472,11 @@ object DeviceAdminSample {
      * Create a summary string describing the expiration status for the sample app,
      * as well as the global (aggregate) status.
      */
-    private def getExpirationStatus: String = {
-      var localExpiration: Long = mDPM.getPasswordExpiration(mDeviceAdminSample)
-      var globalExpiration: Long = mDPM.getPasswordExpiration(null)
+    private def getExpirationStatus = {
+      var localExpiration = mDPM.getPasswordExpiration(mDeviceAdminSample)
+      var globalExpiration = mDPM.getPasswordExpiration(null)
       val now = System.currentTimeMillis
-      val local: String = if (localExpiration == 0) {
+      val local = if (localExpiration == 0) {
         mActivity.getString(R.string.expiration_status_none)
       } else {
         localExpiration -= now
@@ -487,7 +484,7 @@ object DeviceAdminSample {
         val msg = if (localExpiration >= 0) R.string.expiration_status_future else R.string.expiration_status_past
         mActivity.getString(msg, dms)
       }
-      val global: String = if (globalExpiration == 0) {
+      val global = if (globalExpiration == 0) {
         mActivity.getString(R.string.expiration_status_none)
       } else {
         globalExpiration -= now
@@ -542,13 +539,13 @@ object DeviceAdminSample {
       mMaxFailures.setSummary(localGlobalSummary(local, global))
     }
 
-    override def onPreferenceChange(preference: Preference, newValue: AnyRef): Boolean = {
+    override def onPreferenceChange(preference: Preference, newValue: AnyRef) = {
       if (super.onPreferenceChange(preference, newValue)) {
-        return true
+        true
       }
       val valueString = newValue.asInstanceOf[String]
       if (TextUtils.isEmpty(valueString)) {
-        return false
+        false
       }
       var value: Int = 0
       try {
@@ -565,7 +562,7 @@ object DeviceAdminSample {
       }
       else if (preference eq mMaxFailures) {
         if (alertIfMonkey(mActivity, R.string.monkey_wipe_data)) {
-          return true
+          true
         }
         mDPM.setMaximumFailedPasswordsForWipe(mDeviceAdminSample, value)
       }
@@ -573,23 +570,23 @@ object DeviceAdminSample {
       true
     }
 
-    override def onPreferenceClick(preference: Preference): Boolean = {
+    override def onPreferenceClick(preference: Preference) = {
       if (super.onPreferenceClick(preference)) {
-        return true
+        true
       }
       if (preference == mLockScreen) {
         if (alertIfMonkey(mActivity, R.string.monkey_lock_screen)) {
-          return true
+          true
         }
         mDPM.lockNow()
-        return true
+        true
       }
       else if (preference == mWipeData || preference == mWipeAppData) {
         if (alertIfMonkey(mActivity, R.string.monkey_wipe_data)) {
-          return true
+          true
         }
         promptForRealDeviceWipe(preference eq mWipeAppData)
-        return true
+        true
       }
       false
     }
@@ -662,42 +659,42 @@ object DeviceAdminSample {
       mActivateEncryption.setSummary(status)
     }
 
-    override def onPreferenceChange(preference: Preference, newValue: AnyRef): Boolean = {
+    override def onPreferenceChange(preference: Preference, newValue: AnyRef) = {
       if (super.onPreferenceChange(preference, newValue)) {
-        return true
+        true
       }
       if (preference eq mRequireEncryption) {
-        val newActive: Boolean = newValue.asInstanceOf[Boolean]
+        val newActive = newValue.asInstanceOf[Boolean]
         mDPM.setStorageEncryption(mDeviceAdminSample, newActive)
         reloadSummaries()
-        return true
+        true
       }
       true
     }
 
-    override def onPreferenceClick(preference: Preference): Boolean = {
+    override def onPreferenceClick(preference: Preference) = {
       if (super.onPreferenceClick(preference)) {
-        return true
+        true
       }
       if (preference eq mActivateEncryption) {
         if (alertIfMonkey(mActivity, R.string.monkey_encryption)) {
-          return true
+          true
         }
         if (mDPM.getStorageEncryptionStatus == DevicePolicyManager.ENCRYPTION_STATUS_UNSUPPORTED) {
-          val builder: AlertDialog.Builder = new AlertDialog.Builder(mActivity)
+          val builder = new AlertDialog.Builder(mActivity)
           builder.setMessage(R.string.encryption_not_supported)
           builder.setPositiveButton(R.string.encryption_not_supported_ok, null)
           builder.show
-          return true
+          true
         }
-        val intent: Intent = new Intent(DevicePolicyManager.ACTION_START_ENCRYPTION)
+        val intent = new Intent(DevicePolicyManager.ACTION_START_ENCRYPTION)
         startActivityForResult(intent, REQUEST_CODE_START_ENCRYPTION)
-        return true
+        true
       }
       false
     }
 
-    private def statusCodeToString(newStatusCode: Int): String = {
+    private def statusCodeToString(newStatusCode: Int) = {
       var newStatus: Int = R.string.encryption_status_unknown
       newStatus = newStatusCode match {
         case DevicePolicyManager.ENCRYPTION_STATUS_UNSUPPORTED => R.string.encryption_status_unsupported
@@ -707,7 +704,6 @@ object DeviceAdminSample {
       }
       mActivity.getString(newStatus)
     }
-
     private var mEncryptionCategory: PreferenceCategory = null
     private var mRequireEncryption: CheckBoxPreference = null
     private var mActivateEncryption: PreferenceScreen = null
@@ -722,7 +718,7 @@ object DeviceAdminSample {
    */
   class DeviceAdminSampleReceiver extends DeviceAdminReceiver {
     private[app] def showToast(context: Context, msg: String) {
-      val status: String = context.getString(R.string.admin_receiver_status, msg)
+      val status = context.getString(R.string.admin_receiver_status, msg)
       Toast.makeText(context, status, Toast.LENGTH_SHORT).show()
     }
 
@@ -730,7 +726,7 @@ object DeviceAdminSample {
       showToast(context, context.getString(R.string.admin_receiver_status_enabled))
     }
 
-    override def onDisableRequested(context: Context, intent: Intent): CharSequence = {
+    override def onDisableRequested(context: Context, intent: Intent) = {
       context.getString(R.string.admin_receiver_status_disable_warning)
     }
 
@@ -751,11 +747,11 @@ object DeviceAdminSample {
     }
 
     override def onPasswordExpiring(context: Context, intent: Intent) {
-      val dpm: DevicePolicyManager = context.getSystemService(Context.DEVICE_POLICY_SERVICE).asInstanceOf[DevicePolicyManager]
-      val expr: Long = dpm.getPasswordExpiration(new ComponentName(context, classOf[DeviceAdminSample.DeviceAdminSampleReceiver]))
-      val delta: Long = expr - System.currentTimeMillis
-      val expired: Boolean = delta < 0L
-      val message: String = context.getString(if (expired) R.string.expiration_status_past else R.string.expiration_status_future)
+      val dpm = context.getSystemService(Context.DEVICE_POLICY_SERVICE).asInstanceOf[DevicePolicyManager]
+      val expr = dpm.getPasswordExpiration(new ComponentName(context, classOf[DeviceAdminSample.DeviceAdminSampleReceiver]))
+      val delta = expr - System.currentTimeMillis
+      val expired = delta < 0L
+      val message = context.getString(if (expired) R.string.expiration_status_past else R.string.expiration_status_future)
       showToast(context, message)
       Log.v(TAG, message)
     }
@@ -780,7 +776,7 @@ class DeviceAdminSample extends PreferenceActivity {
   /**
    * Helper to determine if we are an active admin
    */
-  private def isActiveAdmin: Boolean = {
+  private def isActiveAdmin = {
     mDPM.isAdminActive(mDeviceAdminSample)
   }
 

@@ -79,7 +79,7 @@ class SaveRestoreState extends SActivity {
   /**
    * Retrieve the text that is currently in the "saved" editor.
    */
-  private[app] def getSavedText: CharSequence = {
+  private[app] def getSavedText = {
     saved.getText
   }
   /**

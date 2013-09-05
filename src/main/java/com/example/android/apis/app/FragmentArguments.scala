@@ -35,12 +35,12 @@ object FragmentArguments {
      * Create a new instance of MyFragment that will be initialized
      * with the given arguments.
      */
-    private[app] def newInstance(label: CharSequence): FragmentArguments.MyFragment = {
+    private[app] def newInstance(label: CharSequence) = {
       val f = new FragmentArguments.MyFragment
       val b = new Bundle
       b.putCharSequence("label", label)
       f.setArguments(b)
-      return f
+      f
     }
   }
   class MyFragment extends Fragment {
@@ -60,9 +60,8 @@ object FragmentArguments {
      */
     override def onCreate(savedInstanceState: Bundle) {
       super.onCreate(savedInstanceState)
-      val args = getArguments
-      if (args != null) {
-        mLabel = args.getCharSequence("label", mLabel)
+      if (getArguments != null) {
+        mLabel = getArguments.getCharSequence("label", mLabel)
       }
     }
     /**
@@ -94,8 +93,7 @@ class FragmentArguments extends SActivity {
     if (savedInstanceState == null) {
       val ft = getFragmentManager.beginTransaction
       import FragmentArguments._
-      val newFragment = MyFragment.newInstance("From Arguments")
-      ft.add(R.id.created, newFragment)
+      ft.add(R.id.created, MyFragment.newInstance("From Arguments"))
       ft.commit
     }
   }

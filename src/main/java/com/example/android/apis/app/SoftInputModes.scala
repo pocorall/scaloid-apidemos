@@ -34,6 +34,6 @@ class SoftInputModes extends SActivity {
     })
   }
   private[app] var mResizeMode: SSpinner = null
-  private[app] final val mResizeModeLabels = Array[CharSequence]("Unspecified", "Resize", "Pan", "Nothing")
-  private[app] final val mResizeModeValues = Array[Int](WindowManager.LayoutParams.SOFT_INPUT_ADJUST_UNSPECIFIED, WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE, WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN, WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
+  private[app] val mResizeModeLabels = Array[CharSequence]("Unspecified", "Resize", "Pan", "Nothing")
+  private[app] val mResizeModeValues = Array[Int](WindowManager.LayoutParams.SOFT_INPUT_ADJUST_UNSPECIFIED, WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE, WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN, WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
 }

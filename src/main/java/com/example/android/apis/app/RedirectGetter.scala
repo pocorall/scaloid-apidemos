@@ -51,7 +51,7 @@ class RedirectGetter extends SActivity {
       mText.setText("")
     }
   }
-  val RESULT_OK = -1;
+  val RESULT_OK = -1
   var mTextPref: String = null
   var mText: SEditText = null
 }
