@@ -60,34 +60,33 @@ import org.scaloid.common._
 </table>
  */
 class SaveRestoreState extends SActivity {
-  /**
-   * Initialization of the Activity after it is first created.  Here we use
-   * {@link android.app.Activity#setContentView setContentView()} to set up
-   * the Activity's content, and retrieve the EditText widget whose state we
-   * will save/restore.
-   */
-  protected override def onCreate(savedInstanceState: Bundle) {
+   onCreate {
     // Be sure to call the super class.
-    super.onCreate(savedInstanceState)
     // See assets/res/any/layout/save_restore_state.xml for this
     // view layout definition, which is being set here as
     // the content of our screen.
-    setContentView(R.layout.save_restore_state)
-    // Set message to be appropriate for this screen.
-    (find[TextView](R.id.msg)).setText(R.string.save_restore_msg)
+     contentView = new SScrollView {
+       this += new SVerticalLayout {
+         STextView(R.string.save_restore_msg).padding(0,0,0,4 dip).<<(MATCH_PARENT, WRAP_CONTENT).Weight(0).>>.setTextAppearance(context, android.R.attr.textAppearanceMedium)
+         STextView(R.string.saves_state).padding(0,0,0,4 dip).<<(MATCH_PARENT, WRAP_CONTENT).Weight(0).>>.setTextAppearance(context, android.R.attr.textAppearanceMedium)
+         saved = SEditText(R.string.initial_text).freezesText(true).<<(MATCH_PARENT, WRAP_CONTENT).Weight(1).>> //.setTextAppearance(context, android.R.attr.textAppearanceMedium)
+         saved.backgroundDrawable(R.drawable.green)
+         STextView(R.string.no_saves_state).padding(0,8 dip,0,4 dip).<<(MATCH_PARENT, WRAP_CONTENT).Weight(0).>>.setTextAppearance(context, android.R.attr.textAppearanceMedium)
+         SEditText(R.string.initial_text).<<(MATCH_PARENT, WRAP_CONTENT).Weight(1).>>.backgroundDrawable(R.drawable.red) //.setTextAppearance(context, android.R.attr.textAppearanceMedium)
+       }.padding(4 dip)
+     }
   }
-
   /**
    * Retrieve the text that is currently in the "saved" editor.
    */
-  private[app] def getSavedText: CharSequence = {
-    return (find[EditText](R.id.saved)).getText
+  private[app] def getSavedText = {
+    saved.getText
   }
-
   /**
    * Change the text that is currently in the "saved" editor.
    */
   private[app] def setSavedText(text: CharSequence) {
-    (find[EditText](R.id.saved)).setText(text)
+    saved.setText(text)
   }
+  var saved: SEditText = null
 }

@@ -65,7 +65,7 @@ class CustomTitle extends SActivity {
     getWindow.setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title_1)
     val leftText = find[TextView](R.id.left_text)
     val rightText = find[TextView](R.id.right_text)
-    leftTextButton.onClick(leftText.setText(leftTextEdit.getText))
-    rightTextButton.onClick(rightText.setText(rightTextEdit.getText))
+    leftTextButton.onClick(leftText.setText(leftTextEdit.text))
+    rightTextButton.onClick(rightText.setText(rightTextEdit.text))
 }
 }

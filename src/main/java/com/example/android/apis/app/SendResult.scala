@@ -21,7 +21,7 @@ package com.example.android.apis.app
 import com.example.android.apis.R
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.view.{Gravity, View}
 import android.widget.Button
 import org.scaloid.common._
 
@@ -29,33 +29,25 @@ import org.scaloid.common._
  * Example of receiving a result from another activity.
  */
 class SendResult extends SActivity {
-  /**
-   * Initialization of the Activity after it is first created.  Must at least
-   * call {@link android.app.Activity#setContentView setContentView()} to
-   * describe what is to be displayed in the screen.
-   */
-  protected override def onCreate(savedInstanceState: Bundle) {
-    // Be sure to call the super class.
-    super.onCreate(savedInstanceState)
+  onCreate {
     // See assets/res/any/layout/hello_world.xml for this
     // view layout definition, which is being set here as
     // the content of our screen.
-    setContentView(R.layout.send_result)
-    // Watch for button clicks.
-    val button = find[Button](R.id.corky)
-    button.onClick {
-      // To send a result, simply call setResult() before your
-      // activity is finished.
-      setResult(RESULT_OK, (new Intent).setAction("Corky!"))
-      finish
-    }
-    val button2 = find[Button](R.id.violet)
-    button2.onClick {
-      // To send a result, simply call setResult() before your
-      // activity is finished.
-      setResult(RESULT_OK, (new Intent).setAction("Violet!"))
-      finish
-    }
+    contentView = new SVerticalLayout {
+      STextView(R.string.pick_result).padding(0,0,0,8 dip).<<(MATCH_PARENT, WRAP_CONTENT).Weight(0).>>.setTextAppearance(context, android.R.attr.textAppearanceMedium)
+      SButton(R.string.corky, {
+        // To send a result, simply call setResult() before your
+        // activity is finished.
+        setResult(RESULT_OK, (new Intent).setAction("Corky!"))
+        finish
+      }).<<.wrap.>>.requestFocus()
+      SButton(R.string.violet, {
+        // To send a result, simply call setResult() before your
+        // activity is finished.
+        setResult(RESULT_OK, (new Intent).setAction("Violet!"))
+        finish
+      }).<<.wrap.>>
+    }.padding(4 dip).gravity(Gravity.CENTER_HORIZONTAL)
   }
-  val RESULT_OK = -1;
+  val RESULT_OK = -1
 }

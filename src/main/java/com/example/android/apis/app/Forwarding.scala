@@ -58,9 +58,7 @@ class Forwarding extends SActivity {
         // Here we start the next activity, and then call finish()
         // so that our own will stop running and be removed from the
         // history stack.
-        val intent = new Intent
-        intent.setClass(Forwarding.this, classOf[ForwardTarget])
-        startActivity(intent)
+        startActivity[ForwardTarget]
         finish
       }).<<.wrap.>>.requestFocus()
     }.gravity(Gravity.CENTER_HORIZONTAL)

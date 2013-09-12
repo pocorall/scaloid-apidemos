@@ -27,7 +27,7 @@ class FinishAffinity extends SActivity {
       STextView("No matter how deep you go, Activity.finishAffinity() will get you back.").<<(MATCH_PARENT, WRAP_CONTENT).marginBottom(4 dip)
       textViewSeq = STextView().<<(MATCH_PARENT, WRAP_CONTENT).marginBottom(4 dip).>>
       SButton("Nest some more", {
-        val intent = new Intent(FinishAffinity.this, classOf[FinishAffinity])
+        val intent = SIntent[FinishAffinity]
         intent.putExtra("nesting", mNesting + 1)
         startActivity(intent)
       }).<<.wrap.>>.requestFocus()

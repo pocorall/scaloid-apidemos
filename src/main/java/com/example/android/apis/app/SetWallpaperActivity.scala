@@ -27,6 +27,8 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import org.scaloid.common._
+import android.view.Gravity
+import android.graphics.drawable.Drawable
 
 /**
  * <h3>SetWallpaper Activity</h3>
@@ -34,44 +36,39 @@ import org.scaloid.common._
  * <p>This demonstrates the how to write an activity that gets the current system wallpaper,
  * modifies it and sets the modified bitmap as system wallpaper.</p>
  */
-object SetWallpaperActivity {
-  private val mColors: Array[Int] = Array(Color.BLUE, Color.GREEN, Color.RED, Color.LTGRAY, Color.MAGENTA, Color.CYAN, Color.YELLOW, Color.WHITE)
-}
 class SetWallpaperActivity extends SActivity {
-  /**
-   * Initialization of the Activity after it is first created.  Must at least
-   * call {@link android.app.Activity#setContentView setContentView()} to
-   * describe what is to be displayed in the screen.
-   */
-  protected override def onCreate(savedInstanceState: Bundle) {
-    // Be sure to call the super class.
-    super.onCreate(savedInstanceState)
+  onCreate {
     // See res/layout/wallpaper_2.xml for this
     // view layout definition, which is being set here as
     // the content of our screen.
-    setContentView(R.layout.wallpaper_2)
-    val wallpaperManager = WallpaperManager.getInstance(this)
-    val wallpaperDrawable = wallpaperManager.getDrawable
-    val imageView = find[ImageView](R.id.imageview)
+    contentView = new SFrameLayout {
+      imageView = SImageView()
+      this += new SLinearLayout {
+        SButton(R.string.randomize, {
+          wallpaperDrawable.setColorFilter(mColors(Math.floor(Math.random * mColors.length).asInstanceOf[Int]), PorterDuff.Mode.MULTIPLY)
+          imageView.setImageDrawable(wallpaperDrawable)
+          imageView.invalidate
+        }).<<.wrap.>>
+        SButton(R.string.set_wallpaper, {
+          try {
+            wallpaperManager.setBitmap(imageView.getDrawingCache)
+            finish
+          }
+          catch {
+            case e: IOException => {
+              e.printStackTrace
+            }
+          }
+        }).<<.wrap.>>
+      }
+    }
+    wallpaperManager = WallpaperManager.getInstance(this)
+    wallpaperDrawable = wallpaperManager.getDrawable
     imageView.setDrawingCacheEnabled(true)
     imageView.setImageDrawable(wallpaperDrawable)
-    find[Button](R.id.randomize).onClick  {
-        val mColor = Math.floor(Math.random * mColors.length).asInstanceOf[Int]
-        wallpaperDrawable.setColorFilter(mColors(mColor), PorterDuff.Mode.MULTIPLY)
-        imageView.setImageDrawable(wallpaperDrawable)
-        imageView.invalidate
-      }
-       find[Button](R.id.setwallpaper).onClick {
-        try {
-          wallpaperManager.setBitmap(imageView.getDrawingCache)
-          finish
-        }
-        catch {
-          case e: IOException => {
-            e.printStackTrace
-          }
-        }
-      }
   }
-  val mColors: Array[Int] = Array(Color.BLUE, Color.GREEN, Color.RED, Color.LTGRAY, Color.MAGENTA, Color.CYAN, Color.YELLOW, Color.WHITE)
+  val mColors = Array(Color.BLUE, Color.GREEN, Color.RED, Color.LTGRAY, Color.MAGENTA, Color.CYAN, Color.YELLOW, Color.WHITE)
+  var imageView: SImageView = null
+  var wallpaperManager: WallpaperManager = null
+  var wallpaperDrawable: Drawable =   null
 }

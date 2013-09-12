@@ -38,24 +38,21 @@ class ActionBarTabs extends SActivity {
       this += fLayout
       this += new SVerticalLayout {
         SButton(R.string.btn_add_tab, {
-          val bar = getActionBar
-          val tabCount = bar.getTabCount
+          val tabCount = getActionBar.getTabCount
           val text = "Tab " + tabCount
-          bar.addTab(bar.newTab.setText(text).setTabListener(new TabListener(new TabContentFragment(text))))
+          getActionBar.addTab(getActionBar.newTab.setText(text).setTabListener(new TabListener(new TabContentFragment(text))))
         }).<<.wrap
         SButton(R.string.btn_remove_tab, {
-          val bar: ActionBar = getActionBar
-          bar.removeTabAt(bar.getTabCount - 1)
+          getActionBar.removeTabAt(getActionBar.getTabCount - 1)
         }).<<.wrap
         SButton(R.string.btn_toggle_tabs,  {
-          val bar = getActionBar
-          if (bar.getNavigationMode == ActionBar.NAVIGATION_MODE_TABS) {
-            bar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD)
-            bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE, ActionBar.DISPLAY_SHOW_TITLE)
+          if (getActionBar.getNavigationMode == ActionBar.NAVIGATION_MODE_TABS) {
+            getActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD)
+            getActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE, ActionBar.DISPLAY_SHOW_TITLE)
           }
           else {
-            bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS)
-            bar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE)
+            getActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS)
+            getActionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE)
           }
         }).<<.wrap
         SButton(R.string.btn_remove_all_tabs,  getActionBar.removeAllTabs()).<<.wrap
@@ -96,8 +93,7 @@ class ActionBarTabs extends SActivity {
     def getText = mText
     override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle) = {
       val fragView = inflater.inflate(R.layout.action_bar_tab_content, container, false)
-      val text = fragView.find[TextView](R.id.text)
-      text.setText(mText)
+      (fragView.find[TextView](R.id.text)).setText(mText)
       fragView
     }
   }

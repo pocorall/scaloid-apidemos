@@ -29,14 +29,7 @@ import org.scaloid.common._
  * wallpaper behind it.</p>
  */
 class WallpaperActivity extends SActivity {
-  /**
-   * Initialization of the Activity after it is first created.  Must at least
-   * call {@link android.app.Activity#setContentView setContentView()} to
-   * describe what is to be displayed in the screen.
-   */
-  protected override def onCreate(savedInstanceState: Bundle) {
-    // Be sure to call the super class.
-    super.onCreate(savedInstanceState)
+  onCreate{
     // See assets/res/any/layout/translucent_background.xml for this
     // view layout definition, which is being set here as
     // the content of our screen.

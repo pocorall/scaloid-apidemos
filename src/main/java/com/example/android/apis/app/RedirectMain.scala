@@ -21,6 +21,8 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import org.scaloid.common._
+import android.view.Gravity
+
 /**
  * Entry into our redirection example, describing what will happen.
  */
@@ -28,73 +30,62 @@ import org.scaloid.common._
   val INIT_TEXT_REQUEST = 0
   val NEW_TEXT_REQUEST = 1
 }
-
 class RedirectMain extends SActivity {
   import RedirectMain._
-  protected override def onCreate(savedInstanceState: Bundle) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.redirect_main)
-    // Watch for button clicks.
-    val clearButton = find[Button](R.id.clear)
-    clearButton.onClick {
-      // Erase the preferences and exit!
-      val preferences = getSharedPreferences("RedirectData", 0)
-      preferences.edit.remove("text").commit
-      finish
-    }
-    val newButton = find[Button](R.id.newView)
-    newButton.onClick {
-      // Retrieve new text preferences.
-      val intent = new Intent(RedirectMain.this, classOf[RedirectGetter])
-      startActivityForResult(intent, NEW_TEXT_REQUEST)
-    }
+  onCreate {
+    contentView = new SVerticalLayout {
+      STextView(R.string.redirect_main).padding(0,0,0,4 dip).<<(MATCH_PARENT, WRAP_CONTENT).Weight(0).>>.setTextAppearance(context, android.R.attr.textAppearanceMedium)
+      text = STextView().padding(0,0,0,4 dip).<<(MATCH_PARENT, WRAP_CONTENT).Weight(0).>> //.setTextAppearance(context, android.R.attr.textAppearanceMedium)
+      SButton(R.string.clear_text, {
+        // Erase the preferences and exit!
+        (getSharedPreferences("RedirectData", 0)).edit.remove("text").commit
+        finish
+      }).<<.wrap
+      SButton(R.string.new_text, {
+        // Retrieve new text preferences.
+        startActivityForResult(SIntent[RedirectGetter], NEW_TEXT_REQUEST)
+      }).<<.wrap
+    }.padding(4 dip).gravity(Gravity.CENTER_HORIZONTAL)
     // Retrieve the current text preference.  If there is no text
     // preference set, we need to get it from the user by invoking the
     // activity that retrieves it.  To do this cleanly, we will
     // temporarily hide our own activity so it is not displayed until the
     // result is returned.
-    if (!loadPrefs) {
-      val intent = new Intent(this, classOf[RedirectGetter])
-      startActivityForResult(intent, INIT_TEXT_REQUEST)
-    }
+    if (!loadPrefs)
+      startActivityForResult(SIntent[RedirectGetter], INIT_TEXT_REQUEST)
   }
 
   protected override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
     if (requestCode == INIT_TEXT_REQUEST) {
       // If the request was cancelled, then we are cancelled as well.
-      if (resultCode == RESULT_CANCELED) {
+      if (resultCode == RESULT_CANCELED)
         finish
         // Otherwise, there now should be text...  reload the prefs,
         // and show our UI.  (Optionally we could verify that the text
         // is now set and exit if it isn't.)
-      }
-      else {
+      else
         loadPrefs
-      }
     }
     else if (requestCode == NEW_TEXT_REQUEST) {
       // In this case we are just changing the text, so if it was
       // cancelled then we can leave things as-is.
-      if (resultCode != RESULT_CANCELED) {
+      if (resultCode != RESULT_CANCELED)
         loadPrefs
-      }
     }
   }
-
-  private final def loadPrefs: Boolean = {
+  private final def loadPrefs = {
     // Retrieve the current redirect values.
     // NOTE: because this preference is shared between multiple
     // activities, you must be careful about when you read or write
     // it in order to keep from stepping on yourself.
-    val preferences = getSharedPreferences("RedirectData", 0)
-    mTextPref = preferences.getString("text", null)
+    mTextPref = (getSharedPreferences("RedirectData", 0)).getString("text", null)
     if (mTextPref != null) {
-      val text = find[TextView](R.id.text)
       text.setText(mTextPref)
-      return true
+      true
     }
-    return false
+    false
   }
   val RESULT_CANCELED = 0
-  private var mTextPref: String = null
+  var mTextPref: String = null
+  var text: STextView = null
 }
