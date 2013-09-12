@@ -20,13 +20,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import org.scaloid.common._
+import android.view.Gravity
 
 class ReorderTwo extends SActivity {
-  protected override def onCreate(savedState: Bundle) {
-    super.onCreate(savedState)
-    setContentView(R.layout.reorder_two)
-    find[Button](R.id.reorder_launch_three).onClick {
-      startActivity(new Intent(ReorderTwo.this, classOf[ReorderThree]))
-    }
+  onCreate {
+    contentView = new SVerticalLayout {
+      STextView(R.string.reorder_two_text).padding(0,0,0,4 dip).<<(MATCH_PARENT, WRAP_CONTENT).Weight(0).>>.setTextAppearance(context, android.R.attr.textAppearanceMedium)
+      SButton(R.string.reorder_launch_three, startActivity(SIntent[ReorderThree])).<<.wrap.>>
+    }.padding(4 dip).gravity(Gravity.CENTER_HORIZONTAL)
   }
 }

@@ -20,15 +20,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import org.scaloid.common._
+import android.view.Gravity
 
 class ReorderFour extends SActivity {
-  protected override def onCreate(savedState: Bundle) {
-    super.onCreate(savedState)
-    setContentView(R.layout.reorder_four)
-    find[Button](R.id.reorder_second_to_front).onClick {
-      val intent = new Intent(ReorderFour.this, classOf[ReorderTwo])
-      intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-      startActivity(intent)
-    }
+  onCreate {
+    contentView = new SVerticalLayout {
+      STextView(R.string.reorder_four_text).padding(0,0,0,4 dip).<<(MATCH_PARENT, WRAP_CONTENT).Weight(0).>>.setTextAppearance(context, android.R.attr.textAppearanceMedium)
+      SButton(R.string.reorder_second_to_front, startActivity(SIntent[ReorderTwo].addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT))).<<.wrap
+    }.padding(4 dip).gravity(Gravity.CENTER_HORIZONTAL)
   }
 }

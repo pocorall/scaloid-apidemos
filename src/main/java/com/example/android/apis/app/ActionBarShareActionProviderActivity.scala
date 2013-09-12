@@ -50,7 +50,7 @@ class ActionBarShareActionProviderActivity extends SActivity {
    * Creates a sharing {@link Intent}.
    * @return The sharing intent.
    */
-  private def createShareIntent: Intent = {
+  private def createShareIntent = {
     val shareIntent = new Intent(Intent.ACTION_SEND)
     shareIntent.setType("image/*")
     val uri = Uri.fromFile(getFileStreamPath("shared.png"))
@@ -71,9 +71,7 @@ class ActionBarShareActionProviderActivity extends SActivity {
       val buffer = new Array[Byte](1024)
       var length: Int = 0
       try {
-        while (({
-          length = inputStream.read(buffer);
-          length }) > 0)
+        while (({length = inputStream.read(buffer); length }) > 0)
           outputStream.write(buffer, 0, length)
       } catch {
         case ioe: IOException => {}

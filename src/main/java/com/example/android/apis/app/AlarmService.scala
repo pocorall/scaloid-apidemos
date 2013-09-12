@@ -34,8 +34,7 @@ class AlarmService extends SActivity {
     contentView = new SVerticalLayout {
       STextView(R.string.alarm_service).<<(MATCH_PARENT, WRAP_CONTENT).marginBottom(4 dip).Weight(0.0f)
       SButton(R.string.start_alarm_service, {
-        val firstTime = SystemClock.elapsedRealtime
-        (getSystemService(Context.ALARM_SERVICE).asInstanceOf[AlarmManager]).setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, firstTime, 30 * 1000, mAlarmSender)
+        (getSystemService(Context.ALARM_SERVICE).asInstanceOf[AlarmManager]).setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime, 30 * 1000, mAlarmSender)
         longToast(R.string.repeating_scheduled)
       }).<<.wrap.>>.requestFocus()
       SButton(R.string.stop_alarm_service, {

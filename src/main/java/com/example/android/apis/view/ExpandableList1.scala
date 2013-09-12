@@ -32,8 +32,7 @@ import org.scaloid.common._
  * from {@link BaseExpandableListAdapter}.
  */
 class ExpandableList1 extends ExpandableListActivity with SActivity {
-  override def onCreate(savedInstanceState: Bundle) {
-    super.onCreate(savedInstanceState)
+  onCreate{
     setListAdapter(new MyExpandableListAdapter)
     getExpandableListView.onCreateContextMenu {
       (menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo) =>
@@ -41,8 +40,7 @@ class ExpandableList1 extends ExpandableListActivity with SActivity {
         menu.add(0, 0, 0, R.string.expandable_list_sample_action)
     }
   }
-
-  override def onContextItemSelected(item: MenuItem): Boolean = {
+  override def onContextItemSelected(item: MenuItem) = {
     import ExpandableListView._
     val info = item.getMenuInfo.asInstanceOf[ExpandableListContextMenuInfo]
     val title = (info.targetView.asInstanceOf[TextView]).getText.toString
@@ -51,11 +49,10 @@ class ExpandableList1 extends ExpandableListActivity with SActivity {
         toast(title + ": Child " + getPackedPositionChild(info.packedPosition) + " clicked in group " + getPackedPositionGroup(info.packedPosition))
       case PACKED_POSITION_TYPE_GROUP =>
         toast(title + ": Group " + getPackedPositionGroup(info.packedPosition) + " clicked")
-      case _ => return false
+      case _ => false
     }
     true
   }
-
   /**
    * A simple adapter which maintains an ArrayList of photo resource Ids.
    * Each photo is displayed as an image. This adapter supports clearing the
@@ -63,36 +60,25 @@ class ExpandableList1 extends ExpandableListActivity with SActivity {
    *
    */
   class MyExpandableListAdapter extends BaseExpandableListAdapter {
-    def getChild(groupPosition: Int, childPosition: Int): AnyRef = children(groupPosition)(childPosition)
-
-    def getChildId(groupPosition: Int, childPosition: Int): Long = childPosition
-
-    def getChildrenCount(groupPosition: Int): Int = children(groupPosition).length
-
-    def getGenericView: TextView = new STextView {
+    def getChild(groupPosition: Int, childPosition: Int) = children(groupPosition)(childPosition)
+    def getChildId(groupPosition: Int, childPosition: Int) = childPosition
+    def getChildrenCount(groupPosition: Int) = children(groupPosition).length
+    def getGenericView = new STextView {
       layoutParams = (new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 64))
       gravity = Gravity.CENTER_VERTICAL | Gravity.LEFT
       setPadding(36, 0, 0, 0)
     }
-
-    def getChildView(groupPosition: Int, childPosition: Int, isLastChild: Boolean, convertView: View, parent: ViewGroup): View =
+    def getChildView(groupPosition: Int, childPosition: Int, isLastChild: Boolean, convertView: View, parent: ViewGroup) =
       getGenericView.text = getChild(groupPosition, childPosition).toString
-
-    def getGroup(groupPosition: Int): AnyRef = groups(groupPosition)
-
-    def getGroupCount: Int = groups.length
-
-    def getGroupId(groupPosition: Int): Long = groupPosition
-
-    def getGroupView(groupPosition: Int, isExpanded: Boolean, convertView: View, parent: ViewGroup): View =
+    def getGroup(groupPosition: Int) = groups(groupPosition)
+    def getGroupCount = groups.length
+    def getGroupId(groupPosition: Int) = groupPosition
+    def getGroupView(groupPosition: Int, isExpanded: Boolean, convertView: View, parent: ViewGroup) =
       getGenericView.text = getGroup(groupPosition).toString
-
-    def isChildSelectable(groupPosition: Int, childPosition: Int): Boolean = true
-
-    def hasStableIds: Boolean = true
-
-    private val groups: Array[String] = Array("People Names", "Dog Names", "Cat Names", "Fish Names")
-    private val children: Array[Array[String]] = Array(Array("Arnold", "Barry", "Chuck", "David"), Array("Ace", "Bandit", "Cha-Cha", "Deuce"), Array("Fluffy", "Snuggles"), Array("Goldy", "Bubbles"))
+    def isChildSelectable(groupPosition: Int, childPosition: Int) = true
+    def hasStableIds = true
+    private val groups = Array("People Names", "Dog Names", "Cat Names", "Fish Names")
+    private val children = Array(Array("Arnold", "Barry", "Chuck", "David"), Array("Ace", "Bandit", "Cha-Cha", "Deuce"), Array("Fluffy", "Snuggles"), Array("Goldy", "Bubbles"))
   }
 
 }

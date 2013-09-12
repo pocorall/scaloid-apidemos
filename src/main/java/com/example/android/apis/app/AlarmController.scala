@@ -66,8 +66,7 @@ class AlarmController extends SActivity {
         // name to have our own receiver (which has been published in
         // AndroidManifest.xml) instantiated and called, and then create an
         // IntentSender to have the intent executed as a broadcast.
-        val intent = new Intent(AlarmController.this, classOf[OneShotAlarm])
-        val sender = PendingIntent.getBroadcast(AlarmController.this, 0, intent, 0)
+        val sender = PendingIntent.getBroadcast(AlarmController.this, 0, SIntent[OneShotAlarm], 0)
         // We want the alarm to go off 30 seconds from now.
         val calendar = Calendar.getInstance
         calendar.setTimeInMillis(System.currentTimeMillis)
@@ -91,13 +90,12 @@ class AlarmController extends SActivity {
         // IntentSender to have the intent executed as a broadcast.
         // Note that unlike above, this IntentSender is configured to
         // allow itself to be sent multiple times.
-        val intent = new Intent(AlarmController.this, classOf[RepeatingAlarm])
-        val sender = PendingIntent.getBroadcast(AlarmController.this, 0, intent, 0)
+        val sender = PendingIntent.getBroadcast(AlarmController.this, 0, SIntent[RepeatingAlarm], 0)
         // We want the alarm to go off 30 seconds from now.
         var firstTime: Long = SystemClock.elapsedRealtime
         firstTime += 15 * 1000
         // Schedule the alarm!
-        val am: AlarmManager = getSystemService(ALARM_SERVICE).asInstanceOf[AlarmManager]
+        val am = getSystemService(ALARM_SERVICE).asInstanceOf[AlarmManager]
         am.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, firstTime, 15 * 1000, sender)
 
         // Tell the user about what we did.
@@ -111,10 +109,9 @@ class AlarmController extends SActivity {
       SButton(R.string.stop_repeating_alarm, {
         // Create the same intent, and thus a matching IntentSender, for
         // the one that was scheduled.
-        val intent = new Intent(AlarmController.this, classOf[RepeatingAlarm])
-        val sender = PendingIntent.getBroadcast(AlarmController.this, 0, intent, 0)
+        val sender = PendingIntent.getBroadcast(AlarmController.this, 0, SIntent[RepeatingAlarm], 0)
         // And cancel the alarm.
-        val am: AlarmManager = getSystemService(ALARM_SERVICE).asInstanceOf[AlarmManager]
+        val am = getSystemService(ALARM_SERVICE).asInstanceOf[AlarmManager]
         am.cancel(sender)
         // Tell the user about what we did.
         if (mToast != null) {

@@ -77,16 +77,14 @@ class ReceiveResult extends SActivity {
   onCreate {
     contentView = new SVerticalLayout {
       STextView(R.string.receive_result_instructions).<<(MATCH_PARENT, WRAP_CONTENT).>>.padding(0,0,0,4 dip).Weight(0)   //.setTextAppearance(context, android.R.attr.textAppearanceMedium)
-      mResults = STextView().padding(0,0,0,4 dip).<<(MATCH_PARENT, 10 dip).Weight(1).>>
-      mResults.setBackground(R.drawable.green)
+      mResults = STextView().backgroundDrawable(R.drawable.green).padding(0,0,0,4 dip).<<(MATCH_PARENT, 10 dip).Weight(1).>>
       SButton(R.string.receive_result_result, {
         // Start the activity whose result we want to retrieve.  The
         // result will come back with request code GET_CODE.
-        val intent = new Intent(ReceiveResult.this, classOf[SendResult])
-        startActivityForResult(intent, GET_CODE)
+        startActivityForResult(SIntent[SendResult], GET_CODE)
       }).<<.wrap.>>.Weight(0)
     }.padding(4 dip).gravity(Gravity.CENTER_HORIZONTAL)
-    mResults.setText(mResults.getText, TextView.BufferType.EDITABLE)
+    mResults.setText(mResults.text, TextView.BufferType.EDITABLE)
   }
   /**
    * This method is called when the sending activity has finished, with the
@@ -102,7 +100,7 @@ class ReceiveResult extends SActivity {
     // we launch.
     if (requestCode == GET_CODE) {
       // We will be adding to our text.
-      val text = mResults.getText.asInstanceOf[Editable]
+      val text = mResults.text.asInstanceOf[Editable]
       // This is a standard resultCode that is sent back if the
       // activity doesn't supply an explicit result.  It will also
       // be returned if the activity failed to launch.
@@ -124,6 +122,6 @@ class ReceiveResult extends SActivity {
     }
   }
   // Definition of the one requestCode we use for receiving resuls.
-  val GET_CODE = 0;
+  val GET_CODE = 0
   private var mResults: STextView = null
 }

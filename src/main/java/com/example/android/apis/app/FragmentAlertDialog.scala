@@ -32,7 +32,7 @@ import android.view.Gravity
  */
 object FragmentAlertDialog {
   object MyAlertDialogFragment {
-    def newInstance(title: Int): FragmentAlertDialog.MyAlertDialogFragment = {
+    def newInstance(title: Int) = {
       val frag = new FragmentAlertDialog.MyAlertDialogFragment
       val args = new Bundle
       args.putInt("title", title)
@@ -41,9 +41,9 @@ object FragmentAlertDialog {
     }
   }
   class MyAlertDialogFragment extends DialogFragment {
-    override def onCreateDialog(savedInstanceState: Bundle): Dialog = {
+    override def onCreateDialog(savedInstanceState: Bundle) = {
       val title = getArguments.getInt("title")
-      return new AlertDialog.Builder(getActivity).setIcon(R.drawable.alert_dialog_icon).setTitle(title).setPositiveButton(R.string.alert_dialog_ok, new DialogInterface.OnClickListener {
+      new AlertDialog.Builder(getActivity).setIcon(R.drawable.alert_dialog_icon).setTitle(title).setPositiveButton(R.string.alert_dialog_ok, new DialogInterface.OnClickListener {
         def onClick(dialog: DialogInterface, whichButton: Int) {
           (getActivity.asInstanceOf[FragmentAlertDialog]).doPositiveClick
         }
@@ -59,14 +59,13 @@ object FragmentAlertDialog {
 class FragmentAlertDialog extends SActivity {
   onCreate {
     contentView = new SVerticalLayout {
-      STextView("Example of displaying an alert dialog with a DialogFragment").Weight(1).Gravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL).wrap.>>   //.setTextAppearance(android.R.attr.textAppearanceMedium)
+      STextView("Example of displaying an alert dialog with a DialogFragment").Weight(1).Gravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP).wrap.>>   //.setTextAppearance(android.R.attr.textAppearanceMedium)
       SButton(R.string.show, showDialog).<<.wrap.Weight(0)
     }.padding(4 dip).gravity(Gravity.CENTER_HORIZONTAL)
   }
   import FragmentAlertDialog._
   private[app] def showDialog {
-    val newFragment: DialogFragment = MyAlertDialogFragment.newInstance(R.string.alert_dialog_two_buttons_title)
-    newFragment.show(getFragmentManager, "dialog")
+    MyAlertDialogFragment.newInstance(R.string.alert_dialog_two_buttons_title).show(getFragmentManager, "dialog")
   }
   def doPositiveClick {
     Log.i("FragmentAlertDialog", "Positive click!")

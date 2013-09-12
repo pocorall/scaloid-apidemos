@@ -20,9 +20,7 @@ import android.app.Activity
 import android.app.Fragment
 import android.os.Bundle
 import android.util.AttributeSet
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.{Gravity, LayoutInflater, View, ViewGroup}
 import android.widget.TextView
 import org.scaloid.common._
 /**
@@ -30,17 +28,19 @@ import org.scaloid.common._
  * and layout attributes.
  */
 object FragmentArguments {
+
+
   object MyFragment {
     /**
      * Create a new instance of MyFragment that will be initialized
      * with the given arguments.
      */
-    private[app] def newInstance(label: CharSequence): FragmentArguments.MyFragment = {
+    private[app] def newInstance(label: CharSequence) = {
       val f = new FragmentArguments.MyFragment
       val b = new Bundle
       b.putCharSequence("label", label)
       f.setArguments(b)
-      return f
+      f
     }
   }
   class MyFragment extends Fragment {
@@ -60,9 +60,8 @@ object FragmentArguments {
      */
     override def onCreate(savedInstanceState: Bundle) {
       super.onCreate(savedInstanceState)
-      val args = getArguments
-      if (args != null) {
-        mLabel = args.getCharSequence("label", mLabel)
+      if (getArguments != null) {
+        mLabel = getArguments.getCharSequence("label", mLabel)
       }
     }
     /**
@@ -78,15 +77,23 @@ object FragmentArguments {
     private[app] var mLabel: CharSequence = null
   }
 }
+import FragmentArguments._
 class FragmentArguments extends SActivity {
   protected override def onCreate(savedInstanceState: Bundle) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.fragment_arguments)
+//    contentView = new SVerticalLayout {
+//      STextView(R.string.fragment_arguments_msg).padding(4 dip).Gravity(Gravity.TOP|Gravity.CENTER_VERTICAL).Weight(0).wrap.>>.setTextAppearance(context, android.R.attr.textAppearanceMedium)
+//      this += new SLinearLayout {
+////        Fragment(R.string.fragment_arguments_embedded).<<(0, WRAP_CONTENT).Weight(1)
+//        this += new SFrameLayout().<<(0, WRAP_CONTENT).Weight(1).>>
+//      }.padding(4 dip)
+////      Fragment(R.string.fragment_arguments_embedded_land).<<(MATCH_PARENT, WRAP_CONTENT)
+//    }.padding(4 dip).gravity(Gravity.CENTER_HORIZONTAL)
     if (savedInstanceState == null) {
       val ft = getFragmentManager.beginTransaction
       import FragmentArguments._
-      val newFragment = MyFragment.newInstance("From Arguments")
-      ft.add(R.id.created, newFragment)
+      ft.add(R.id.created, MyFragment.newInstance("From Arguments"))
       ft.commit
     }
   }

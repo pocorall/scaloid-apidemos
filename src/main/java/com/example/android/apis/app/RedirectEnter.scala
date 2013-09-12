@@ -35,9 +35,8 @@ class RedirectEnter extends SActivity {
        SButton(R.string.go, {
          // Here we start up the main entry point of our redirection
          // example.
-         val intent = new Intent(RedirectEnter.this, classOf[RedirectMain])
-         startActivity(intent)
-       }).<<.wrap.>>.requestFocus();
+         startActivity[RedirectMain]
+       }).<<.wrap.>>.requestFocus()
      }.padding(4 dip).gravity(Gravity.CENTER_HORIZONTAL)
   }
 }

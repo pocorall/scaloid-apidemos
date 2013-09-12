@@ -22,6 +22,8 @@ import com.example.android.apis.R
 import android.app.Activity
 import android.os.Bundle
 import org.scaloid.common._
+import android.view.Gravity
+
 /**
  * <h3>Translucent Activity</h3>
  *
@@ -29,17 +31,12 @@ import org.scaloid.common._
  * allowing windows underneath to show through.</p>
  */
 class TranslucentActivity extends SActivity {
-  /**
-   * Initialization of the Activity after it is first created.  Must at least
-   * call {@link android.app.Activity#setContentView setContentView()} to
-   * describe what is to be displayed in the screen.
-   */
-  protected override def onCreate(savedInstanceState: Bundle) {
-    // Be sure to call the super class.
-    super.onCreate(savedInstanceState)
+   onCreate {
     // See assets/res/any/layout/translucent_background.xml for this
     // view layout definition, which is being set here as
     // the content of our screen.
-    setContentView(R.layout.translucent_background)
+   setContentView(R.layout.translucent_background)
+//     contentView = new STextView(R.string.translucent_background).setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL)
+
   }
 }
