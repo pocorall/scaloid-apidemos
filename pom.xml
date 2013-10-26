@@ -10,6 +10,7 @@
 
 	<properties>
 		<scala.version>2.10.2</scala.version>
+        <android.sdk.path>${android.sdk.dir}</android.sdk.path>
 	</properties>
 
 	<dependencies>
@@ -115,7 +116,6 @@
 					<sdk>
 						<platform>16</platform>
 					</sdk>
-					<deleteConflictingFiles>true</deleteConflictingFiles>
 					<undeployBeforeDeploy>true</undeployBeforeDeploy>
 					<dex>
 						<jvmArguments>
@@ -180,7 +180,25 @@
 					</execution>
 				</executions>
 			</plugin>
-		</plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>properties-maven-plugin</artifactId>
+                <version>1.0-alpha-2</version>
+                <executions>
+                    <execution>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>read-project-properties</goal>
+                        </goals>
+                        <configuration>
+                            <files>
+                                <file>${basedir}/project.properties</file>
+                            </files>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
 	</build>
 	<reporting>
 		<plugins>
