@@ -9,7 +9,7 @@
 	<name>scaloid-apidemos</name>
 
 	<properties>
-		<scala.version>2.10.3</scala.version>
+		<scala.version>2.10.2</scala.version>
         <android.sdk.path>${android.sdk.dir}</android.sdk.path>
 	</properties>
 
