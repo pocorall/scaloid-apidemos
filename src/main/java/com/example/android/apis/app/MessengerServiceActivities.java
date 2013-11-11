@@ -37,15 +37,16 @@ public class MessengerServiceActivities {
         boolean mIsBound;
         /** Some text view we are using to show state information. */
         TextView mCallbackText;
-        
+
         /**
          * Handler of incoming messages from service.
          */
         class IncomingHandler extends Handler {
+
             @Override
             public void handleMessage(Message msg) {
                 switch (msg.what) {
-                    case MessengerService.MSG_SET_VALUE:
+                    case 3: // Scaloid >> Scaloid <<
                         mCallbackText.setText("Received from service: " + msg.arg1);
                         break;
                     default:
@@ -77,13 +78,13 @@ public class MessengerServiceActivities {
                 // connected to it.
                 try {
                     Message msg = Message.obtain(null,
-                            MessengerService.MSG_REGISTER_CLIENT);
+                            MessengerService.MSG_REGISTER_CLIENT());
                     msg.replyTo = mMessenger;
                     mService.send(msg);
                     
                     // Give it some value as an example.
                     msg = Message.obtain(null,
-                            MessengerService.MSG_SET_VALUE, this.hashCode(), 0);
+                            MessengerService.MSG_SET_VALUE(), this.hashCode(), 0);
                     mService.send(msg);
                 } catch (RemoteException e) {
                     // In this case the service has crashed before we could even
@@ -126,7 +127,7 @@ public class MessengerServiceActivities {
                 if (mService != null) {
                     try {
                         Message msg = Message.obtain(null,
-                                MessengerService.MSG_UNREGISTER_CLIENT);
+                                MessengerService.MSG_UNREGISTER_CLIENT());
                         msg.replyTo = mMessenger;
                         mService.send(msg);
                     } catch (RemoteException e) {

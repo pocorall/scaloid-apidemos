@@ -115,51 +115,51 @@ public class LoaderThrottle extends Activity {
     /**
      * This class helps open, create, and upgrade the database file.
      */
-   static class DatabaseHelper extends SQLiteOpenHelper {
+    static class DatabaseHelper extends SQLiteOpenHelper {
 
-       private static final String DATABASE_NAME = "loader_throttle.db";
-       private static final int DATABASE_VERSION = 2;
+        private static final String DATABASE_NAME = "loader_throttle.db";
+        private static final int DATABASE_VERSION = 2;
 
-       DatabaseHelper(Context context) {
+        DatabaseHelper(Context context) {
 
-           // calls the super constructor, requesting the default cursor factory.
-           super(context, DATABASE_NAME, null, DATABASE_VERSION);
-       }
+            // calls the super constructor, requesting the default cursor factory.
+            super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        }
 
-       /**
-        *
-        * Creates the underlying database with table name and column names taken from the
-        * NotePad class.
-        */
-       @Override
-       public void onCreate(SQLiteDatabase db) {
-           db.execSQL("CREATE TABLE " + MainTable.TABLE_NAME + " ("
-                   + MainTable._ID + " INTEGER PRIMARY KEY,"
-                   + MainTable.COLUMN_NAME_DATA + " TEXT"
-                   + ");");
-       }
+        /**
+         *
+         * Creates the underlying database with table name and column names taken from the
+         * NotePad class.
+         */
+        @Override
+        public void onCreate(SQLiteDatabase db) {
+            db.execSQL("CREATE TABLE " + MainTable.TABLE_NAME + " ("
+                    + MainTable._ID + " INTEGER PRIMARY KEY,"
+                    + MainTable.COLUMN_NAME_DATA + " TEXT"
+                    + ");");
+        }
 
-       /**
-        *
-        * Demonstrates that the provider must consider what happens when the
-        * underlying datastore is changed. In this sample, the database is upgraded the database
-        * by destroying the existing data.
-        * A real application should upgrade the database in place.
-        */
-       @Override
-       public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        /**
+         *
+         * Demonstrates that the provider must consider what happens when the
+         * underlying datastore is changed. In this sample, the database is upgraded the database
+         * by destroying the existing data.
+         * A real application should upgrade the database in place.
+         */
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-           // Logs that the database is being upgraded
-           Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
-                   + newVersion + ", which will destroy all old data");
+            // Logs that the database is being upgraded
+            Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
+                    + newVersion + ", which will destroy all old data");
 
-           // Kills the table and existing data
-           db.execSQL("DROP TABLE IF EXISTS notes");
+            // Kills the table and existing data
+            db.execSQL("DROP TABLE IF EXISTS notes");
 
-           // Recreates the database with a new version
-           onCreate(db);
-       }
-   }
+            // Recreates the database with a new version
+            onCreate(db);
+        }
+    }
 
     /**
      * A very simple implementation of a content provider.
@@ -209,7 +209,7 @@ public class LoaderThrottle extends Activity {
          */
         @Override
         public Cursor query(Uri uri, String[] projection, String selection,
-                String[] selectionArgs, String sortOrder) {
+                            String[] selectionArgs, String sortOrder) {
 
             // Constructs a new query builder and sets its table name
             SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
@@ -314,9 +314,9 @@ public class LoaderThrottle extends Activity {
                     count = db.delete(MainTable.TABLE_NAME, where, whereArgs);
                     break;
 
-                    // If the incoming URI matches a single note ID, does the delete based on the
-                    // incoming data, but modifies the where clause to restrict it to the
-                    // particular note ID.
+                // If the incoming URI matches a single note ID, does the delete based on the
+                // incoming data, but modifies the where clause to restrict it to the
+                // particular note ID.
                 case MAIN_ID:
                     // If URI is for a particular row ID, delete is based on incoming
                     // data but modified to restrict to the given ID.
@@ -482,8 +482,8 @@ public class LoaderThrottle extends Activity {
 
         // These are the rows that we will retrieve.
         static final String[] PROJECTION = new String[] {
-            MainTable._ID,
-            MainTable.COLUMN_NAME_DATA,
+                MainTable._ID,
+                MainTable.COLUMN_NAME_DATA,
         };
 
         public Loader<Cursor> onCreateLoader(int id, Bundle args) {

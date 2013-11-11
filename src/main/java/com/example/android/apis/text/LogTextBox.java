@@ -35,13 +35,6 @@ import android.util.AttributeSet;
  * {@link android.R.styleable#View View Attributes}
  */
 public class LogTextBox extends TextView {
-    public LogTextBox(Context context) {
-        this(context, null);
-    }
-
-    public LogTextBox(Context context, AttributeSet attrs) {
-        this(context, attrs, android.R.attr.textViewStyle);
-    }
 
     public LogTextBox(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
