@@ -62,14 +62,14 @@ public class AccessibilityNodeProviderActivity extends Activity {
         setContentView(R.layout.accessibility_node_provider);
     }
 
-   /**
-    * This class presents a View that is composed of three virtual children
-    * each of which is drawn with a different color and represents a region
-    * of the View that has different semantics compared to other such regions.
-    * While the virtual view tree exposed by this class is one level deep
-    * for simplicity, there is no bound on the complexity of that virtual
-    * sub-tree.
-    */
+    /**
+     * This class presents a View that is composed of three virtual children
+     * each of which is drawn with a different color and represents a region
+     * of the View that has different semantics compared to other such regions.
+     * While the virtual view tree exposed by this class is one level deep
+     * for simplicity, there is no bound on the complexity of that virtual
+     * sub-tree.
+     */
     public static class VirtualSubtreeRootView extends View {
 
         /** Paint object for drawing the virtual sub-tree */
@@ -144,7 +144,7 @@ public class AccessibilityNodeProviderActivity extends Activity {
                             event.setAction(action);
                         } else {
                             MotionEvent eventNoHistory = event.getHistorySize() > 0
-                                ? MotionEvent.obtainNoHistory(event) : event;
+                                    ? MotionEvent.obtainNoHistory(event) : event;
                             eventNoHistory.setAction(MotionEvent.ACTION_HOVER_EXIT);
                             onHoverVirtualView(mLastHoveredChild, eventNoHistory);
                             eventNoHistory.setAction(MotionEvent.ACTION_HOVER_ENTER);
@@ -397,7 +397,7 @@ public class AccessibilityNodeProviderActivity extends Activity {
              */
             @Override
             public List<AccessibilityNodeInfo> findAccessibilityNodeInfosByText(String searched,
-                    int virtualViewId) {
+                                                                                int virtualViewId) {
                 if (TextUtils.isEmpty(searched)) {
                     return Collections.emptyList();
                 }

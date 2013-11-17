@@ -141,8 +141,8 @@ public class LayoutAnimations extends Activity {
                         defaultChangingAppearingAnim) : null);
         transition.setAnimator(LayoutTransition.CHANGE_DISAPPEARING,
                 changingDisappearingCB.isChecked() ?
-                (customAnimCB.isChecked() ? customChangingDisappearingAnim :
-                        defaultChangingDisappearingAnim) : null);
+                        (customAnimCB.isChecked() ? customChangingDisappearingAnim :
+                                defaultChangingDisappearingAnim) : null);
     }
 
     private void createCustomAnimations(LayoutTransition transition) {
@@ -160,7 +160,7 @@ public class LayoutAnimations extends Activity {
         PropertyValuesHolder pvhScaleY =
                 PropertyValuesHolder.ofFloat("scaleY", 1f, 0f, 1f);
         customChangingAppearingAnim = ObjectAnimator.ofPropertyValuesHolder(
-                        this, pvhLeft, pvhTop, pvhRight, pvhBottom, pvhScaleX, pvhScaleY).
+                this, pvhLeft, pvhTop, pvhRight, pvhBottom, pvhScaleX, pvhScaleY).
                 setDuration(transition.getDuration(LayoutTransition.CHANGE_APPEARING));
         customChangingAppearingAnim.addListener(new AnimatorListenerAdapter() {
             public void onAnimationEnd(Animator anim) {
@@ -177,7 +177,7 @@ public class LayoutAnimations extends Activity {
         PropertyValuesHolder pvhRotation =
                 PropertyValuesHolder.ofKeyframe("rotation", kf0, kf1, kf2);
         customChangingDisappearingAnim = ObjectAnimator.ofPropertyValuesHolder(
-                        this, pvhLeft, pvhTop, pvhRight, pvhBottom, pvhRotation).
+                this, pvhLeft, pvhTop, pvhRight, pvhBottom, pvhRotation).
                 setDuration(transition.getDuration(LayoutTransition.CHANGE_DISAPPEARING));
         customChangingDisappearingAnim.addListener(new AnimatorListenerAdapter() {
             public void onAnimationEnd(Animator anim) {
