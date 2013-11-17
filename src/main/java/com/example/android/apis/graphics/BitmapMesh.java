@@ -54,7 +54,7 @@ public class BitmapMesh extends GraphicsActivity {
             setFocusable(true);
 
             mBitmap = BitmapFactory.decodeResource(getResources(),
-                                                     R.drawable.beach);
+                    R.drawable.beach);
 
             float w = mBitmap.getWidth();
             float h = mBitmap.getHeight();
@@ -79,7 +79,7 @@ public class BitmapMesh extends GraphicsActivity {
 
             canvas.concat(mMatrix);
             canvas.drawBitmapMesh(mBitmap, WIDTH, HEIGHT, mVerts, 0,
-                                  null, 0, null);
+                    null, 0, null);
         }
 
         private void warp(float cx, float cy) {
@@ -96,7 +96,7 @@ public class BitmapMesh extends GraphicsActivity {
                 float pull = K / (dd + 0.000001f);
 
                 pull /= (d + 0.000001f);
-             //   android.util.Log.d("skia", "index " + i + " dist=" + d + " pull=" + pull);
+                //   android.util.Log.d("skia", "index " + i + " dist=" + d + " pull=" + pull);
 
                 if (pull >= 1) {
                     dst[i+0] = cx;
