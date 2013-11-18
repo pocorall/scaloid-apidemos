@@ -13,22 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.example.android.apis.view
 
-package com.example.android.apis.view;
+import com.example.android.apis.R
+import android.app.Activity
+import android.os.Bundle
 
-import com.example.android.apis.R;
-
-import android.app.Activity;
-import android.os.Bundle;
-
-/**
- * <p>This example shows how to use cell spanning in a table layout.</p>
- */
-public class TableLayout12 extends Activity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.table_layout_12);
-    }
+class TableLayout1 extends Activity {
+  protected override def onCreate(savedInstanceState: Bundle) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.table_layout_1)
+  }
 }

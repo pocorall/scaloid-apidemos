@@ -34,7 +34,7 @@ public class Tabs1 extends TabActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TabHost tabHost = getTabHost();
-        
+
         LayoutInflater.from(this).inflate(R.layout.tabs1, tabHost.getTabContentView(), true);
 
         tabHost.addTab(tabHost.newTabSpec("tab1")

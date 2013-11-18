@@ -84,7 +84,7 @@ public class VideoPlayerActivity extends Activity
         }
 
         public void init(Activity activity, TextView title, Button playButton,
-                SeekBar seek) {
+                         SeekBar seek) {
             // This called by the containing activity to supply the surrounding
             // state of the video player that it will interact with.
             mActivity = activity;

@@ -13,25 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.example.android.apis.view
 
-package com.example.android.apis.view;
+import android.app.Activity
+import android.os.Bundle
+import android.view.View
+import com.example.android.apis.R
 
-// Need the following import to get access to the app resources, since this
-// class is in a sub-package.
-import com.example.android.apis.R;
-
-import android.app.Activity;
-import android.os.Bundle;
-
-
-/**
- * Demonstrates the use of LinearLayout backgrounds to group labels,
- * EditTexts, and buttons,
- */
-public class LinearLayout10 extends Activity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.linear_layout_10);
-    }
+class ScrollBar3 extends Activity {
+  protected override def onCreate(savedInstanceState: Bundle) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.scrollbar3)
+    findViewById(R.id.view3).setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET)
+  }
 }
