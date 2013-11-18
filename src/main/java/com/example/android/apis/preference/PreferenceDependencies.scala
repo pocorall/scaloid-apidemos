@@ -13,21 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.example.android.apis.preference
 
-package com.example.android.apis.preference;
+import com.example.android.apis.R
+import android.os.Bundle
+import android.preference.PreferenceActivity
 
-import com.example.android.apis.R;
-
-import android.os.Bundle;
-import android.preference.PreferenceActivity;
-
-public class PreferenceDependencies extends PreferenceActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        addPreferencesFromResource(R.xml.preference_dependencies);
-    }
-
+class PreferenceDependencies extends PreferenceActivity {
+  protected override def onCreate(savedInstanceState: Bundle) {
+    super.onCreate(savedInstanceState)
+    addPreferencesFromResource(R.xml.preference_dependencies)
+  }
 }
