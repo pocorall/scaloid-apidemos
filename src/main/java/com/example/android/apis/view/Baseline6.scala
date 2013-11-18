@@ -13,24 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.example.android.apis.view
 
-package com.example.android.apis.view;
-
-import com.example.android.apis.R;
-
-import android.app.Activity;
-import android.os.Bundle;
+import com.example.android.apis.R
+import android.app.Activity
+import android.os.Bundle
 
 /**
- * Baseline alignment includes a {@link android.widget.LinearLayout}
- * within another {@link android.widget.LinearLayout}.
+ * Baseline alignment in RelativeLayout.
  */
-public class BaselineNested3 extends Activity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.baseline_nested_3);
-    }
+class Baseline6 extends Activity {
+  protected override def onCreate(savedInstanceState: Bundle) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.baseline_6)
+  }
 }

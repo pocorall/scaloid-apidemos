@@ -13,23 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.example.android.apis.view
 
-package com.example.android.apis.view;
-
-import com.example.android.apis.R;
-
-import android.app.Activity;
-import android.os.Bundle;
-
+import com.example.android.apis.R
+import android.app.Activity
+import android.os.Bundle
 
 /**
- * Baseline alignment in RelativeLayout with various font weights.
+ * Baseline alignment in LinearLayout with a BOTTOM gravity.
  */
-public class Baseline7 extends Activity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.baseline_7);
-    }
+class Baseline2 extends Activity {
+  protected override def onCreate(savedInstanceState: Bundle) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.baseline_2)
+  }
 }

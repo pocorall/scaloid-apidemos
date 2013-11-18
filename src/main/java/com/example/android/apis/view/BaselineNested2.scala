@@ -13,23 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.example.android.apis.view
 
-package com.example.android.apis.view;
-
-import com.example.android.apis.R;
-
-import android.app.Activity;
-import android.os.Bundle;
-
+import com.example.android.apis.R
+import android.app.Activity
+import android.os.Bundle
 
 /**
- * Baseline alignment in LinearLayout with a BOTTOM gravity.
+ * Baseline alignment includes an element within a nested horizontal
+ * {@link android.widget.LinearLayout}.
  */
-public class Baseline2 extends Activity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.baseline_2);
-    }
+class BaselineNested2 extends Activity {
+  protected override def onCreate(savedInstanceState: Bundle) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.baseline_nested_2)
+  }
 }

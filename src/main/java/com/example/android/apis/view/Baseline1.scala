@@ -13,24 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.example.android.apis.view
 
-package com.example.android.apis.view;
-
-import com.example.android.apis.R;
-
-import android.app.Activity;
-import android.os.Bundle;
-
+import com.example.android.apis.R
+import android.app.Activity
+import android.os.Bundle
 
 /**
- * Baseline alignement in LinearLayout with a center_vertical gravity. This sample shows that
- * using a center_vertical gravity disables baseline alignment.
+ * Baseline alignment in LinearLayout.
  */
-public class Baseline3 extends Activity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.baseline_3);
-    }
+class Baseline1 extends Activity {
+  protected override def onCreate(savedInstanceState: Bundle) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.baseline_1)
+  }
 }
