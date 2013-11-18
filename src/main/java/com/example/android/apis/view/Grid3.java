@@ -148,15 +148,15 @@ public class Grid3 extends Activity {
         }
 
         public void onItemCheckedStateChanged(ActionMode mode, int position, long id,
-                boolean checked) {
+                                              boolean checked) {
             int selectCount = mGrid.getCheckedItemCount();
             switch (selectCount) {
-            case 1:
-                mode.setSubtitle("One item selected");
-                break;
-            default:
-                mode.setSubtitle("" + selectCount + " items selected");
-                break;
+                case 1:
+                    mode.setSubtitle("One item selected");
+                    break;
+                default:
+                    mode.setSubtitle("" + selectCount + " items selected");
+                    break;
             }
         }
 
