@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.example.android.apis.view
 
-package com.example.android.apis.view;
+import com.example.android.apis.R
+import android.app.ListActivity
+import android.os.Bundle
+import android.widget.ArrayAdapter
 
-import com.example.android.apis.R;
+class LayoutAnimation3 extends ListActivity {
+  override def onCreate(savedInstanceState: Bundle) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.layout_animation_3)
+    setListAdapter(new ArrayAdapter[String](this, android.R.layout.simple_list_item_1, mStrings))
+  }
 
-import android.app.Activity;
-import android.os.Bundle;
-
-public class LayoutAnimation7 extends Activity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.layout_animation_7);
-    }
+  private var mStrings: Array[String] = Array("Bordeaux", "Lyon", "Marseille", "Nancy", "Paris", "Toulouse", "Strasbourg")
 }
