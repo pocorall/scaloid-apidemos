@@ -13,30 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.example.android.apis.view
 
-package com.example.android.apis.view;
-
-import android.app.ListActivity;
-import android.os.Bundle;
-import android.widget.ArrayAdapter;
-
+import android.app.ListActivity
+import android.os.Bundle
+import android.widget.ArrayAdapter
 
 /**
- * A list view example where the 
+ * A list view example where the
  * data for the list comes from an array of strings.
  */
-public class List1 extends ListActivity {
+class List1 extends ListActivity {
+  override def onCreate(savedInstanceState: Bundle) {
+    super.onCreate(savedInstanceState)
+    setListAdapter(new ArrayAdapter[String](this, android.R.layout.simple_list_item_1, mStrings))
+    getListView.setTextFilterEnabled(true)
+  }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        // Use an existing ListAdapter that will map an array
-        // of strings to TextViews
-        setListAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, mStrings));
-        getListView().setTextFilterEnabled(true);
-    }
-
-    private String[] mStrings = Cheeses.sCheeseStrings;
+  private var mStrings: Array[String] = Cheeses.sCheeseStrings
 }

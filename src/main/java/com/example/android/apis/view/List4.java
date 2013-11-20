@@ -45,7 +45,7 @@ public class List4 extends ListActivity {
     /**
      * A sample ListAdapter that presents content from arrays of speeches and
      * text.
-     * 
+     *
      */
     private class SpeechListAdapter extends BaseAdapter {
         public SpeechListAdapter(Context context) {
@@ -55,7 +55,7 @@ public class List4 extends ListActivity {
         /**
          * The number of items in the list is determined by the number of speeches
          * in our array.
-         * 
+         *
          * @see android.widget.ListAdapter#getCount()
          */
         public int getCount() {
@@ -67,7 +67,7 @@ public class List4 extends ListActivity {
          * sufficent to get at the data. If we were using a more complex data
          * structure, we would return whatever object represents one row in the
          * list.
-         * 
+         *
          * @see android.widget.ListAdapter#getItem(int)
          */
         public Object getItem(int position) {
@@ -76,7 +76,7 @@ public class List4 extends ListActivity {
 
         /**
          * Use the array index as a unique id.
-         * 
+         *
          * @see android.widget.ListAdapter#getItemId(int)
          */
         public long getItemId(int position) {
@@ -85,7 +85,7 @@ public class List4 extends ListActivity {
 
         /**
          * Make a SpeechView to hold each row.
-         * 
+         *
          * @see android.widget.ListAdapter#getView(int, android.view.View,
          *      android.view.ViewGroup)
          */
@@ -108,7 +108,7 @@ public class List4 extends ListActivity {
          */
         private Context mContext;
     }
-    
+
     /**
      * We will use a SpeechView to display each speech. It's just a LinearLayout
      * with two text fields.
