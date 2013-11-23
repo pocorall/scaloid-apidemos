@@ -13,34 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.example.android.apis.view
 
-package com.example.android.apis.view;
-
-import com.example.android.apis.R;
-
-import android.app.Activity;
-import android.app.SearchManager;
-import android.app.SearchableInfo;
-import android.content.Context;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.View;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.SearchView;
-import android.widget.TextView;
-
-import java.util.List;
+import com.example.android.apis.R
+import android.app.Activity
+import android.app.SearchManager
+import android.app.SearchableInfo
+import android.content.Context
+import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.View
+import android.view.Window
+import android.widget.Button
+import android.widget.SearchView
+import android.widget.TextView
+import java.util.List
 
 /**
  * This demonstrates the usage of SearchView in an ActionBar as a menu item.
  * It sets a SearchableInfo on the SearchView for suggestions and submitting queries to.
  */
-public class SearchViewAlwaysVisible extends SearchViewActionBar {
-
-    @Override
-    protected boolean isAlwaysExpanded() {
-        return true;
-    }
+class SearchViewAlwaysVisible extends SearchViewActionBar {
+  protected override def isAlwaysExpanded: Boolean = {
+    return true
+  }
 }
