@@ -58,6 +58,8 @@ class List12 extends ListActivity with OnClickListener with OnKeyListener {
         case KeyEvent.KEYCODE_ENTER =>
           sendText
           return true
+        case _ =>
+          return false
       }
     }
     return false

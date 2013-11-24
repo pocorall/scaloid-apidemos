@@ -13,26 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.example.android.apis.view;
+package com.example.android.apis.view
 
 // Need the following import to get access to the app resources, since this
 // class is in a sub-package.
-import com.example.android.apis.R;
 
-import android.app.Activity;
-import android.os.Bundle;
-
+import com.example.android.apis.R
+import android.app.Activity
+import android.os.Bundle
 
 /**
  * Builds building a simple form using a RelativeLayout
- * 
+ *
  */
-public class RelativeLayout2 extends Activity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.relative_layout_2);
-    }
+class RelativeLayout2 extends Activity {
+  protected override def onCreate(savedInstanceState: Bundle) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.relative_layout_2)
+  }
 }
