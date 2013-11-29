@@ -61,7 +61,7 @@ public class PurgeableBitmap extends GraphicsActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mView = new PurgeableBitmapView(this,  detectIfPurgeableRequest());
         mRedrawHandler.sleep(0);

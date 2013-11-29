@@ -60,8 +60,8 @@ public class AnimateDrawable extends ProxyDrawable {
             Animation anim = mAnimation;
             if (anim != null) {
                 anim.getTransformation(
-                                    AnimationUtils.currentAnimationTimeMillis(),
-                                    mTransformation);
+                        AnimationUtils.currentAnimationTimeMillis(),
+                        mTransformation);
                 canvas.concat(mTransformation.getMatrix());
             }
             dr.draw(canvas);

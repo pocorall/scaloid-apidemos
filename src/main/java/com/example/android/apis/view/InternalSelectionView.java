@@ -58,7 +58,7 @@ public class InternalSelectionView extends View {
     public InternalSelectionView(Context context, int numRows) {
         this(context, numRows, "");
     }
-    
+
     public InternalSelectionView(Context context, int numRows, String label) {
         super(context);
         mNumRows = numRows;
@@ -97,8 +97,8 @@ public class InternalSelectionView extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         setMeasuredDimension(
-            measureWidth(widthMeasureSpec),
-            measureHeight(heightMeasureSpec));
+                measureWidth(widthMeasureSpec),
+                measureHeight(heightMeasureSpec));
     }
 
     private int measureWidth(int measureSpec) {
@@ -230,7 +230,7 @@ public class InternalSelectionView extends View {
 
     @Override
     protected void onFocusChanged(boolean focused, int direction,
-            Rect previouslyFocusedRect) {
+                                  Rect previouslyFocusedRect) {
         super.onFocusChanged(focused, direction, previouslyFocusedRect);
 
         if (focused) {

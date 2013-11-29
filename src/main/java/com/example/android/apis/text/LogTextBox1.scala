@@ -12,7 +12,7 @@ import scala.collection.JavaConversions._
 import android.view.ViewGroup.LayoutParams
 
 
-class LogTextBox1 extends SActivity {
+class LogTextBox1 extends Activity {
 
   private var mText: LogTextBox = _
 
