@@ -14,6 +14,11 @@ Scaloid-ApiDemos requires Android API Level 16 and above.
 Please note that this is just a requirement of Scaloid-ApiDemos project.
 **Scaloid supports Android API Level 8 and above.**
 
+### Troubleshooting
+
+#### Error `ANDROID-904-002: Found aidl files: Count = 0`
+The environment variable `ANDROID_HOME` is incorrect.
+
 ### Roadmap
 
 * **Completely move the code from Java to Scala** <br/>
