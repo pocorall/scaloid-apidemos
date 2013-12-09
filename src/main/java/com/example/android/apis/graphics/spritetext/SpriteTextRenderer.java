@@ -348,7 +348,7 @@ class Triangle {
     private final static float[] sCoords = {
             // X, Y, Z
             -0.5f, -0.25f, 0,
-             0.5f, -0.25f, 0,
-             0.0f,  0.559016994f, 0
+            0.5f, -0.25f, 0,
+            0.0f,  0.559016994f, 0
     };
 }

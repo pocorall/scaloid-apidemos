@@ -38,7 +38,7 @@ public class LabelView extends View {
     private Paint mTextPaint;
     private String mText;
     private int mAscent;
-    
+
     /**
      * Constructor.  This version is only needed if you will be instantiating
      * the object manually (not from a layout XML file).
@@ -53,7 +53,7 @@ public class LabelView extends View {
      * Construct object, initializing with any attributes we understand from a
      * layout file. These attributes are defined in
      * SDK/assets/res/any/classes.xml.
-     * 
+     *
      * @see android.view.View#View(android.content.Context, android.util.AttributeSet)
      */
     public LabelView(Context context, AttributeSet attrs) {
@@ -183,7 +183,7 @@ public class LabelView extends View {
 
     /**
      * Render the text
-     * 
+     *
      * @see android.view.View#onDraw(android.graphics.Canvas)
      */
     @Override

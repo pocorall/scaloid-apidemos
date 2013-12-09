@@ -102,7 +102,7 @@ public class MatrixPaletteRenderer implements GLSurfaceView.Renderer{
             int size = w * h;
 
             mVertexByteBuffer = ByteBuffer.allocateDirect(VERTEX_SIZE * size)
-                .order(ByteOrder.nativeOrder());
+                    .order(ByteOrder.nativeOrder());
             mVertexBuffer = mVertexByteBuffer.asFloatBuffer();
 
             int quadW = mW - 1;
@@ -111,7 +111,7 @@ public class MatrixPaletteRenderer implements GLSurfaceView.Renderer{
             int indexCount = quadCount * 6;
             mIndexCount = indexCount;
             mIndexBuffer = ByteBuffer.allocateDirect(CHAR_SIZE * indexCount)
-                .order(ByteOrder.nativeOrder()).asCharBuffer();
+                    .order(ByteOrder.nativeOrder()).asCharBuffer();
 
             /*
              * Initialize triangle list mesh.
@@ -148,9 +148,9 @@ public class MatrixPaletteRenderer implements GLSurfaceView.Renderer{
         }
 
         public void set(int i, int j, float x, float y, float z,
-                float u, float v,
-                float w0, float w1,
-                int p0, int p1) {
+                        float u, float v,
+                        float w0, float w1,
+                        int p0, int p1) {
             if (i < 0 || i >= mW) {
                 throw new IllegalArgumentException("i");
             }

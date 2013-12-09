@@ -111,17 +111,17 @@ public class DraggableDot extends View {
         for (int i = 0; i < N; i++) {
             int attr = a.getIndex(i);
             switch (attr) {
-            case R.styleable.DraggableDot_radius: {
-                mRadius = a.getDimensionPixelSize(attr, 0);
-            } break;
+                case R.styleable.DraggableDot_radius: {
+                    mRadius = a.getDimensionPixelSize(attr, 0);
+                } break;
 
-            case R.styleable.DraggableDot_legend: {
-                mLegend = a.getText(attr);
-            } break;
+                case R.styleable.DraggableDot_legend: {
+                    mLegend = a.getText(attr);
+                } break;
 
-            case R.styleable.DraggableDot_anr: {
-                mAnrType = a.getInt(attr, 0);
-            } break;
+                case R.styleable.DraggableDot_anr: {
+                    mAnrType = a.getInt(attr, 0);
+                } break;
             }
         }
 
@@ -186,58 +186,58 @@ public class DraggableDot extends View {
     public boolean onDragEvent(DragEvent event) {
         boolean result = false;
         switch (event.getAction()) {
-        case DragEvent.ACTION_DRAG_STARTED: {
-            // claim to accept any dragged content
-            Log.i(TAG, "Drag started, event=" + event);
-            // cache whether we accept the drag to return for LOCATION events
-            mDragInProgress = true;
-            mAcceptsDrag = result = true;
-            // Redraw in the new visual state if we are a potential drop target
-            if (mAcceptsDrag) {
+            case DragEvent.ACTION_DRAG_STARTED: {
+                // claim to accept any dragged content
+                Log.i(TAG, "Drag started, event=" + event);
+                // cache whether we accept the drag to return for LOCATION events
+                mDragInProgress = true;
+                mAcceptsDrag = result = true;
+                // Redraw in the new visual state if we are a potential drop target
+                if (mAcceptsDrag) {
+                    invalidate();
+                }
+            } break;
+
+            case DragEvent.ACTION_DRAG_ENDED: {
+                Log.i(TAG, "Drag ended.");
+                if (mAcceptsDrag) {
+                    invalidate();
+                }
+                mDragInProgress = false;
+                mHovering = false;
+            } break;
+
+            case DragEvent.ACTION_DRAG_LOCATION: {
+                // we returned true to DRAG_STARTED, so return true here
+                Log.i(TAG, "... seeing drag locations ...");
+                result = mAcceptsDrag;
+            } break;
+
+            case DragEvent.ACTION_DROP: {
+                Log.i(TAG, "Got a drop! dot=" + this + " event=" + event);
+                if (mAnrType == ANR_DROP) {
+                    sleepSixSeconds();
+                }
+                processDrop(event);
+                result = true;
+            } break;
+
+            case DragEvent.ACTION_DRAG_ENTERED: {
+                Log.i(TAG, "Entered dot @ " + this);
+                mHovering = true;
                 invalidate();
-            }
-        } break;
+            } break;
 
-        case DragEvent.ACTION_DRAG_ENDED: {
-            Log.i(TAG, "Drag ended.");
-            if (mAcceptsDrag) {
+            case DragEvent.ACTION_DRAG_EXITED: {
+                Log.i(TAG, "Exited dot @ " + this);
+                mHovering = false;
                 invalidate();
-            }
-            mDragInProgress = false;
-            mHovering = false;
-        } break;
+            } break;
 
-        case DragEvent.ACTION_DRAG_LOCATION: {
-            // we returned true to DRAG_STARTED, so return true here
-            Log.i(TAG, "... seeing drag locations ...");
-            result = mAcceptsDrag;
-        } break;
-
-        case DragEvent.ACTION_DROP: {
-            Log.i(TAG, "Got a drop! dot=" + this + " event=" + event);
-            if (mAnrType == ANR_DROP) {
-                sleepSixSeconds();
-            }
-            processDrop(event);
-            result = true;
-        } break;
-
-        case DragEvent.ACTION_DRAG_ENTERED: {
-            Log.i(TAG, "Entered dot @ " + this);
-            mHovering = true;
-            invalidate();
-        } break;
-
-        case DragEvent.ACTION_DRAG_EXITED: {
-            Log.i(TAG, "Exited dot @ " + this);
-            mHovering = false;
-            invalidate();
-        } break;
-
-        default:
-            Log.i(TAG, "other drag event: " + event);
-            result = mAcceptsDrag;
-            break;
+            default:
+                Log.i(TAG, "other drag event: " + event);
+                result = mAcceptsDrag;
+                break;
         }
 
         return result;

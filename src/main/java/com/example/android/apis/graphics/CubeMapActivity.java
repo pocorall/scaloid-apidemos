@@ -270,7 +270,7 @@ public class CubeMapActivity extends Activity {
             int size = w * h;
 
             mVertexByteBuffer = ByteBuffer.allocateDirect(VERTEX_SIZE * size)
-            .order(ByteOrder.nativeOrder());
+                    .order(ByteOrder.nativeOrder());
             mVertexBuffer = mVertexByteBuffer.asFloatBuffer();
 
             int quadW = mW - 1;
@@ -279,7 +279,7 @@ public class CubeMapActivity extends Activity {
             int indexCount = quadCount * 6;
             mIndexCount = indexCount;
             mIndexBuffer = ByteBuffer.allocateDirect(CHAR_SIZE * indexCount)
-            .order(ByteOrder.nativeOrder()).asCharBuffer();
+                    .order(ByteOrder.nativeOrder()).asCharBuffer();
 
             /*
              * Initialize triangle list mesh.

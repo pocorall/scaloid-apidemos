@@ -144,7 +144,7 @@ public class AudioFxDemo extends Activity {
 
             bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 public void onProgressChanged(SeekBar seekBar, int progress,
-                        boolean fromUser) {
+                                              boolean fromUser) {
                     mEqualizer.setBandLevel(band, (short) (progress + minEQLevel));
                 }
 
@@ -174,7 +174,7 @@ public class AudioFxDemo extends Activity {
         mVisualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[1]);
         mVisualizer.setDataCaptureListener(new Visualizer.OnDataCaptureListener() {
             public void onWaveFormDataCapture(Visualizer visualizer, byte[] bytes,
-                    int samplingRate) {
+                                              int samplingRate) {
                 mVisualizerView.updateVisualizer(bytes);
             }
 
