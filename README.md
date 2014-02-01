@@ -4,15 +4,20 @@ A Scala port of well-known ApiDemos for Android. This project demonstrates effec
 
 Using [Scaloid](https://github.com/pocorall/scaloid/), Android apps can be written much simpler. Compare with our [Scala version](https://github.com/pocorall/scaloid-apidemos/blob/master/src/main/java/com/example/android/apis/app/ActionBarDisplayOptions.scala) of `ActionBarDisplayOptions` and original [Java version](http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android-apps/4.1.1_r1/com/example/android/apis/app/ActionBarDisplayOptions.java).
 
-## How to build
 
-This is a maven project. Issue `mvn package` to build, and `mvn android:deploy` to deploy on your virtual device.
+## Prerequisites
 
-### Requirements
+* Maven 3.0.5
+* Android SDK
+  - Both SDK Level 8 and the most recent version should be installed.
 
 Scaloid-ApiDemos requires Android API Level 16 and above.
 Please note that this is just a requirement of Scaloid-ApiDemos project.
 **Scaloid supports Android API Level 8 and above.**
+
+## How to build
+
+This is a maven project. Issue `mvn package` to build, and `mvn android:deploy` to deploy on your virtual device.
 
 ### Troubleshooting
 
