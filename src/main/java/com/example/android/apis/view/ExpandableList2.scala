@@ -37,11 +37,10 @@ object ExpandableList2 {
 
 import ExpandableList2._
 
-class ExpandableList2 extends ExpandableListActivity {
-  override def onCreate(savedInstanceState: Bundle) {
-    super.onCreate(savedInstanceState)
+class ExpandableList2 extends ExpandableListActivity with SActivity {
+  var mAdapter: SimpleCursorTreeAdapter = null
 
-
+  onCreate {
     mAdapter = new SimpleCursorTreeAdapter(this, null, android.R.layout.simple_expandable_list_item_1,
       Array(ContactsColumns.DISPLAY_NAME), Array(android.R.id.text1), android.R.layout.simple_expandable_list_item_1,
       Array(Phone.NUMBER), Array(android.R.id.text1)) {
@@ -49,15 +48,13 @@ class ExpandableList2 extends ExpandableListActivity {
         val builder = Contacts.CONTENT_URI.buildUpon
         ContentUris.appendId(builder, groupCursor.getLong(GROUP_ID_COLUMN_INDEX))
         builder.appendEncodedPath(Contacts.Data.CONTENT_DIRECTORY)
-        val phoneNumbersUri = builder.build
 
         spawn {
           val pos = groupCursor.getPosition
-          val cursor = getContentResolver.query(phoneNumbersUri,
+          val cursor = getContentResolver.query(builder.build,
             PHONE_NUMBER_PROJECTION, DataColumns.MIMETYPE + "=?", Array(Phone.CONTENT_ITEM_TYPE), null)
           runOnUiThread(mAdapter.setChildrenCursor(pos, cursor))
         }
-
         null
       }
     }
@@ -71,11 +68,8 @@ class ExpandableList2 extends ExpandableListActivity {
     }
   }
 
-  protected override def onDestroy() {
-    super.onDestroy()
+  onDestroy {
     // Null out the group cursor. This will cause the group cursor and all of the child cursors to be closed.
     mAdapter.changeCursor(null)
   }
-
-  private var mAdapter: SimpleCursorTreeAdapter = null
 }
