@@ -52,7 +52,7 @@ object Sweep {
           canvas.drawCircle(x, y, 80, paint)
         }
         now = System.currentTimeMillis() - now
-        android.util.Log.d("skia", "sweep ms = " + (now / 20.))
+        android.util.Log.d("skia", "sweep ms = " + (now / 20.0))
       } else {
         canvas.drawCircle(x, y, 80, paint)
       }

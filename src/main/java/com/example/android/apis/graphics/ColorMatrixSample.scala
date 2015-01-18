@@ -22,20 +22,20 @@ object ColorMatrixSample {
     }
 
     private def setContrast(cm: ColorMatrix, contrast: Float) {
-      val scale = contrast + 1.f
-      val translate = (-.5f * scale + .5f) * 255.f
+      val scale = contrast + 1.0f
+      val translate = (-.5f * scale + .5f) * 255.0f
       cm.set(Array(scale, 0, 0, 0, translate, 0, scale, 0, 0, translate, 0, 0, scale, 0, translate, 0, 0, 0, 1, 0))
     }
 
     private def setContrastTranslateOnly(cm: ColorMatrix, contrast: Float) {
-      val scale = contrast + 1.f
-      val translate = (-.5f * scale + .5f) * 255.f
+      val scale = contrast + 1.0f
+      val translate = (-.5f * scale + .5f) * 255.0f
       cm.set(Array(1, 0, 0, 0, translate, 0, 1, 0, 0, translate, 0, 0, 1, 0, translate, 0, 0, 0, 1, 0))
     }
 
     private def setContrastScaleOnly(cm: ColorMatrix, contrast: Float) {
-      val scale = contrast + 1.f
-      val translate = (-.5f * scale + .5f) * 255.f
+      val scale = contrast + 1.0f
+      val translate = (-.5f * scale + .5f) * 255.0f
       cm.set(Array(scale, 0, 0, 0, 0, 0, scale, 0, 0, 0, 0, 0, scale, 0, 0, 0, 0, 0, 1, 0))
     }
   }
@@ -60,7 +60,7 @@ object ColorMatrixSample {
       if (mAngle > 180) {
         mAngle = 0
       }
-      val contrast = mAngle / 180.f
+      val contrast = mAngle / 180.0f
       SampleView.setContrast(cm, contrast)
       paint.setColorFilter(new ColorMatrixColorFilter(cm))
       canvas.drawBitmap(mBitmap, x + mBitmap.getWidth + 10, y, paint)

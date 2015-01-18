@@ -23,8 +23,15 @@ import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.widget.SimpleCursorTreeAdapter
 import org.scaloid.Workarounds._
 import android.provider.ContactsContract.Contacts
-import scala.concurrent.ops._
+import scala.concurrent.{ExecutionContext, Future}
+import java.util.concurrent.{LinkedBlockingQueue, TimeUnit, ThreadPoolExecutor}
 import org.scaloid.common._
+
+object AndroidExecutionContext {
+  implicit val exec = ExecutionContext.fromExecutor(new ThreadPoolExecutor(100, 100, 1000, TimeUnit.SECONDS, new LinkedBlockingQueue[Runnable]))
+}
+
+import AndroidExecutionContext._
 
 /**
  * Demonstrates expandable lists backed by Cursors
@@ -49,7 +56,7 @@ class ExpandableList2 extends ExpandableListActivity with SActivity {
         ContentUris.appendId(builder, groupCursor.getLong(GROUP_ID_COLUMN_INDEX))
         builder.appendEncodedPath(Contacts.Data.CONTENT_DIRECTORY)
 
-        spawn {
+        Future {
           val pos = groupCursor.getPosition
           val cursor = getContentResolver.query(builder.build,
             PHONE_NUMBER_PROJECTION, DataColumns.MIMETYPE + "=?", Array(Phone.CONTENT_ITEM_TYPE), null)
@@ -61,7 +68,7 @@ class ExpandableList2 extends ExpandableListActivity with SActivity {
 
     setListAdapter(mAdapter)
 
-    spawn {
+    Future {
       val cursor = getContentResolver.query(Contacts.CONTENT_URI, CONTACTS_PROJECTION,
         ContactsColumns.HAS_PHONE_NUMBER + "=1", null, null)
       runOnUiThread(mAdapter.setGroupCursor(cursor))
