@@ -9,7 +9,7 @@
 	<name>scaloid-apidemos</name>
 
 	<properties>
-		<scala.version>2.11.2</scala.version>
+		<scala.version>2.11.5</scala.version>
 	</properties>
 
 	<dependencies>
@@ -27,7 +27,7 @@
 		<dependency>
 			<groupId>org.scaloid</groupId>
 			<artifactId>scaloid_2.11</artifactId>
-			<version>3.3-8</version>
+			<version>3.6.1-10</version>
 		</dependency>
 	</dependencies>
 
