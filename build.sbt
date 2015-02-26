@@ -21,3 +21,5 @@ scalacOptions in Compile += "-feature"
 run <<= run in Android
 
 install <<= install in Android
+
+retrolambdaEnable in Android := false
