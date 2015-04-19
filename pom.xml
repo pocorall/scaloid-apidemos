@@ -64,7 +64,7 @@
 					<plugin>
 						<groupId>com.simpligility.maven.plugins</groupId>
 						<artifactId>android-maven-plugin</artifactId>
-						<version>4.1.0</version>
+						<version>4.1.1</version>
 						<inherited>true</inherited>
 						<configuration>
 							<sign>
@@ -91,12 +91,8 @@
 			<plugin>
 				<groupId>com.simpligility.maven.plugins</groupId>
 				<artifactId>android-maven-plugin</artifactId>
-				<version>4.1.0</version>
+				<version>4.1.1</version>
 				<configuration>
-					<androidManifestFile>${project.basedir}/AndroidManifest.xml</androidManifestFile>
-					<assetsDirectory>${project.basedir}/assets</assetsDirectory>
-					<resourceDirectory>${project.basedir}/res</resourceDirectory>
-					<nativeLibrariesDirectory>${project.basedir}/src/main/native</nativeLibrariesDirectory>
 					<sdk>
 						<platform>16</platform>
 					</sdk>
@@ -110,7 +106,7 @@
 					</dex>
 					<proguard>
 						<skip>false</skip>
-						<config>proguard.cfg</config>
+						<config>proguard-project.txt</config>
 						<jvmArguments>
 							<jvmArgument>-Xmx1024M</jvmArgument>
 						</jvmArguments>
