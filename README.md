@@ -7,22 +7,15 @@ Using [Scaloid](https://github.com/pocorall/scaloid/), Android apps can be writt
 
 ## Prerequisites
 
-* Maven 3.0.5
-* Android SDK
-  - Both SDK Level 8 and the most recent version should be installed.
+* Maven 3.2 or above
+* Android SDK Level 16
 
-Scaloid-ApiDemos requires Android API Level 16 and above.
-Please note that this is just a requirement of Scaloid-ApiDemos project.
-**Scaloid supports Android API Level 8 and above.**
+Scaloid-ApiDemos requires Android API Level 16 or above.
+**Please note that Scaloid supports Android API Level 10 or above.**
 
 ## How to build
 
 This is a maven project. Issue `mvn package` to build, and `mvn android:deploy` to deploy on your virtual device.
-
-### Troubleshooting
-
-#### Error `ANDROID-904-002: Found aidl files: Count = 0`
-The environment variable `ANDROID_HOME` is incorrect.
 
 ### Roadmap
 
