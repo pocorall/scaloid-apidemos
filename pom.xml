@@ -9,7 +9,7 @@
 	<name>scaloid-apidemos</name>
 
 	<properties>
-		<scala.version>2.11.5</scala.version>
+		<scala.version>2.11.6</scala.version>
 	</properties>
 
 	<dependencies>
@@ -27,7 +27,7 @@
 		<dependency>
 			<groupId>org.scaloid</groupId>
 			<artifactId>scaloid_2.11</artifactId>
-			<version>3.6.1-10</version>
+			<version>4.0-RC1</version>
 		</dependency>
 	</dependencies>
 
@@ -91,7 +91,14 @@
 			<plugin>
 				<groupId>com.simpligility.maven.plugins</groupId>
 				<artifactId>android-maven-plugin</artifactId>
-				<version>4.1.1</version>
+				<version>4.2.0</version>
+				<dependencies>
+				  <dependency>
+					<groupId>net.sf.proguard</groupId>
+					<artifactId>proguard-base</artifactId>
+					<version>5.1</version>
+				  </dependency>
+				</dependencies>
 				<configuration>
 					<sdk>
 						<platform>16</platform>
